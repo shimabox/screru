@@ -1,0 +1,8 @@
+.DS_Store
+.env
+vendor/
+example/capture/
+tests/capture/
+composer.lock
+selenium-server-standalone*
+*.exe
