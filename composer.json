@@ -1,0 +1,36 @@
+{
+    "name": "shimabox/screru",
+    "description": "It has a function to supplement php-webdriver",
+    "keywords": ["php-webdriver", "selenium", "screenshot", "phpunit"],
+    "type": "library",
+    "license": "MIT",
+    "homepage": "https://github.com/shimabox/screru",
+    "authors": [
+        {
+            "name": "shimabox",
+            "email": "shimabox@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^5.5 || ~7.0",
+        "facebook/webdriver": "^1.4",
+        "vlucas/phpdotenv": "^2.4",
+        "shimabox/url-status": "^1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.8 || ~5.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SMB\\Screru\\": "src/"
+        },
+        "files": [
+            "bootstrap.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SMB\\Screru\\Tests\\": "tests/"
+        }
+    }
+}
