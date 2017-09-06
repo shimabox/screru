@@ -1,6 +1,6 @@
 <?php
 
-namespace SMB\Screru\Tests\Sample;
+namespace SMB\Screru\Tests\Manual\Sample;
 
 use SMB\UrlStatus;
 

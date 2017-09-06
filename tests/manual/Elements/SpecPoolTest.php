@@ -1,6 +1,6 @@
 <?php
 
-namespace SMB\Screru\Tests\Elements;
+namespace SMB\Screru\Tests\Manual\Elements;
 
 use SMB\Screru\Elements\Spec;
 use SMB\Screru\Elements\SpecPool;

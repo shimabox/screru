@@ -1,6 +1,6 @@
 <?php
 
-namespace SMB\Screru\Tests\Factory;
+namespace SMB\Screru\Tests\Manual\Factory;
 
 use SMB\Screru\Factory\DesiredCapabilities;
 

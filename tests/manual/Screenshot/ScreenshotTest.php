@@ -1,6 +1,6 @@
 <?php
 
-namespace SMB\Screru\Tests\Screenshot;
+namespace SMB\Screru\Tests\Manual\Screenshot;
 
 use SMB\Screru\Screenshot\Screenshot;
 use SMB\Screru\Elements\Spec;

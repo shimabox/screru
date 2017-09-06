@@ -1,6 +1,6 @@
 <?php
 
-namespace SMB\Screru\Tests\Wrapper;
+namespace SMB\Screru\Tests\Manual\Wrapper;
 
 use SMB\Screru\Wrapper\RemoteWebDriver;
 
