@@ -290,9 +290,9 @@ class SampleTest extends Base
 
         // new window(tab)
         $driver->executeScript("window.open()");
-        $driver->switchTo()->window(
-            end($driver->getWindowHandles())
-        );
+        $handles = $driver->getWindowHandles();
+        $driver->switchTo()->window(end($handles));
+
         $driver->get('https://www.google.com/search?gl=us&hl=en&gws_rd=cr&q=helloworld');
     }
 
@@ -312,9 +312,9 @@ class SampleTest extends Base
 
         // new window(tab)
         $driver->executeScript("window.open()");
-        $driver->switchTo()->window(
-            end($driver->getWindowHandles())
-        );
+        $handles = $driver->getWindowHandles();
+        $driver->switchTo()->window(end($handles));
+
         $driver->get('https://www.google.com/search?gl=us&hl=en&gws_rd=cr&q=helloworld');
     }
 
@@ -332,9 +332,9 @@ class SampleTest extends Base
 
         // new window(tab)
         $driver->executeScript("window.open()");
-        $driver->switchTo()->window(
-            end($driver->getWindowHandles())
-        );
+        $handles = $driver->getWindowHandles();
+        $driver->switchTo()->window(end($handles));
+
         $driver->get('https://www.google.com/search?gl=us&hl=en&gws_rd=cr&q=helloworld');
     }
 
@@ -354,9 +354,9 @@ class SampleTest extends Base
 
         // new window(tab)
         $driver->executeScript("window.open()");
-        $driver->switchTo()->window(
-            end($driver->getWindowHandles())
-        );
+        $handles = $driver->getWindowHandles();
+        $driver->switchTo()->window(end($handles));
+
         $driver->get('https://www.google.com/search?gl=us&hl=en&gws_rd=cr&q=helloworld');
     }
 
