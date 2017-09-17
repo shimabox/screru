@@ -11,6 +11,7 @@ use SMB\Screru\Elements\SpecPool;
 
 use Facebook\WebDriver\WebDriverDimension;
 use Facebook\WebDriver\Exception\TimeOutException;
+use Facebook\WebDriver\Exception\NoSuchWindowException;
 
 /**
  * Testable
@@ -96,7 +97,7 @@ trait Testable
      */
     protected function quitDriver()
     {
-        if ( ! $this->isRunningDriver()) {
+        if (!$this->isRunningDriver()) {
             return;
         }
 
@@ -104,7 +105,11 @@ trait Testable
             $this->doTakeCaptureWhenAssertionFails();
         }
 
-        $this->driver->quit();
+        try {
+            $this->driver->quit();
+        } catch (NoSuchWindowException $e) {
+            // browser may have died
+        }
         $this->driver = null;
     }
 
@@ -115,7 +120,7 @@ trait Testable
      */
     protected function closeDriver()
     {
-        if ( ! $this->isRunningDriver()) {
+        if (!$this->isRunningDriver()) {
             return;
         }
 
@@ -123,7 +128,11 @@ trait Testable
             $this->doTakeCaptureWhenAssertionFails();
         }
 
-        $this->driver->close();
+        try {
+            $this->driver->close();
+        } catch (NoSuchWindowException $e) {
+            // browser may have died
+        }
         $this->driver = null;
     }
 
