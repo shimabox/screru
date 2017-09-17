@@ -22,6 +22,12 @@ class DesiredCapabilities
     private $capabilities;
 
     /**
+     * ChromeOptions
+     * @var \Facebook\WebDriver\Chrome\ChromeOptions
+     */
+    private $chromeOptions;
+
+    /**
      * Default UserAgent
      * @var string default iOS 10.3.2
      */
@@ -54,6 +60,13 @@ class DesiredCapabilities
                 }
 
                 $this->capabilities = FacebookDesiredCapabilities::chrome();
+                $this->chromeOptions = new Chrome\ChromeOptions();
+
+                if (getenv('ENABLED_CHROME_HEADLESS') === 'true') {
+                    $this->chromeOptions->addArguments(['--headless']);
+                }
+
+                $this->capabilities->setCapability(Chrome\ChromeOptions::CAPABILITY, $this->chromeOptions);
                 $this->browser = $browser;
                 break;
             case WebDriverBrowserType::IE: // internet explorer
@@ -126,9 +139,8 @@ class DesiredCapabilities
     {
         switch ($this->browser) {
             case WebDriverBrowserType::CHROME:
-                $options = new Chrome\ChromeOptions();
-                $options->addArguments(['--user-agent=' . $ua]);
-                $this->capabilities->setCapability(Chrome\ChromeOptions::CAPABILITY, $options);
+                $this->chromeOptions->addArguments(['--user-agent=' . $ua]);
+                $this->capabilities->setCapability(Chrome\ChromeOptions::CAPABILITY, $this->chromeOptions);
                 break;
             case WebDriverBrowserType::FIREFOX:
                 $profile = new Firefox\FirefoxProfile();
