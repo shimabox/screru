@@ -30,7 +30,11 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "SMB\\Screru\\Tests\\": "tests/"
+            "SMB\\Screru\\Tests\\": [
+                "tests/unit",
+                "tests/functional"
+            ],
+            "SMB\\Screru\\Tests\\Sample\\": "tests/sample"
         }
     }
 }
