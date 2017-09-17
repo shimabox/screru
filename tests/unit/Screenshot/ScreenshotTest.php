@@ -45,8 +45,8 @@ class ScreenshotTest extends \PHPUnit_Framework_TestCase
         $byTakeScreenshotFileName = 'it_can_take_a_capture_of_pc_chrome_by_takeScreenshot.png';
 
         $targetCaptureFiles = [
-            $path. $captureFileName,
-            $path. $byTakeScreenshotFileName
+            $path . $captureFileName,
+            $path . $byTakeScreenshotFileName
         ];
 
         $this->deleteImageFiles($targetCaptureFiles);
@@ -59,12 +59,12 @@ class ScreenshotTest extends \PHPUnit_Framework_TestCase
 
         $actual = $this->target->takeFull($driver, $path, $captureFileName, $this->capabilities->getBrowserName(), 1);
         $this->assertFileExists($actual);
-        $this->assertSame($path. $captureFileName, $actual);
+        $this->assertSame($path . $captureFileName, $actual);
         
         // $driver->takeScreenshot()
         $byTakeScreenshot = $this->target->take($driver, $path . $byTakeScreenshotFileName);
         $this->assertFileExists($byTakeScreenshot);
-        $this->assertSame($path. $byTakeScreenshotFileName, $byTakeScreenshot);
+        $this->assertSame($path . $byTakeScreenshotFileName, $byTakeScreenshot);
 
         // $driver->takeScreenshot() で撮れた画像サイズと比較する
         list($fullWidth, $fullHeight) = getimagesize($actual);
@@ -88,8 +88,8 @@ class ScreenshotTest extends \PHPUnit_Framework_TestCase
         $byTakeScreenshotFileName = 'it_can_take_a_capture_of_forge_ua_sp_chrome_by_takeScreenshot.png';
 
         $targetCaptureFiles = [
-            $path. $captureFileName,
-            $path. $byTakeScreenshotFileName
+            $path . $captureFileName,
+            $path . $byTakeScreenshotFileName
         ];
 
         $this->deleteImageFiles($targetCaptureFiles);
@@ -104,12 +104,12 @@ class ScreenshotTest extends \PHPUnit_Framework_TestCase
 
         $actual = $this->target->takeFull($driver, $path, $captureFileName, $this->capabilities->getBrowserName(), 1);
         $this->assertFileExists($actual);
-        $this->assertSame($path. $captureFileName, $actual);
+        $this->assertSame($path . $captureFileName, $actual);
 
         // $driver->takeScreenshot()
         $byTakeScreenshot = $this->target->take($driver, $path . $byTakeScreenshotFileName);
         $this->assertFileExists($byTakeScreenshot);
-        $this->assertSame($path. $byTakeScreenshotFileName, $byTakeScreenshot);
+        $this->assertSame($path . $byTakeScreenshotFileName, $byTakeScreenshot);
 
         // $driver->takeScreenshot() で撮れた画像サイズと比較する
         list($fullWidth, $fullHeight) = getimagesize($actual);
@@ -133,8 +133,8 @@ class ScreenshotTest extends \PHPUnit_Framework_TestCase
         $byTakeScreenshotFileName = 'it_can_take_a_capture_of_pc_firefox_by_takeScreenshot.png';
 
         $targetCaptureFiles = [
-            $path. $captureFileName,
-            $path. $byTakeScreenshotFileName
+            $path . $captureFileName,
+            $path . $byTakeScreenshotFileName
         ];
 
         $this->deleteImageFiles($targetCaptureFiles);
@@ -147,12 +147,12 @@ class ScreenshotTest extends \PHPUnit_Framework_TestCase
 
         $actual = $this->target->takeFull($driver, $path, $captureFileName, $this->capabilities->getBrowserName(), 1);
         $this->assertFileExists($actual);
-        $this->assertSame($path. $captureFileName, $actual);
+        $this->assertSame($path . $captureFileName, $actual);
 
         // $driver->takeScreenshot()
         $byTakeScreenshot = $this->target->take($driver, $path . $byTakeScreenshotFileName);
         $this->assertFileExists($byTakeScreenshot);
-        $this->assertSame($path. $byTakeScreenshotFileName, $byTakeScreenshot);
+        $this->assertSame($path . $byTakeScreenshotFileName, $byTakeScreenshot);
 
         // $driver->takeScreenshot() で撮れた画像サイズと比較する
         list($fullWidth, $fullHeight) = getimagesize($actual);
@@ -176,8 +176,8 @@ class ScreenshotTest extends \PHPUnit_Framework_TestCase
         $byTakeScreenshotFileName = 'it_can_take_a_capture_of_forge_ua_sp_firefox_by_takeScreenshot.png';
 
         $targetCaptureFiles = [
-            $path. $captureFileName,
-            $path. $byTakeScreenshotFileName
+            $path . $captureFileName,
+            $path . $byTakeScreenshotFileName
         ];
 
         $this->deleteImageFiles($targetCaptureFiles);
@@ -192,12 +192,12 @@ class ScreenshotTest extends \PHPUnit_Framework_TestCase
 
         $actual = $this->target->takeFull($driver, $path, $captureFileName, $this->capabilities->getBrowserName(), 1);
         $this->assertFileExists($actual);
-        $this->assertSame($path. $captureFileName, $actual);
+        $this->assertSame($path . $captureFileName, $actual);
 
         // $driver->takeScreenshot()
         $byTakeScreenshot = $this->target->take($driver, $path . $byTakeScreenshotFileName);
         $this->assertFileExists($byTakeScreenshot);
-        $this->assertSame($path. $byTakeScreenshotFileName, $byTakeScreenshot);
+        $this->assertSame($path . $byTakeScreenshotFileName, $byTakeScreenshot);
 
         // $driver->takeScreenshot() で撮れた画像サイズと比較する
         list($fullWidth, $fullHeight) = getimagesize($actual);
@@ -221,8 +221,8 @@ class ScreenshotTest extends \PHPUnit_Framework_TestCase
         $byTakeScreenshotFileName = 'it_can_take_a_capture_of_pc_ie_by_takeScreenshot.png';
 
         $targetCaptureFiles = [
-            $path. $captureFileName,
-            $path. $byTakeScreenshotFileName
+            $path . $captureFileName,
+            $path . $byTakeScreenshotFileName
         ];
 
         $this->deleteImageFiles($targetCaptureFiles);
@@ -235,12 +235,12 @@ class ScreenshotTest extends \PHPUnit_Framework_TestCase
 
         $actual = $this->target->takeFull($driver, $path, $captureFileName, $this->capabilities->getBrowserName(), 1);
         $this->assertFileExists($actual);
-        $this->assertSame($path. $captureFileName, $actual);
+        $this->assertSame($path . $captureFileName, $actual);
 
         // $driver->takeScreenshot()
         $byTakeScreenshot = $this->target->take($driver, $path . $byTakeScreenshotFileName);
         $this->assertFileExists($byTakeScreenshot);
-        $this->assertSame($path. $byTakeScreenshotFileName, $byTakeScreenshot);
+        $this->assertSame($path . $byTakeScreenshotFileName, $byTakeScreenshot);
 
         // $driver->takeScreenshot() で撮れた画像サイズと比較する
         list($fullWidth, $fullHeight) = getimagesize($actual);
@@ -263,19 +263,19 @@ class ScreenshotTest extends \PHPUnit_Framework_TestCase
         $path = $this->capturePath();
         $captureFileName = 'it_can_take_element_of_pc_chrome';
         $targetCaptureFiles = [
-            $path. $captureFileName . '_0_0.png', // #nav > tbody
-            $path. $captureFileName . '_1_0.png', // #nav > tbody > tr > td
-            $path. $captureFileName . '_1_1.png',
-            $path. $captureFileName . '_1_2.png',
-            $path. $captureFileName . '_1_3.png',
-            $path. $captureFileName . '_1_4.png',
-            $path. $captureFileName . '_1_5.png',
-            $path. $captureFileName . '_1_6.png',
-            $path. $captureFileName . '_1_7.png',
-            $path. $captureFileName . '_1_8.png',
-            $path. $captureFileName . '_1_9.png',
-            $path. $captureFileName . '_1_10.png',
-            $path. $captureFileName . '_1_11.png',
+            $path . $captureFileName . '_0_0.png', // #nav > tbody
+            $path . $captureFileName . '_1_0.png', // #nav > tbody > tr > td
+            $path . $captureFileName . '_1_1.png',
+            $path . $captureFileName . '_1_2.png',
+            $path . $captureFileName . '_1_3.png',
+            $path . $captureFileName . '_1_4.png',
+            $path . $captureFileName . '_1_5.png',
+            $path . $captureFileName . '_1_6.png',
+            $path . $captureFileName . '_1_7.png',
+            $path . $captureFileName . '_1_8.png',
+            $path . $captureFileName . '_1_9.png',
+            $path . $captureFileName . '_1_10.png',
+            $path . $captureFileName . '_1_11.png',
         ];
 
         $this->deleteImageFiles($targetCaptureFiles);
@@ -318,15 +318,15 @@ class ScreenshotTest extends \PHPUnit_Framework_TestCase
         $path = $this->capturePath();
         $captureFileName = 'it_can_take_element_of_forge_ua_sp_chrome';
         $targetCaptureFiles = [
-            $path. $captureFileName . '_0_0.png', // #fbar
-            $path. $captureFileName . '_1_0.png', // #botstuff div._Qot > div > a
-            $path. $captureFileName . '_1_1.png',
-            $path. $captureFileName . '_1_2.png',
-            $path. $captureFileName . '_1_3.png',
-            $path. $captureFileName . '_1_4.png',
-            $path. $captureFileName . '_1_5.png',
-            $path. $captureFileName . '_1_6.png',
-            $path. $captureFileName . '_1_7.png',
+            $path . $captureFileName . '_0_0.png', // #fbar
+            $path . $captureFileName . '_1_0.png', // #botstuff div._Qot > div > a
+            $path . $captureFileName . '_1_1.png',
+            $path . $captureFileName . '_1_2.png',
+            $path . $captureFileName . '_1_3.png',
+            $path . $captureFileName . '_1_4.png',
+            $path . $captureFileName . '_1_5.png',
+            $path . $captureFileName . '_1_6.png',
+            $path . $captureFileName . '_1_7.png',
         ];
 
         $this->deleteImageFiles($targetCaptureFiles);
@@ -372,19 +372,19 @@ class ScreenshotTest extends \PHPUnit_Framework_TestCase
         $path = $this->capturePath();
         $captureFileName = 'it_can_take_element_of_pc_firefox';
         $targetCaptureFiles = [
-            $path. $captureFileName . '_0_0.png', // #nav > tbody
-            $path. $captureFileName . '_1_0.png', // #nav > tbody > tr > td
-            $path. $captureFileName . '_1_1.png',
-            $path. $captureFileName . '_1_2.png',
-            $path. $captureFileName . '_1_3.png',
-            $path. $captureFileName . '_1_4.png',
-            $path. $captureFileName . '_1_5.png',
-            $path. $captureFileName . '_1_6.png',
-            $path. $captureFileName . '_1_7.png',
-            $path. $captureFileName . '_1_8.png',
-            $path. $captureFileName . '_1_9.png',
-            $path. $captureFileName . '_1_10.png',
-            $path. $captureFileName . '_1_11.png',
+            $path . $captureFileName . '_0_0.png', // #nav > tbody
+            $path . $captureFileName . '_1_0.png', // #nav > tbody > tr > td
+            $path . $captureFileName . '_1_1.png',
+            $path . $captureFileName . '_1_2.png',
+            $path . $captureFileName . '_1_3.png',
+            $path . $captureFileName . '_1_4.png',
+            $path . $captureFileName . '_1_5.png',
+            $path . $captureFileName . '_1_6.png',
+            $path . $captureFileName . '_1_7.png',
+            $path . $captureFileName . '_1_8.png',
+            $path . $captureFileName . '_1_9.png',
+            $path . $captureFileName . '_1_10.png',
+            $path . $captureFileName . '_1_11.png',
         ];
 
         $this->deleteImageFiles($targetCaptureFiles);
@@ -427,15 +427,15 @@ class ScreenshotTest extends \PHPUnit_Framework_TestCase
         $path = $this->capturePath();
         $captureFileName = 'it_can_take_element_of_forge_ua_sp_chrome';
         $targetCaptureFiles = [
-            $path. $captureFileName . '_0_0.png', // #fbar
-            $path. $captureFileName . '_1_0.png', // #botstuff div._Qot > div > a
-            $path. $captureFileName . '_1_1.png',
-            $path. $captureFileName . '_1_2.png',
-            $path. $captureFileName . '_1_3.png',
-            $path. $captureFileName . '_1_4.png',
-            $path. $captureFileName . '_1_5.png',
-            $path. $captureFileName . '_1_6.png',
-            $path. $captureFileName . '_1_7.png',
+            $path . $captureFileName . '_0_0.png', // #fbar
+            $path . $captureFileName . '_1_0.png', // #botstuff div._Qot > div > a
+            $path . $captureFileName . '_1_1.png',
+            $path . $captureFileName . '_1_2.png',
+            $path . $captureFileName . '_1_3.png',
+            $path . $captureFileName . '_1_4.png',
+            $path . $captureFileName . '_1_5.png',
+            $path . $captureFileName . '_1_6.png',
+            $path . $captureFileName . '_1_7.png',
         ];
 
         $this->deleteImageFiles($targetCaptureFiles);
@@ -481,19 +481,19 @@ class ScreenshotTest extends \PHPUnit_Framework_TestCase
         $path = $this->capturePath();
         $captureFileName = 'it_can_take_element_of_pc_ie';
         $targetCaptureFiles = [
-            $path. $captureFileName . '_0_0.png', // #nav > tbody
-            $path. $captureFileName . '_1_0.png', // #nav > tbody > tr > td
-            $path. $captureFileName . '_1_1.png',
-            $path. $captureFileName . '_1_2.png',
-            $path. $captureFileName . '_1_3.png',
-            $path. $captureFileName . '_1_4.png',
-            $path. $captureFileName . '_1_5.png',
-            $path. $captureFileName . '_1_6.png',
-            $path. $captureFileName . '_1_7.png',
-            $path. $captureFileName . '_1_8.png',
-            $path. $captureFileName . '_1_9.png',
-            $path. $captureFileName . '_1_10.png',
-            $path. $captureFileName . '_1_11.png',
+            $path . $captureFileName . '_0_0.png', // #nav > tbody
+            $path . $captureFileName . '_1_0.png', // #nav > tbody > tr > td
+            $path . $captureFileName . '_1_1.png',
+            $path . $captureFileName . '_1_2.png',
+            $path . $captureFileName . '_1_3.png',
+            $path . $captureFileName . '_1_4.png',
+            $path . $captureFileName . '_1_5.png',
+            $path . $captureFileName . '_1_6.png',
+            $path . $captureFileName . '_1_7.png',
+            $path . $captureFileName . '_1_8.png',
+            $path . $captureFileName . '_1_9.png',
+            $path . $captureFileName . '_1_10.png',
+            $path . $captureFileName . '_1_11.png',
         ];
 
         $this->deleteImageFiles($targetCaptureFiles);
