@@ -3,7 +3,7 @@ Screru is a library that supplements php-webdriver
 
 ## Description
 
-Screru is a library that supplements php-webdriver.  
+Screru is a library that supplements php-webdriver.
 It provides the following functions.
 
 - Trait for PHPUnit is available
@@ -228,10 +228,10 @@ $ vendor/bin/phpunit
 ```php
 require_once '/vendor/autoload.php';
 
-use SMB\Screru\Wrapper\RemoteWebDriver;
 use SMB\Screru\Factory\DesiredCapabilities;
 use SMB\UrlStatus;
 
+use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\Remote\WebDriverBrowserType;
 use Facebook\WebDriver\WebDriverExpectedCondition;
 use Facebook\WebDriver\WebDriverBy;
