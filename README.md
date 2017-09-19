@@ -42,9 +42,9 @@ $ composer install
 $ cp .env.example .env
 ```
 
-### Linux (CentOS)
+### ### Linux
 
-- Operation confirmed in version 6.9
+- Operation confirmed in CentOS 6.9
 
 #### java
 
@@ -118,7 +118,7 @@ $ vendor/bin/phpunit
 $ sudo sh kill_selenium.sh
 ```
 
-### macOS
+### ### macOS
 
 - Operation confirmed in macOS Sierra 10.12.4
 
@@ -168,7 +168,7 @@ $ java -jar selenium-server-standalone-3.4.0.jar
 $ vendor/bin/phpunit
 ```
 
-### windows(64bit)
+### ### windows(64bit)
 
 #### selenium-server-standalone
 
@@ -357,6 +357,128 @@ OVERRIDE_DEFAULT_USER_AGENT='Mozilla/5.0 (Linux; Android 7.1.1; Nexus 5X Build/N
         // do somting ...
     }
     ```
+
+## Headless Chrome
+
+For the latest chrome, you can use headless mode.
+
+- Edit ```.env```
+```
+// true to start headless chrome
+ENABLED_CHROME_HEADLESS=true
+```
+
+- sample
+```php
+require_once '/vendor/autoload.php';
+
+use Facebook\WebDriver\Remote\RemoteWebDriver;
+use Facebook\WebDriver\Remote\DesiredCapabilities;
+use Facebook\WebDriver\Remote\WebDriverBrowserType;
+use Facebook\WebDriver\WebDriverBy;
+use Facebook\WebDriver\WebDriverDimension;
+use Facebook\WebDriver\Chrome\ChromeOptions;
+
+use SMB\Screru\Screenshot\Screenshot;
+
+/**
+ * sample headless
+ *
+ * java -Dwebdriver.chrome.driver="$CHROMEDRIVER_PATH" -jar selenium-server-standalone-3.5.3.jar
+ *
+ * @param array $size ['w' => xxx, 'h' => xxx]
+ * @param string overrideUA true : override Useragent
+ * @param boolean $headless true : headless mode
+ */
+function sample(array $size=[], $overrideUA = '', $headless=true)
+{
+    // selenium
+    $host = 'http://localhost:4444/wd/hub';
+
+    $cap = DesiredCapabilities::chrome();
+    $options = new ChromeOptions();
+
+    // true, headless mode
+    if ($headless === true) {
+        $options->addArguments(['--headless']);
+
+        // 画面サイズの指定あり
+        // headlessの場合、$driver->manage()->window()->setSize(); で画面サイズ変更が出来ない？
+        if (isset($size['w']) && isset($size['h'])) {
+            $options->addArguments(["window-size={$size['w']},{$size['h']}"]);
+        }
+    }
+
+    // forge useragent
+    if ($overrideUA !== '') {
+        $options->addArguments(['--user-agent=' . $overrideUA]);
+    }
+
+    $cap->setCapability(ChromeOptions::CAPABILITY, $options);
+
+    // ドライバーの起動
+    $driver = RemoteWebDriver::create($host, $cap);
+
+    // 画面サイズをMAXにする
+    $driver->manage()->window()->maximize();
+
+    // 画面サイズの指定あり
+    if (isset($size['w']) && isset($size['h'])) {
+        $dimension = new WebDriverDimension($size['w'], $size['h']);
+        $driver->manage()->window()->setSize($dimension);
+    }
+
+    $url = 'https://www.google.com/webhp?gl=us&hl=en&gws_rd=cr';
+
+    // 指定URLへ遷移 (Google)
+    $driver->get($url);
+
+    // 検索Box
+    $findElement = $driver->findElement(WebDriverBy::name('q'));
+    // 検索Boxにキーワードを入力して
+    $findElement->sendKeys('Hello');
+    // 検索実行
+    $findElement->submit();
+
+    // キャプチャ
+    $suffix = $headless ? '_headless' : '_not-headless';
+    $fileName = $overrideUA === '' ? __METHOD__ . "_pc" . $suffix : __METHOD__ . "_sp" . $suffix;
+
+    // create Screenshot
+    $screenshot = new Screenshot();
+
+    // 全画面キャプチャ (ファイル名は拡張子あり / png になります)
+    $screenshot->takeFull($driver, __DIR__, $fileName . '.png', WebDriverBrowserType::CHROME);
+
+    // ブラウザを閉じる
+    $driver->close();
+}
+
+/*
+ |------------------------------------------------------------------------------
+ | 処理実行
+ |------------------------------------------------------------------------------
+ */
+
+// iPhone6のサイズ
+$size4iPhone6 = ['w' => 375, 'h' => 667];
+
+// iOS10のUA
+$ua4iOS = 'Mozilla/5.0 (iPhone; CPU iPhone OS 10_0_1 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Mobile/14A403 Safari/602.1';
+
+// pc
+sample();
+
+// sp
+sample($size4iPhone6, $ua4iOS);
+
+// not headless mode pc
+sample([], '', false);
+
+// not headless mode sp
+sample($size4iPhone6, $ua4iOS, false);
+```
+
 
 ## Example
 
