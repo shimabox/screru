@@ -382,7 +382,7 @@ use Facebook\WebDriver\Chrome\ChromeOptions;
 use SMB\Screru\Screenshot\Screenshot;
 
 /**
- * sample headless
+ * Sample Headless Chrome
  *
  * java -Dwebdriver.chrome.driver="$CHROMEDRIVER_PATH" -jar selenium-server-standalone-3.5.3.jar
  *
