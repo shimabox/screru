@@ -2,10 +2,10 @@
 
 namespace SMB\Screru\Screenshot;
 
-use SMB\Screru\Wrapper\RemoteWebDriver;
 use SMB\Screru\Elements\SpecPool;
 use SMB\Screru\Elements\Spec;
 
+use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\Remote\WebDriverBrowserType;
 
@@ -22,7 +22,7 @@ class Screenshot
 
     /**
      * 画面キャプチャ
-     * @param \SMB\Screru\Wrapper\RemoteWebDriver $driver
+     * @param \Facebook\WebDriver\Remote\RemoteWebDriver $driver
      * @param string $filename
      * @param int $sleep Sleep for seconds
      * @return string キャプチャ画像ファイルパス
@@ -41,7 +41,7 @@ class Screenshot
 
     /**
      * 全画面キャプチャ
-     * @param \SMB\Screru\Wrapper\RemoteWebDriver $driver
+     * @param \Facebook\WebDriver\Remote\RemoteWebDriver $driver
      * @param string $filepath
      * @param string $filename
      * @param string $browser
@@ -185,7 +185,7 @@ class Screenshot
 
     /**
      * 指定された要素のキャプチャ
-     * @param \SMB\Screru\Wrapper\RemoteWebDriver $driver
+     * @param \Facebook\WebDriver\Remote\RemoteWebDriver $driver
      * @param string $filepath
      * @param string $filename Without extension
      * @param string $browser

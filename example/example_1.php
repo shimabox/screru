@@ -2,13 +2,13 @@
 
 require_once realpath(__DIR__ . '/../vendor') . '/autoload.php';
 
-use SMB\Screru\Wrapper\RemoteWebDriver;
 use SMB\Screru\Factory\DesiredCapabilities;
 use SMB\Screru\Screenshot\Screenshot;
 use SMB\Screru\Elements\Spec;
 use SMB\Screru\Elements\SpecPool;
 use SMB\UrlStatus;
 
+use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\Remote\WebDriverBrowserType;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverDimension;
