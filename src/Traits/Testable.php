@@ -168,6 +168,11 @@ trait Testable
             $cap = $this->createCapabilities();
         }
 
+        // ヘッドレスモード時でサイズの指定があるか
+        if ($dimension !== null && getenv('ENABLED_CHROME_HEADLESS') === 'true') {
+            $cap->setWindowSizeInHeadless($dimension);
+        }
+
         /* @var \Facebook\WebDriver\Remote\DesiredCapabilities */
         $this->capabilities = $cap->get();
 

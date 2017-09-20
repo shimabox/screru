@@ -5,10 +5,11 @@ namespace SMB\Screru\Factory;
 use SMB\Screru\Exception\DisabledWebDriverException;
 use SMB\Screru\Exception\NotExistsWebDriverException;
 
-use Facebook\WebDriver\Remote\DesiredCapabilities as FacebookDesiredCapabilities;
-use Facebook\WebDriver\Remote\WebDriverBrowserType;
 use Facebook\WebDriver\Chrome;
 use Facebook\WebDriver\Firefox;
+use Facebook\WebDriver\WebDriverDimension;
+use Facebook\WebDriver\Remote\DesiredCapabilities as FacebookDesiredCapabilities;
+use Facebook\WebDriver\Remote\WebDriverBrowserType;
 
 /**
  * Factory of DesiredCapabilities
@@ -129,6 +130,22 @@ class DesiredCapabilities
     public function setUserAgent($ua)
     {
         $this->settingUserAgent($ua);
+    }
+
+    /**
+     * Set window size in headless mode.
+     * Currently it is only chrome.
+     * @param \Facebook\WebDriver\WebDriverDimension $dimension
+     */
+    public function setWindowSizeInHeadless(WebDriverDimension $dimension)
+    {
+        if ($this->browser !== WebDriverBrowserType::CHROME) {
+            return;
+        }
+
+        $w = $dimension->getWidth();
+        $h = $dimension->getHeight();
+        $this->chromeOptions->addArguments(["window-size={$w},{$h}"]);
     }
 
     /**
