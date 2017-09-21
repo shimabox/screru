@@ -18,10 +18,12 @@ use Facebook\WebDriver\WebDriverDimension;
  * @param string $browser 'chrome'
  * @param array $size ['w' => xxx, 'h' => xxx]
  * @param string overrideUA true : override Useragent
- * @param boolean $headless true : headless mode
  */
-function example_2($browser, array $size=[], $overrideUA = '', $headless=true)
+function example_2($browser, array $size=[], $overrideUA = '')
 {
+    // headless?
+    $isHeadless = getenv('ENABLED_CHROME_HEADLESS') === 'true';
+
     // selenium
     $host = getenv('SELENIUM_SERVER_URL');
 
@@ -38,7 +40,7 @@ function example_2($browser, array $size=[], $overrideUA = '', $headless=true)
     }
 
     // ヘッドレスモード時でサイズの指定あり
-    if ($dimension !== null && $headless) {
+    if ($dimension !== null && $isHeadless) {
         $cap->setWindowSizeInHeadless($dimension);
     }
 
@@ -61,7 +63,7 @@ function example_2($browser, array $size=[], $overrideUA = '', $headless=true)
     $findElement->submit();
 
     // キャプチャ
-    $suffix = $headless ? '_headless' : '_not-headless';
+    $suffix = $isHeadless ? '_headless' : '_not-headless';
     $fileName = $overrideUA === '' ? __METHOD__ . "_pc" . $suffix : __METHOD__ . "_sp" . $suffix;
     $ds = DIRECTORY_SEPARATOR;
     $captureDirectoryPath = realpath(__DIR__ . $ds . 'capture') . $ds;
@@ -84,11 +86,14 @@ $ua4iOS = 'Mozilla/5.0 (iPhone; CPU iPhone OS 10_0_1 like Mac OS X) AppleWebKit/
 
 // only chrome
 if (getenv('ENABLED_CHROME_DRIVER') === 'true') {
+
     // headless
+    putenv('ENABLED_CHROME_HEADLESS=true');
     example_2(WebDriverBrowserType::CHROME);
     example_2(WebDriverBrowserType::CHROME, $size4iPhone6, $ua4iOS);
 
     // not headless
-    example_2(WebDriverBrowserType::CHROME, [], '', false);
-    example_2(WebDriverBrowserType::CHROME, $size4iPhone6, $ua4iOS, false);
+    putenv('ENABLED_CHROME_HEADLESS=');
+    example_2(WebDriverBrowserType::CHROME);
+    example_2(WebDriverBrowserType::CHROME, $size4iPhone6, $ua4iOS);
 }
