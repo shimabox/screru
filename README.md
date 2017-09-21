@@ -372,59 +372,52 @@ ENABLED_CHROME_HEADLESS=true
 ```php
 require_once '/vendor/autoload.php';
 
+use SMB\Screru\Factory\DesiredCapabilities;
+use SMB\Screru\Screenshot\Screenshot;
+
 use Facebook\WebDriver\Remote\RemoteWebDriver;
-use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\WebDriverBrowserType;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverDimension;
-use Facebook\WebDriver\Chrome\ChromeOptions;
-
-use SMB\Screru\Screenshot\Screenshot;
 
 /**
  * Sample Headless Chrome
  *
  * java -Dwebdriver.chrome.driver="$CHROMEDRIVER_PATH" -jar selenium-server-standalone-3.5.3.jar
  *
+ * @param string $browser 'chrome'
  * @param array $size ['w' => xxx, 'h' => xxx]
  * @param string overrideUA true : override Useragent
- * @param boolean $headless true : headless mode
  */
-function sample(array $size=[], $overrideUA = '', $headless=true)
+function sample($browser, array $size=[], $overrideUA = '')
 {
+    // headless?
+    $isHeadless = getenv('ENABLED_CHROME_HEADLESS') === 'true';
+
     // selenium
-    $host = 'http://localhost:4444/wd/hub';
+    $host = getenv('SELENIUM_SERVER_URL');
 
-    $cap = DesiredCapabilities::chrome();
-    $options = new ChromeOptions();
+    $cap = new DesiredCapabilities($browser);
 
-    // true, headless mode
-    if ($headless === true) {
-        $options->addArguments(['--headless']);
-
-        // 画面サイズの指定あり
-        // headlessの場合、$driver->manage()->window()->setSize(); で画面サイズ変更が出来ない？
-        if (isset($size['w']) && isset($size['h'])) {
-            $options->addArguments(["window-size={$size['w']},{$size['h']}"]);
-        }
-    }
-
-    // forge useragent
     if ($overrideUA !== '') {
-        $options->addArguments(['--user-agent=' . $overrideUA]);
+        $cap->setUserAgent($overrideUA);
     }
-
-    $cap->setCapability(ChromeOptions::CAPABILITY, $options);
-
-    // ドライバーの起動
-    $driver = RemoteWebDriver::create($host, $cap);
-
-    // 画面サイズをMAXにする
-    $driver->manage()->window()->maximize();
 
     // 画面サイズの指定あり
+    $dimension = null;
     if (isset($size['w']) && isset($size['h'])) {
         $dimension = new WebDriverDimension($size['w'], $size['h']);
+    }
+
+    // ヘッドレスモード時でサイズの指定あり
+    // ヘッドレスモードの場合、$driver->manage()->window()->setSize(); で画面サイズ変更が出来ない？
+    if ($dimension !== null && $isHeadless) {
+        $cap->setWindowSizeInHeadless($dimension);
+    }
+
+    $driver = RemoteWebDriver::create($host, $cap->get());
+
+    if ($dimension !== null) {
         $driver->manage()->window()->setSize($dimension);
     }
 
@@ -441,14 +434,16 @@ function sample(array $size=[], $overrideUA = '', $headless=true)
     $findElement->submit();
 
     // キャプチャ
-    $suffix = $headless ? '_headless' : '_not-headless';
+    $suffix = $isHeadless ? '_headless' : '_not-headless';
     $fileName = $overrideUA === '' ? __METHOD__ . "_pc" . $suffix : __METHOD__ . "_sp" . $suffix;
+    $ds = DIRECTORY_SEPARATOR;
+    $captureDirectoryPath = realpath(__DIR__ . $ds . 'capture') . $ds;
 
     // create Screenshot
     $screenshot = new Screenshot();
 
     // 全画面キャプチャ (ファイル名は拡張子あり / png になります)
-    $screenshot->takeFull($driver, __DIR__, $fileName . '.png', WebDriverBrowserType::CHROME);
+    $screenshot->takeFull($driver, $captureDirectoryPath, $fileName . '.png', $browser);
 
     // ブラウザを閉じる
     $driver->close();
@@ -466,23 +461,27 @@ $size4iPhone6 = ['w' => 375, 'h' => 667];
 // iOS10のUA
 $ua4iOS = 'Mozilla/5.0 (iPhone; CPU iPhone OS 10_0_1 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Mobile/14A403 Safari/602.1';
 
-// pc
-sample();
+// only chrome
+if (getenv('ENABLED_CHROME_DRIVER') === 'true') {
 
-// sp
-sample($size4iPhone6, $ua4iOS);
+    // headless
+    putenv('ENABLED_CHROME_HEADLESS=true');
+    example_2(WebDriverBrowserType::CHROME);
+    example_2(WebDriverBrowserType::CHROME, $size4iPhone6, $ua4iOS);
 
-// not headless mode pc
-sample([], '', false);
-
-// not headless mode sp
-sample($size4iPhone6, $ua4iOS, false);
+    // not headless
+    putenv('ENABLED_CHROME_HEADLESS=');
+    example_2(WebDriverBrowserType::CHROME);
+    example_2(WebDriverBrowserType::CHROME, $size4iPhone6, $ua4iOS);
+}
 ```
 
 
 ## Example
 
 - ``` $ php example/example_1.php ```
+- ``` $ php example/example_2.php ```
+  - For Headless Chrome.
 
 ## Testing
 
