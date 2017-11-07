@@ -120,28 +120,28 @@ $ sudo sh kill_selenium.sh
 
 ### ### macOS
 
-- Operation confirmed in macOS Sierra 10.12.4
+- Operation confirmed in macOS High Sierra 10.13
 
 #### selenium-server-standalone
 
-- selenium-server-standalone 3.4.0
-  - http://selenium-release.storage.googleapis.com/3.4/selenium-server-standalone-3.4.0.jar
+- selenium-server-standalone 3.7.1
+  - http://selenium-release.storage.googleapis.com/3.7/selenium-server-standalone-3.7.1.jar
 
 #### geckodriver
 
-- [geckodriver v0.17.0](https://github.com/mozilla/geckodriver/releases/tag/v0.17.0)
-  - https://github.com/mozilla/geckodriver/releases/download/v0.17.0/geckodriver-v0.17.0-macos.tar.gz
+- [geckodriver v0.19.1](https://github.com/mozilla/geckodriver/releases/tag/v0.19.1)
+  - https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-macos.tar.gz
 
 ```
-$ tar -zxvf geckodriver-v0.17.0-macos.tar.gz
+$ tar -zxvf geckodriver-v0.19.1-macos.tar.gz
 $ mv geckodriver /usr/local/bin/
 $ chmod +x /usr/local/bin/geckodriver
 ```
 
 #### chromedriver
 
-- [chromedriver 2.31](https://chromedriver.storage.googleapis.com/index.html?path=2.31/ "")
-  - https://chromedriver.storage.googleapis.com/2.31/chromedriver_mac64.zip
+- [chromedriver 2.33](https://chromedriver.storage.googleapis.com/index.html?path=2.33/ "")
+  - https://chromedriver.storage.googleapis.com/2.33/chromedriver_mac64.zip
 
 ```
 $ unzip chromedriver_mac64.zip
@@ -161,7 +161,7 @@ ENABLED_CHROME_DRIVER=true
 
 1. Run selenium-server-standalone
 ```
-$ java -jar selenium-server-standalone-3.4.0.jar
+$ java -jar selenium-server-standalone-3.7.1.jar -enablePassThrough false
 ```
 2. Run phpunit
 ```
