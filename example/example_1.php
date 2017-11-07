@@ -84,7 +84,7 @@ function example_1($browser, array $size=[], $overrideUA = '')
     $screenshot->takeFull($driver, $captureDirectoryPath, $fileName.'_full.png', $browser);
 
     // pc と sp で指定要素を変える
-    $selector = $overrideUA === '' ? '.rc' : '#rso > div > div.mnr-c';
+    $selector = $overrideUA === '' ? '.rc' : 'div.rc';
     $selector2 = $overrideUA === '' ? '.brs_col' : 'a._bCp';
 
     // 要素のセレクターを定義して
