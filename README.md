@@ -172,25 +172,25 @@ $ vendor/bin/phpunit
 
 #### selenium-server-standalone
 
-- selenium-server-standalone 3.4.0
-  - http://selenium-release.storage.googleapis.com/3.4/selenium-server-standalone-3.4.0.jar
+- selenium-server-standalone 3.7.1
+  - https://selenium-release.storage.googleapis.com/3.7/selenium-server-standalone-3.7.1.jar
 
 #### geckodriver.exe
 
-- [geckodriver v0.17.0](https://github.com/mozilla/geckodriver/releases/tag/v0.17.0)
-  - https://github.com/mozilla/geckodriver/releases/download/v0.17.0/geckodriver-v0.17.0-win64.zip
+- [geckodriver v0.19.1](https://github.com/mozilla/geckodriver/releases/tag/v0.19.1)
+  - https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-win64.zip
     - Unzip the zip file...
 
 #### chromedriver.exe
 
-- [chromedriver 2.31](https://chromedriver.storage.googleapis.com/index.html?path=2.31/ "")
-  - https://chromedriver.storage.googleapis.com/2.31/chromedriver_win32.zip
+- [chromedriver 2.33](https://chromedriver.storage.googleapis.com/index.html?path=2.33/ "")
+  - https://chromedriver.storage.googleapis.com/2.33/chromedriver_win32.zip
     - Unzip the zip file...
 
 #### IEDriverServer.exe
 
-- [IEDriverServer_x64_3.4.0.zip](http://selenium-release.storage.googleapis.com/index.html?path=3.4/)
-  - http://selenium-release.storage.googleapis.com/3.4/IEDriverServer_x64_3.4.0.zip
+- [IEDriverServer_x64_3.7.0.zip](https://selenium-release.storage.googleapis.com/index.html?path=3.7/)
+  - https://selenium-release.storage.googleapis.com/3.7/IEDriverServer_x64_3.7.0.zip
     - Unzip the zip file...
 
 #### .env
@@ -213,7 +213,7 @@ IE_DRIVER_PATH='your IEDriverServer.exe path'
 1. Open ```cmd``` etc.
 2. Run selenium-server-standalone
 ```shell
-$ java -jar selenium-server-standalone-3.4.0.jar
+$ java -jar selenium-server-standalone-3.7.1.jar -enablePassThrough false
 ```
 3. Open a new ```cmd``` etc.
 4. Run phpunit
