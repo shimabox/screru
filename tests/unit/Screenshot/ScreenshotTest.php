@@ -41,8 +41,8 @@ class ScreenshotTest extends \PHPUnit_Framework_TestCase
     public function it_can_take_fullscreen_of_pc_chrome()
     {
         $path = $this->capturePath();
-        $captureFileName = 'it_can_take_fullscreen_of_pc_chrome.png';
-        $byTakeScreenshotFileName = 'it_can_take_a_capture_of_pc_chrome_by_takeScreenshot.png';
+        $captureFileName = 'it_can_take_fullscreen_of_pc_chrome_' . microtime(true) . '.png';
+        $byTakeScreenshotFileName = 'it_can_take_a_capture_of_pc_chrome_by_takeScreenshot_' . microtime(true) . '.png';
 
         $targetCaptureFiles = [
             $path . $captureFileName,
@@ -84,8 +84,8 @@ class ScreenshotTest extends \PHPUnit_Framework_TestCase
     public function it_can_take_fullscreen_of_forge_ua_sp_chrome()
     {
         $path = $this->capturePath();
-        $captureFileName = 'it_can_take_fullscreen_of_forge_ua_sp_chrome.png';
-        $byTakeScreenshotFileName = 'it_can_take_a_capture_of_forge_ua_sp_chrome_by_takeScreenshot.png';
+        $captureFileName = 'it_can_take_fullscreen_of_forge_ua_sp_chrome_' . microtime(true) . '.png';
+        $byTakeScreenshotFileName = 'it_can_take_a_capture_of_forge_ua_sp_chrome_by_takeScreenshot_' . microtime(true) . '.png';
 
         $targetCaptureFiles = [
             $path . $captureFileName,
@@ -129,8 +129,8 @@ class ScreenshotTest extends \PHPUnit_Framework_TestCase
     public function it_can_take_fullscreen_of_pc_firefox()
     {
         $path = $this->capturePath();
-        $captureFileName = 'it_can_take_fullscreen_of_pc_firefox.png';
-        $byTakeScreenshotFileName = 'it_can_take_a_capture_of_pc_firefox_by_takeScreenshot.png';
+        $captureFileName = 'it_can_take_fullscreen_of_pc_firefox_' . microtime(true) . '.png';
+        $byTakeScreenshotFileName = 'it_can_take_a_capture_of_pc_firefox_by_takeScreenshot_' . microtime(true) . '.png';
 
         $targetCaptureFiles = [
             $path . $captureFileName,
@@ -172,8 +172,8 @@ class ScreenshotTest extends \PHPUnit_Framework_TestCase
     public function it_can_take_fullscreen_of_forge_ua_sp_firefox()
     {
         $path = $this->capturePath();
-        $captureFileName = 'it_can_take_fullscreen_of_forge_ua_sp_firefox.png';
-        $byTakeScreenshotFileName = 'it_can_take_a_capture_of_forge_ua_sp_firefox_by_takeScreenshot.png';
+        $captureFileName = 'it_can_take_fullscreen_of_forge_ua_sp_firefox_' . microtime(true) . '.png';
+        $byTakeScreenshotFileName = 'it_can_take_a_capture_of_forge_ua_sp_firefox_by_takeScreenshot_' . microtime(true) . '.png';
 
         $targetCaptureFiles = [
             $path . $captureFileName,
@@ -217,8 +217,8 @@ class ScreenshotTest extends \PHPUnit_Framework_TestCase
     public function it_can_take_fullscreen_of_pc_ie()
     {
         $path = $this->capturePath();
-        $captureFileName = 'it_can_take_fullscreen_of_pc_ie.png';
-        $byTakeScreenshotFileName = 'it_can_take_a_capture_of_pc_ie_by_takeScreenshot.png';
+        $captureFileName = 'it_can_take_fullscreen_of_pc_ie_' . microtime(true) . '.png';
+        $byTakeScreenshotFileName = 'it_can_take_a_capture_of_pc_ie_by_takeScreenshot_' . microtime(true) . '.png';
 
         $targetCaptureFiles = [
             $path . $captureFileName,
@@ -260,7 +260,7 @@ class ScreenshotTest extends \PHPUnit_Framework_TestCase
     public function it_can_take_element_of_pc_chrome()
     {
         $path = $this->capturePath();
-        $captureFileName = 'it_can_take_element_of_pc_chrome';
+        $captureFileName = 'it_can_take_element_of_pc_chrome_' . microtime(true);
         $targetCaptureFiles = [
             $path . $captureFileName . '_0_0.png', // #nav > tbody
             $path . $captureFileName . '_1_0.png', // #nav > tbody > tr > td
@@ -315,7 +315,7 @@ class ScreenshotTest extends \PHPUnit_Framework_TestCase
     public function it_can_take_element_of_forge_ua_sp_chrome()
     {
         $path = $this->capturePath();
-        $captureFileName = 'it_can_take_element_of_forge_ua_sp_chrome';
+        $captureFileName = 'it_can_take_element_of_forge_ua_sp_chrome_' . microtime(true);
         $targetCaptureFiles = [
             $path . $captureFileName . '_0_0.png', // #fbar
             $path . $captureFileName . '_1_0.png', // #botstuff div._Qot > div > a
@@ -369,7 +369,7 @@ class ScreenshotTest extends \PHPUnit_Framework_TestCase
     public function it_can_take_element_of_pc_firefox()
     {
         $path = $this->capturePath();
-        $captureFileName = 'it_can_take_element_of_pc_firefox';
+        $captureFileName = 'it_can_take_element_of_pc_firefox_' . microtime(true);
         $targetCaptureFiles = [
             $path . $captureFileName . '_0_0.png', // #nav > tbody
             $path . $captureFileName . '_1_0.png', // #nav > tbody > tr > td
@@ -424,7 +424,7 @@ class ScreenshotTest extends \PHPUnit_Framework_TestCase
     public function it_can_take_element_of_forge_ua_sp_firefox()
     {
         $path = $this->capturePath();
-        $captureFileName = 'it_can_take_element_of_forge_ua_sp_chrome';
+        $captureFileName = 'it_can_take_element_of_forge_ua_sp_chrome_' . microtime(true);
         $targetCaptureFiles = [
             $path . $captureFileName . '_0_0.png', // #fbar
             $path . $captureFileName . '_1_0.png', // #botstuff div._Qot > div > a
@@ -478,7 +478,7 @@ class ScreenshotTest extends \PHPUnit_Framework_TestCase
     public function it_can_take_element_of_pc_ie()
     {
         $path = $this->capturePath();
-        $captureFileName = 'it_can_take_element_of_pc_ie';
+        $captureFileName = 'it_can_take_element_of_pc_ie_' . microtime(true);
         $targetCaptureFiles = [
             $path . $captureFileName . '_0_0.png', // #nav > tbody
             $path . $captureFileName . '_1_0.png', // #nav > tbody > tr > td

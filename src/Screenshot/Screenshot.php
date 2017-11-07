@@ -103,7 +103,7 @@ class Screenshot
                 }
 
                 // 現在表示されている範囲のキャプチャをとる
-                $tmpFile = $filepath . sprintf($browser . '_tmp_%d_%d_', $rowCount, $colCount) . '_' . time() . '.png';
+                $tmpFile = $filepath . sprintf($browser . '_tmp_%d_%d_', $rowCount, $colCount) . microtime(true) . '.png';
                 $driver->takeScreenshot($tmpFile);
 
                 $this->throwExceptionIfNotExistsFile($tmpFile, 'Could not save tmp screenshot');
@@ -194,7 +194,7 @@ class Screenshot
     public function takeElement(RemoteWebDriver $driver, $filepath, $filename, $browser, SpecPool $specPool, $sleep=1)
     {
         // 一旦全画面のキャプチャを撮る
-        $tmpFullScreenshot = $this->takeFull($driver, $filepath, $filename . '_tmp_' . time() . '.png', $browser, $sleep);
+        $tmpFullScreenshot = $this->takeFull($driver, $filepath, $filename . '_tmp_' . microtime(true) . '.png', $browser, $sleep);
         // create image instances
         $src = imagecreatefrompng($tmpFullScreenshot);
 
@@ -204,7 +204,7 @@ class Screenshot
         foreach ($specList as $specIndex => $spec) {
             $elements = null;
 
-            $driver->wait()->until(
+            $driver->wait(60, 250)->until(
                 function () use ($driver, $spec, &$elements) {
                     $elements = $driver->findElements(WebDriverBy::cssSelector($spec->getSelector()));
 

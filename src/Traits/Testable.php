@@ -177,7 +177,7 @@ trait Testable
         $this->capabilities = $cap->get();
 
         // ドライバーの起動
-        $driver = RemoteWebDriver::create($this->seleniumServerUrl, $this->capabilities);
+        $driver = RemoteWebDriver::create($this->seleniumServerUrl, $this->capabilities, 60 * 1000, 60 * 1000);
 
         // サイズの指定があるか
         if ($dimension !== null) {
