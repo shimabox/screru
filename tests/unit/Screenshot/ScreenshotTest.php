@@ -246,9 +246,8 @@ class ScreenshotTest extends \PHPUnit_Framework_TestCase
         list($fullWidth, $fullHeight) = getimagesize($actual);
         list($byTakeScreenshotWidth, $byTakeScreenshotHeight) = getimagesize($byTakeScreenshot);
 
-        // IEはいまのところ全画面を撮るので同じサイズのはず
-        $this->assertTrue($fullWidth === $byTakeScreenshotWidth);
-        $this->assertTrue($fullHeight === $byTakeScreenshotHeight);
+        $this->assertTrue($fullWidth > $byTakeScreenshotWidth);
+        $this->assertTrue($fullHeight > $byTakeScreenshotHeight);
 
         $this->deleteImageFiles($targetCaptureFiles);
     }

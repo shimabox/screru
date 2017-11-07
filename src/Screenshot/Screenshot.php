@@ -54,10 +54,6 @@ class Screenshot
 
         $captureFile = $this->normalizeFilePath($filepath) . $filename;
 
-        if ($browser === WebDriverBrowserType::IE) { // IE(internet explorer)はページ全体を撮ってくれる
-            return $this->take($driver, $captureFile, 0);
-        }
-
         // スクロールバー非表示
         $driver->executeScript(self::$hiddenScrollBarStyle);
 
