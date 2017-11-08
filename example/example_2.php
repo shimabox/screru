@@ -17,7 +17,7 @@ use Facebook\WebDriver\WebDriverDimension;
  *
  * @param string $browser 'chrome'
  * @param array $size ['w' => xxx, 'h' => xxx]
- * @param string overrideUA true : override Useragent
+ * @param string overrideUA override Useragent
  */
 function example_2($browser, array $size=[], $overrideUA = '')
 {
