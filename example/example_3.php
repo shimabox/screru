@@ -11,18 +11,18 @@ use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverDimension;
 
 /**
- * example 2
+ * example 3
  *
- * Sample Headless Chrome
+ * Sample Headless Firefox
  *
- * @param string $browser 'chrome'
+ * @param string $browser 'firefox'
  * @param array $size ['w' => xxx, 'h' => xxx]
  * @param string overrideUA override Useragent
  */
-function example_2($browser, array $size=[], $overrideUA = '')
+function example_3($browser, array $size=[], $overrideUA = '')
 {
     // headless?
-    $isHeadless = getenv('ENABLED_CHROME_HEADLESS') === 'true';
+    $isHeadless = getenv('ENABLED_FIREFOX_HEADLESS') === 'true';
 
     // selenium
     $host = getenv('SELENIUM_SERVER_URL');
@@ -33,20 +33,11 @@ function example_2($browser, array $size=[], $overrideUA = '')
         $cap->setUserAgent($overrideUA);
     }
 
-    // 画面サイズの指定あり
-    $dimension = null;
-    if (isset($size['w']) && isset($size['h'])) {
-        $dimension = new WebDriverDimension($size['w'], $size['h']);
-    }
-
-    // ヘッドレスモード時でサイズの指定あり
-    if ($dimension !== null && $isHeadless) {
-        $cap->setWindowSizeInHeadless($dimension);
-    }
-
     $driver = RemoteWebDriver::create($host, $cap->get());
 
-    if ($dimension !== null) {
+    // 画面サイズの指定あり
+    if (isset($size['w']) && isset($size['h'])) {
+        $dimension = new WebDriverDimension($size['w'], $size['h']);
         $driver->manage()->window()->setSize($dimension);
     }
 
@@ -81,19 +72,19 @@ function example_2($browser, array $size=[], $overrideUA = '')
 // iPhone6のサイズ
 $size4iPhone6 = ['w' => 375, 'h' => 667];
 
-// iOS10のUA
-$ua4iOS = 'Mozilla/5.0 (iPhone; CPU iPhone OS 10_0_1 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Mobile/14A403 Safari/602.1';
+// iOS11のUA
+$ua4iOS = 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1';
 
-// only chrome
-if (getenv('ENABLED_CHROME_DRIVER') === 'true') {
+// only firefox
+if (getenv('ENABLED_FIREFOX_DRIVER') === 'true') {
 
     // headless
-    putenv('ENABLED_CHROME_HEADLESS=true');
-    example_2(WebDriverBrowserType::CHROME);
-    example_2(WebDriverBrowserType::CHROME, $size4iPhone6, $ua4iOS);
+    putenv('ENABLED_FIREFOX_HEADLESS=true');
+    example_3(WebDriverBrowserType::FIREFOX);
+    example_3(WebDriverBrowserType::FIREFOX, $size4iPhone6, $ua4iOS);
 
     // not headless
-    putenv('ENABLED_CHROME_HEADLESS=');
-    example_2(WebDriverBrowserType::CHROME);
-    example_2(WebDriverBrowserType::CHROME, $size4iPhone6, $ua4iOS);
+    putenv('ENABLED_FIREFOX_HEADLESS=');
+    example_3(WebDriverBrowserType::FIREFOX);
+    example_3(WebDriverBrowserType::FIREFOX, $size4iPhone6, $ua4iOS);
 }

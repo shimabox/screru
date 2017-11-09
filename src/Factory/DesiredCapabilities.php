@@ -97,6 +97,13 @@ class DesiredCapabilities
                 }
 
                 $this->capabilities = FacebookDesiredCapabilities::firefox();
+
+                if (getenv('ENABLED_FIREFOX_HEADLESS') === 'true') {
+                    $this->capabilities->setCapability('moz:firefoxOptions' , [
+                        'args' => '-headless'
+                    ]);
+                }
+
                 $this->browser = WebDriverBrowserType::FIREFOX;
                 break;
         }
