@@ -424,7 +424,7 @@ class ScreenshotTest extends \PHPUnit_Framework_TestCase
     public function it_can_take_element_of_forge_ua_sp_firefox()
     {
         $path = $this->capturePath();
-        $captureFileName = 'it_can_take_element_of_forge_ua_sp_chrome_' . microtime(true);
+        $captureFileName = 'it_can_take_element_of_forge_ua_sp_firefox_' . microtime(true);
         $targetCaptureFiles = [
             $path . $captureFileName . '_0_0.png', // #fbar
             $path . $captureFileName . '_1_0.png', // #botstuff div._Qot > div > a
