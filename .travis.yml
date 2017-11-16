@@ -1,0 +1,90 @@
+language: php
+sudo: false
+dist: trusty
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+    - jar
+
+env:
+  global:
+    - DISPLAY=:99.0
+    - GECKODRIVER_VERSION="0.19.1"
+    - CHROMEDRIVER_VERSION="2.33"
+    - FIREFOX_SELENIUM_SERVER_VERSION="3.7"
+    - FIREFOX_JAR_FILE="selenium-server-standalone-3.7.1.jar"
+    - CHROME_SELENIUM_SERVER_VERSION="3.7"
+    - CHROME_JAR_FILE="selenium-server-standalone-3.7.1.jar"
+
+matrix:
+  include:
+    - php: 5.6
+      env: BROWSER_NAME="firefox"
+      addons:
+        firefox: "56.0.2"
+    - php: 5.6
+      env: BROWSER_NAME="chrome"
+      addons:
+        chrome: stable
+
+    - php: 7.0
+      env: BROWSER_NAME="firefox"
+      addons:
+        firefox: "56.0.2"
+    - php: 7.0
+      env: BROWSER_NAME="chrome"
+      addons:
+        chrome: stable
+
+    - php: 7.1
+      env: BROWSER_NAME="firefox"
+      addons:
+        firefox: "56.0.2"
+    - php: 7.1
+      env: BROWSER_NAME="chrome"
+      addons:
+        chrome: stable
+
+    - php: 7.2
+      env: BROWSER_NAME="firefox"
+      addons:
+        firefox: "56.0.2"
+    - php: 7.2
+      env: BROWSER_NAME="chrome"
+      addons:
+        chrome: stable
+
+    - php: nightly
+      env: BROWSER_NAME="firefox"
+      addons:
+        firefox: "56.0.2"
+    - php: nightly
+      env: BROWSER_NAME="chrome"
+      addons:
+        chrome: stable
+
+before_script:
+  - if [ "$BROWSER_NAME" = "firefox" ]; then sh -e /etc/init.d/xvfb start; fi
+
+  - travis_retry composer update
+
+  - if [ "$BROWSER_NAME" = "firefox" -a ! -f jar/$FIREFOX_JAR_FILE ]; then wget -q -t 3 -P jar http://selenium-release.storage.googleapis.com/$FIREFOX_SELENIUM_SERVER_VERSION/$FIREFOX_JAR_FILE; fi
+  - if [ "$BROWSER_NAME" = "firefox" ]; then wget -q -t 3 https://github.com/mozilla/geckodriver/releases/download/v$GECKODRIVER_VERSION/geckodriver-v$GECKODRIVER_VERSION-linux64.tar.gz; mkdir geckodriver; tar -xvf geckodriver-v$GECKODRIVER_VERSION-linux64.tar.gz -C geckodriver; export PATH=$PATH:$PWD/geckodriver; fi
+  - if [ "$BROWSER_NAME" = "firefox" ]; then java -jar jar/$FIREFOX_JAR_FILE -enablePassThrough false & fi
+
+  - if [ "$BROWSER_NAME" = "chrome" -a ! -f jar/$CHROME_JAR_FILE ]; then wget -q -t 3 -P jar http://selenium-release.storage.googleapis.com/$CHROME_SELENIUM_SERVER_VERSION/$CHROME_JAR_FILE; fi
+  - if [ "$BROWSER_NAME" = "chrome" ]; then mkdir chromedriver; wget -q -t 3 https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip; unzip chromedriver_linux64 -d chromedriver; fi
+  - if [ "$BROWSER_NAME" = "chrome" ]; then export CHROMEDRIVER_PATH=./chromedriver/chromedriver; fi
+  - if [ "$BROWSER_NAME" = "chrome" ]; then java -Dwebdriver.firefox.marionette=false -Dwebdriver.chrome.driver="$CHROMEDRIVER_PATH" -jar jar/$CHROME_JAR_FILE & fi
+
+  - until $(echo | nc localhost 4444); do sleep 1; echo Waiting for Selenium server on port 4444...; done; echo "Selenium server started"
+
+  - php -S 127.0.0.1:8000 -t tests/functional/web/ &
+  - until $(echo | nc localhost 8000); do sleep 1; echo waiting for PHP server on port 8000...; done; echo "PHP server started"
+
+  - cp .env.example .env
+
+script:
+  - if [ "$BROWSER_NAME" = "chrome" ]; then sed -e "s/ENABLED_FIREFOX_DRIVER=true/ENABLED_FIREFOX_DRIVER=/" -i -e "s/ENABLED_CHROME_DRIVER=/ENABLED_CHROME_DRIVER=true/" ./.env; fi
+  - vendor/bin/phpunit
