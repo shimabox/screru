@@ -86,5 +86,6 @@ before_script:
   - cp .env.example .env
 
 script:
+  - if [ "$BROWSER_NAME" = "firefox" ]; then sed -e "s/ENABLED_FIREFOX_HEADLESS=/ENABLED_FIREFOX_HEADLESS=true/" ./.env; fi
   - if [ "$BROWSER_NAME" = "chrome" ]; then sed -e "s/ENABLED_FIREFOX_DRIVER=true/ENABLED_FIREFOX_DRIVER=/" -i -e "s/ENABLED_CHROME_DRIVER=/ENABLED_CHROME_DRIVER=true/" ./.env; fi
   - vendor/bin/phpunit
