@@ -3,7 +3,7 @@
 vendor/
 example/capture/
 tests/capture/
-
+tests/logs/
 composer.lock
 selenium-server-standalone*
 *.exe

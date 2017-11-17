@@ -80,7 +80,7 @@ before_script:
 
   - until $(echo | nc localhost 4444); do sleep 1; echo Waiting for Selenium server on port 4444...; done; echo "Selenium server started"
 
-  - php -S 127.0.0.1:8000 -t tests/functional/web/ &>>./logs/tests/php-server.log &
+  - php -S 127.0.0.1:8000 -t tests/functional/web/ &>>./tests/logs/php-server.log &
   - until $(echo | nc localhost 8000); do sleep 1; echo waiting for PHP server on port 8000...; done; echo "PHP server started"
 
   - cp .env.example .env
