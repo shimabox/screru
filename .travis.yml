@@ -17,6 +17,10 @@ env:
     - CHROME_SELENIUM_SERVER_VERSION="3.7"
     - CHROME_JAR_FILE="selenium-server-standalone-3.7.1.jar"
 
+addons:
+  code_climate:
+    repo_token: 3cd418d30ae5fc9443ffd2cb77e19ad9e2ee06eb6fca93363262349d54bbb8d7
+
 matrix:
   include:
     - php: 5.6
@@ -88,7 +92,7 @@ before_script:
 script:
   - if [ "$BROWSER_NAME" = "firefox" ]; then sed -e "s/ENABLED_FIREFOX_HEADLESS=/ENABLED_FIREFOX_HEADLESS=true/" ./.env; fi
   - if [ "$BROWSER_NAME" = "chrome" ]; then sed -e "s/ENABLED_FIREFOX_DRIVER=true/ENABLED_FIREFOX_DRIVER=/" -i -e "s/ENABLED_CHROME_DRIVER=/ENABLED_CHROME_DRIVER=true/" ./.env; fi
-  - vendor/bin/phpunit
+  - vendor/bin/phpunit --coverage-clover ./tests/logs/coverage-clover.xml
 
 after_script:
   - if [ -f ./tests/logs/selenium.log ]; then cat ./tests/logs/selenium.log; fi
