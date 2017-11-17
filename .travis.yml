@@ -99,4 +99,5 @@ after_script:
   - if [ -f ./tests/logs/php-server.log ]; then cat ./tests/logs/php-server.log; fi
 
 after_success:
-  - travis_retry php vendor/bin/coveralls -v
+  - vendor/bin/test-reporter --coverage-report ./tests/logs/coverage-clover.xml
+  - vendor/bin/coveralls -v
