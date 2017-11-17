@@ -97,3 +97,6 @@ script:
 after_script:
   - if [ -f ./tests/logs/selenium.log ]; then cat ./tests/logs/selenium.log; fi
   - if [ -f ./tests/logs/php-server.log ]; then cat ./tests/logs/php-server.log; fi
+
+after_success:
+  - travis_retry php vendor/bin/coveralls -v
