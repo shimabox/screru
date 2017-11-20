@@ -1,6 +1,13 @@
 # Screru
 Screru is a library that supplements php-webdriver
 
+[![License](https://poser.pugx.org/shimabox/screru/license)](https://packagist.org/packages/shimabox/screru)
+[![Build Status](https://travis-ci.org/shimabox/screru.svg?branch=master)](https://travis-ci.org/shimabox/screru)
+[![Maintainability](https://api.codeclimate.com/v1/badges/127a74e984d2a8014fe8/maintainability)](https://codeclimate.com/github/shimabox/screru/maintainability)
+[![Coverage Status](https://coveralls.io/repos/github/shimabox/screru/badge.svg?branch=master)](https://coveralls.io/github/shimabox/screru?branch=master)
+[![Latest Stable Version](https://poser.pugx.org/shimabox/screru/v/stable)](https://packagist.org/packages/shimabox/screru)
+[![Latest Unstable Version](https://poser.pugx.org/shimabox/screru/v/unstable)](https://packagist.org/packages/shimabox/screru)
+
 ## Description
 
 Screru is a library that supplements php-webdriver.
@@ -19,7 +26,7 @@ Supports Firefox (WebDriverBrowserType::FIREFOX), Chrome (WebDriverBrowserType::
 
 ## Requirements
 
-- PHP 5.5+ or newer
+- PHP 5.6+ or newer
 - [Composer](https://getcomposer.org)
 - Java(JDK) >=1.8
   - http://www.oracle.com/technetwork/java/javase/downloads/index.html
@@ -40,82 +47,6 @@ $ git clone https://github.com/shimabox/screru.git
 $ cd screru
 $ composer install
 $ cp .env.example .env
-```
-
-### ### Linux
-
-- Operation confirmed in CentOS 6.9
-
-#### java
-
-- install
-```
-$ sudo yum -y install java
-```
-- version 1.8>=
-```
-$ java -version
-openjdk version "1.8.0_131"
-OpenJDK Runtime Environment (build 1.8.0_131-b11)
-OpenJDK 64-Bit Server VM (build 25.131-b11, mixed mode)
-```
-
-#### Firefox
-
-- install
-```
-$ sudo yum -y install firefox
-```
-- version 52.3.0
-```
-$ firefox -v
-Mozilla Firefox 52.3.0
-```
-
-#### Xvfb
-
-- install
-```
-$ sudo yum -y install xorg-x11-server-Xvfb
-$ sudo yum -y groupinstall "Japanese Support"
-```
-
-#### selenium-server-standalone
-
-- selenium-server-standalone 3.3.1
-  - http://selenium-release.storage.googleapis.com/3.3/selenium-server-standalone-3.3.1.jar
-
-#### geckodriver
-
-- [geckodriver v0.15.0](https://github.com/mozilla/geckodriver/releases/tag/v0.15.0)
-  - https://github.com/mozilla/geckodriver/releases/download/v0.15.0/geckodriver-v0.15.0-linux64.tar.gz
-
-```
-$ tar -zxvf geckodriver-v0.15.0-linux64.tar.gz
-$ sudo mv geckodriver /usr/local/bin/
-$ sudo chmod +x /usr/local/bin/geckodriver
-```
-
-#### .env
-
-- Edit ```.env```
-```
-ENABLED_FIREFOX_DRIVER=true
-```
-
-#### Run
-
-1. Run Xvfb & selenium-server-standalone
-```
-$ sudo sh start_selenium.sh
-```
-2. Run phpunit
-```
-$ vendor/bin/phpunit
-```
-3. Stop Xvfb & selenium-server-standalone & geckodriver
-```
-$ sudo sh kill_selenium.sh
 ```
 
 ### ### macOS
@@ -219,6 +150,82 @@ $ java -jar selenium-server-standalone-3.7.1.jar -enablePassThrough false
 4. Run phpunit
 ```
 $ vendor/bin/phpunit
+```
+
+### ### Linux
+
+- Operation confirmed in CentOS 6.9
+
+#### java
+
+- install
+```
+$ sudo yum -y install java
+```
+- version 1.8>=
+```
+$ java -version
+openjdk version "1.8.0_131"
+OpenJDK Runtime Environment (build 1.8.0_131-b11)
+OpenJDK 64-Bit Server VM (build 25.131-b11, mixed mode)
+```
+
+#### Firefox
+
+- install
+```
+$ sudo yum -y install firefox
+```
+- version 52.3.0
+```
+$ firefox -v
+Mozilla Firefox 52.3.0
+```
+
+#### Xvfb
+
+- install
+```
+$ sudo yum -y install xorg-x11-server-Xvfb
+$ sudo yum -y groupinstall "Japanese Support"
+```
+
+#### selenium-server-standalone
+
+- selenium-server-standalone 3.3.1
+  - http://selenium-release.storage.googleapis.com/3.3/selenium-server-standalone-3.3.1.jar
+
+#### geckodriver
+
+- [geckodriver v0.15.0](https://github.com/mozilla/geckodriver/releases/tag/v0.15.0)
+  - https://github.com/mozilla/geckodriver/releases/download/v0.15.0/geckodriver-v0.15.0-linux64.tar.gz
+
+```
+$ tar -zxvf geckodriver-v0.15.0-linux64.tar.gz
+$ sudo mv geckodriver /usr/local/bin/
+$ sudo chmod +x /usr/local/bin/geckodriver
+```
+
+#### .env
+
+- Edit ```.env```
+```
+ENABLED_FIREFOX_DRIVER=true
+```
+
+#### Run
+
+1. Run Xvfb & selenium-server-standalone
+```
+$ sudo sh start_selenium.sh
+```
+2. Run phpunit
+```
+$ vendor/bin/phpunit
+```
+3. Stop Xvfb & selenium-server-standalone & geckodriver
+```
+$ sudo sh kill_selenium.sh
 ```
 
 ## Usage
@@ -588,8 +595,23 @@ if (getenv('ENABLED_FIREFOX_DRIVER') === 'true') {
 
 ## Testing
 
+### Start PHP's built-in Web Server
+
+- It is necessary for functional test
+
+```
+$ php -S 127.0.0.1:8000 -t tests/functional/web
+```
+
+### Run
+
 ```
 $ vendor/bin/phpunit
+```
+
+- To exclude functional tests
+```
+$ vendor/bin/phpunit --exclude-group functional
 ```
 
 ## License
