@@ -55,24 +55,24 @@ $ cp .env.example .env
 
 #### selenium-server-standalone
 
-- selenium-server-standalone 3.7.1
-  - http://selenium-release.storage.googleapis.com/3.7/selenium-server-standalone-3.7.1.jar
+- selenium-server-standalone 3.8.1
+  - http://selenium-release.storage.googleapis.com/3.8/selenium-server-standalone-3.8.1.jar
 
 #### geckodriver
 
-- [geckodriver v0.19.1](https://github.com/mozilla/geckodriver/releases/tag/v0.19.1)
-  - https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-macos.tar.gz
+- [geckodriver v0.21.0](https://github.com/mozilla/geckodriver/releases/tag/v0.21.0)
+  - https://github.com/mozilla/geckodriver/releases/download/v0.21.0/geckodriver-v0.21.0-macos.tar.gz
 
 ```
-$ tar -zxvf geckodriver-v0.19.1-macos.tar.gz
+$ tar -zxvf geckodriver-v0.21.0-macos.tar.gz
 $ mv geckodriver /usr/local/bin/
 $ chmod +x /usr/local/bin/geckodriver
 ```
 
 #### chromedriver
 
-- [chromedriver 2.33](https://chromedriver.storage.googleapis.com/index.html?path=2.33/ "")
-  - https://chromedriver.storage.googleapis.com/2.33/chromedriver_mac64.zip
+- [chromedriver 2.41](https://chromedriver.storage.googleapis.com/index.html?path=2.41/ "")
+  - https://chromedriver.storage.googleapis.com/2.41/chromedriver_mac64.zip
 
 ```
 $ unzip chromedriver_mac64.zip
@@ -92,7 +92,7 @@ ENABLED_CHROME_DRIVER=true
 
 1. Run selenium-server-standalone
 ```
-$ java -jar selenium-server-standalone-3.7.1.jar -enablePassThrough false
+$ java -jar selenium-server-standalone-3.8.1.jar -enablePassThrough false
 ```
 2. Run phpunit
 ```
@@ -103,25 +103,25 @@ $ vendor/bin/phpunit
 
 #### selenium-server-standalone
 
-- selenium-server-standalone 3.7.1
-  - https://selenium-release.storage.googleapis.com/3.7/selenium-server-standalone-3.7.1.jar
+- selenium-server-standalone 3.8.1
+  - https://selenium-release.storage.googleapis.com/3.8/selenium-server-standalone-3.8.1.jar
 
 #### geckodriver.exe
 
-- [geckodriver v0.19.1](https://github.com/mozilla/geckodriver/releases/tag/v0.19.1)
-  - https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-win64.zip
+- [geckodriver v0.21.0](https://github.com/mozilla/geckodriver/releases/tag/v0.21.0)
+  - https://github.com/mozilla/geckodriver/releases/download/v0.21.0/geckodriver-v0.21.0-win64.zip
     - Unzip the zip file...
 
 #### chromedriver.exe
 
-- [chromedriver 2.33](https://chromedriver.storage.googleapis.com/index.html?path=2.33/ "")
-  - https://chromedriver.storage.googleapis.com/2.33/chromedriver_win32.zip
+- [chromedriver 2.41](https://chromedriver.storage.googleapis.com/index.html?path=2.41/ "")
+  - https://chromedriver.storage.googleapis.com/2.41/chromedriver_win32.zip
     - Unzip the zip file...
 
 #### IEDriverServer.exe
 
-- [IEDriverServer_x64_3.7.0.zip](https://selenium-release.storage.googleapis.com/index.html?path=3.7/)
-  - https://selenium-release.storage.googleapis.com/3.7/IEDriverServer_x64_3.7.0.zip
+- [IEDriverServer_x64_3.14.0.zip](https://selenium-release.storage.googleapis.com/index.html?path=3.14/)
+  - https://selenium-release.storage.googleapis.com/3.14/IEDriverServer_x64_3.14.0.zip
     - Unzip the zip file...
 
 #### .env
@@ -144,7 +144,7 @@ IE_DRIVER_PATH='your IEDriverServer.exe path'
 1. Open ```cmd``` etc.
 2. Run selenium-server-standalone
 ```shell
-$ java -jar selenium-server-standalone-3.7.1.jar -enablePassThrough false
+$ java -jar selenium-server-standalone-3.8.1.jar -enablePassThrough false
 ```
 3. Open a new ```cmd``` etc.
 4. Run phpunit

@@ -345,7 +345,7 @@ class SampleTest extends Base
      */
     public function it_can_all_windows_closed_of_forge_ua_sp_firefox()
     {
-        $cap = $this->createCapabilities(WebDriverBrowserType::CHROME);
+        $cap = $this->createCapabilities(WebDriverBrowserType::FIREFOX);
         $cap->settingDefaultUserAgent();
         $dimension = $this->createDimension(['w' => 375, 'h' => 667]);
 

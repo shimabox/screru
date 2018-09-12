@@ -60,7 +60,7 @@ class ScreenshotTest extends \PHPUnit_Framework_TestCase
         $actual = $this->target->takeFull($driver, $path, $captureFileName, $this->capabilities->getBrowserName(), 1);
         $this->assertFileExists($actual);
         $this->assertSame($path . $captureFileName, $actual);
-        
+
         // $driver->takeScreenshot()
         $byTakeScreenshot = $this->target->take($driver, $path . $byTakeScreenshotFileName);
         $this->assertFileExists($byTakeScreenshot);
@@ -72,7 +72,7 @@ class ScreenshotTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($fullWidth > $byTakeScreenshotWidth);
         $this->assertTrue($fullHeight > $byTakeScreenshotHeight);
-        
+
         $this->deleteImageFiles($targetCaptureFiles);
     }
 
@@ -318,7 +318,7 @@ class ScreenshotTest extends \PHPUnit_Framework_TestCase
         $captureFileName = 'it_can_take_element_of_forge_ua_sp_chrome_' . microtime(true);
         $targetCaptureFiles = [
             $path . $captureFileName . '_0_0.png', // #fbar
-            $path . $captureFileName . '_1_0.png', // #botstuff div._Qot > div > a
+            $path . $captureFileName . '_1_0.png', // #botstuff div.gciEic > div > a
             $path . $captureFileName . '_1_1.png',
             $path . $captureFileName . '_1_2.png',
             $path . $captureFileName . '_1_3.png',
@@ -340,7 +340,7 @@ class ScreenshotTest extends \PHPUnit_Framework_TestCase
 
         // セレクター
         $selector  = '#fbar';
-        $selector2 = '#botstuff div._Qot > div > a';
+        $selector2 = '#botstuff div.gciEic > div > a';
 
         // 要素のセレクターを定義して
         $spec = new Spec($selector, Spec::EQUAL, 1);
@@ -427,7 +427,7 @@ class ScreenshotTest extends \PHPUnit_Framework_TestCase
         $captureFileName = 'it_can_take_element_of_forge_ua_sp_firefox_' . microtime(true);
         $targetCaptureFiles = [
             $path . $captureFileName . '_0_0.png', // #fbar
-            $path . $captureFileName . '_1_0.png', // #botstuff div._Qot > div > a
+            $path . $captureFileName . '_1_0.png', // #botstuff div.gciEic > div > a
             $path . $captureFileName . '_1_1.png',
             $path . $captureFileName . '_1_2.png',
             $path . $captureFileName . '_1_3.png',
@@ -449,7 +449,7 @@ class ScreenshotTest extends \PHPUnit_Framework_TestCase
 
         // セレクター
         $selector  = '#fbar';
-        $selector2 = '#botstuff div._Qot > div > a';
+        $selector2 = '#botstuff div.gciEic > div > a';
 
         // 要素のセレクターを定義して
         $spec = new Spec($selector, Spec::EQUAL, 1);
