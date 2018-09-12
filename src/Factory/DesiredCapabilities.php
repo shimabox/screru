@@ -65,6 +65,10 @@ class DesiredCapabilities
 
                 if (getenv('ENABLED_CHROME_HEADLESS') === 'true') {
                     $this->chromeOptions->addArguments(['--headless']);
+                    // unknown error: DevToolsActivePort file doesn't exist
+                    // https://github.com/heroku/heroku-buildpack-google-chrome/issues/46
+                    $this->chromeOptions->addArguments(['--no-sandbox']);
+                    $this->chromeOptions->addArguments(['--disable-dev-shm-usage']);
                 }
 
                 $this->capabilities->setCapability(Chrome\ChromeOptions::CAPABILITY, $this->chromeOptions);
