@@ -12,6 +12,7 @@ use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\Remote\WebDriverBrowserType;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverDimension;
+use Facebook\WebDriver\WebDriverExpectedCondition;
 
 /**
  * example 1
@@ -72,6 +73,11 @@ function example_1($browser, array $size=[], $overrideUA = '')
     // 検索実行
     $findElement->submit();
 
+    // コンテンツの中身が可視化されるまで待つ(#botstuffをターゲットに)
+    $driver->wait(10, 100)->until(
+        WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::id('botstuff'))
+    );
+
     // キャプチャ
     $fileName = $overrideUA === '' ? __METHOD__ . "_{$browser}" : __METHOD__ . "_sp_{$browser}";
     $ds = DIRECTORY_SEPARATOR;
@@ -84,8 +90,8 @@ function example_1($browser, array $size=[], $overrideUA = '')
     $screenshot->takeFull($driver, $captureDirectoryPath, $fileName.'_full.png', $browser);
 
     // pc と sp で指定要素を変える
-    $selector = $overrideUA === '' ? '.rc' : 'div.rc';
-    $selector2 = $overrideUA === '' ? '.brs_col' : 'a._bCp';
+    $selector = $overrideUA === '' ? '.RNNXgb' : '#sfcnt';
+    $selector2 = $overrideUA === '' ? '.brs_col' : '.uUPGi';
 
     // 要素のセレクターを定義して
     $spec = new Spec($selector, Spec::GREATER_THAN_OR_EQUAL, 1);
