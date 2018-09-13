@@ -9,6 +9,7 @@ use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\Remote\WebDriverBrowserType;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverDimension;
+use Facebook\WebDriver\WebDriverExpectedCondition;
 
 /**
  * example 3
@@ -52,6 +53,11 @@ function example_3($browser, array $size=[], $overrideUA = '')
     $findElement->sendKeys('Hello');
     // 検索実行
     $findElement->submit();
+
+    // コンテンツの中身が可視化されるまで待つ(#botstuffをターゲットに)
+    $driver->wait(10, 100)->until(
+        WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::id('botstuff'))
+    );
 
     // キャプチャ
     $suffix = $isHeadless ? '_headless' : '_not-headless';

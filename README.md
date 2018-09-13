@@ -30,9 +30,6 @@ Supports Firefox (WebDriverBrowserType::FIREFOX), Chrome (WebDriverBrowserType::
 - [Composer](https://getcomposer.org)
 - Java(JDK) >=1.8
   - http://www.oracle.com/technetwork/java/javase/downloads/index.html
-- [facebook/php-webdriver](https://github.com/facebook/php-webdriver "facebook/php-webdriver: A php client for webdriver.")
-- [vlucas/phpdotenv](https://github.com/vlucas/phpdotenv "vlucas/phpdotenv: Loads environment variables from `.env` to `getenv()`, `$_ENV` and `$_SERVER` automagically.")
-- [shimabox/url-status](https://github.com/shimabox/url-status "shimabox/url-status: Passing the url returns the status by looking at the header information")
 
 ## Installation
 
@@ -121,7 +118,8 @@ $ vendor/bin/phpunit
 #### IEDriverServer.exe
 
 - [IEDriverServer_x64_3.14.0.zip](https://selenium-release.storage.googleapis.com/index.html?path=3.14/)
-  - https://selenium-release.storage.googleapis.com/3.14/IEDriverServer_x64_3.14.0.zip
+  - https://selenium-release.storage.googleapis.com/3.14/IEDriverServer_Win32_3.14.0.zip
+    - Key entry is faster here than 64 bit version(IEDriverServer_x64_3.14.0.zip)
     - Unzip the zip file...
 
 #### .env
@@ -327,7 +325,7 @@ OVERRIDE_DEFAULT_USER_AGENT='Mozilla/5.0 (Linux; Android 7.1.1; Nexus 5X Build/N
           $this->traitTearDown();
       }
 
-      // do somting ...
+      // do someting ...
   }
   ```
 
@@ -361,7 +359,7 @@ OVERRIDE_DEFAULT_USER_AGENT='Mozilla/5.0 (Linux; Android 7.1.1; Nexus 5X Build/N
             $this->traitTearDown();
         }
 
-        // do somting ...
+        // do someting ...
     }
     ```
 
@@ -375,114 +373,6 @@ For the latest chrome, you can use headless mode.
 ENABLED_CHROME_HEADLESS=true
 ```
 
-- sample
-```php
-require_once '/vendor/autoload.php';
-
-use SMB\Screru\Factory\DesiredCapabilities;
-use SMB\Screru\Screenshot\Screenshot;
-
-use Facebook\WebDriver\Remote\RemoteWebDriver;
-use Facebook\WebDriver\Remote\WebDriverBrowserType;
-use Facebook\WebDriver\WebDriverBy;
-use Facebook\WebDriver\WebDriverDimension;
-
-/**
- * Sample Headless Chrome
- *
- * java -Dwebdriver.chrome.driver="$CHROME_DRIVER_PATH" -jar selenium-server-standalone-3.7.1.jar
- *
- * @param string $browser 'chrome'
- * @param array $size ['w' => xxx, 'h' => xxx]
- * @param string overrideUA override Useragent
- */
-function sampleHeadlessChrome($browser, array $size=[], $overrideUA = '')
-{
-    // headless?
-    $isHeadless = getenv('ENABLED_CHROME_HEADLESS') === 'true';
-
-    // selenium
-    $host = getenv('SELENIUM_SERVER_URL');
-
-    $cap = new DesiredCapabilities($browser);
-
-    if ($overrideUA !== '') {
-        $cap->setUserAgent($overrideUA);
-    }
-
-    // 画面サイズの指定あり
-    $dimension = null;
-    if (isset($size['w']) && isset($size['h'])) {
-        $dimension = new WebDriverDimension($size['w'], $size['h']);
-    }
-
-    // ヘッドレスモード時でサイズの指定あり
-    // ヘッドレスモードの場合、$driver->manage()->window()->setSize(); で画面サイズ変更が出来ない？
-    if ($dimension !== null && $isHeadless) {
-        $cap->setWindowSizeInHeadless($dimension);
-    }
-
-    $driver = RemoteWebDriver::create($host, $cap->get());
-
-    if ($dimension !== null) {
-        $driver->manage()->window()->setSize($dimension);
-    }
-
-    $url = 'https://www.google.com/webhp?gl=us&hl=en&gws_rd=cr';
-
-    // 指定URLへ遷移 (Google)
-    $driver->get($url);
-
-    // 検索Box
-    $findElement = $driver->findElement(WebDriverBy::name('q'));
-    // 検索Boxにキーワードを入力して
-    $findElement->sendKeys('Hello');
-    // 検索実行
-    $findElement->submit();
-
-    // キャプチャ
-    $suffix = $isHeadless ? '_headless' : '_not-headless';
-    $fileName = $overrideUA === '' ? __METHOD__ . "_pc" . $suffix : __METHOD__ . "_sp" . $suffix;
-    $ds = DIRECTORY_SEPARATOR;
-    $captureDirectoryPath = realpath(__DIR__ . $ds . 'capture') . $ds;
-
-    // create Screenshot
-    $screenshot = new Screenshot();
-
-    // 全画面キャプチャ (ファイル名は拡張子あり / png になります)
-    $screenshot->takeFull($driver, $captureDirectoryPath, $fileName . '.png', $browser);
-
-    // ブラウザを閉じる
-    $driver->close();
-}
-
-/*
- |------------------------------------------------------------------------------
- | 処理実行
- |------------------------------------------------------------------------------
- */
-
-// iPhone6のサイズ
-$size4iPhone6 = ['w' => 375, 'h' => 667];
-
-// iOS10のUA
-$ua4iOS = 'Mozilla/5.0 (iPhone; CPU iPhone OS 10_0_1 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Mobile/14A403 Safari/602.1';
-
-// only chrome
-if (getenv('ENABLED_CHROME_DRIVER') === 'true') {
-
-    // headless
-    putenv('ENABLED_CHROME_HEADLESS=true');
-    sampleHeadlessChrome(WebDriverBrowserType::CHROME);
-    sampleHeadlessChrome(WebDriverBrowserType::CHROME, $size4iPhone6, $ua4iOS);
-
-    // not headless
-    putenv('ENABLED_CHROME_HEADLESS=');
-    sampleHeadlessChrome(WebDriverBrowserType::CHROME);
-    sampleHeadlessChrome(WebDriverBrowserType::CHROME, $size4iPhone6, $ua4iOS);
-}
-```
-
 ## Headless Firefox
 
 For the latest firefox, you can use headless mode.
@@ -493,105 +383,13 @@ For the latest firefox, you can use headless mode.
 ENABLED_FIREFOX_HEADLESS=true
 ```
 
-- sample
-```php
-require_once realpath(__DIR__ . '/../vendor') . '/autoload.php';
-
-use SMB\Screru\Factory\DesiredCapabilities;
-use SMB\Screru\Screenshot\Screenshot;
-
-use Facebook\WebDriver\Remote\RemoteWebDriver;
-use Facebook\WebDriver\Remote\WebDriverBrowserType;
-use Facebook\WebDriver\WebDriverBy;
-use Facebook\WebDriver\WebDriverDimension;
-
-/**
- * Sample Headless Firefox
- *
- * java -Dwebdriver.gecko.driver="$FIREFOX_DRIVER_PATH" -jar selenium-server-standalone-3.7.1.jar -enablePassThrough false
- *
- * @param string $browser 'firefox'
- * @param array $size ['w' => xxx, 'h' => xxx]
- * @param string overrideUA override Useragent
- */
-function sampleHeadlessFirefox($browser, array $size=[], $overrideUA = '')
-{
-    // headless?
-    $isHeadless = getenv('ENABLED_FIREFOX_HEADLESS') === 'true';
-
-    // selenium
-    $host = getenv('SELENIUM_SERVER_URL');
-
-    $cap = new DesiredCapabilities($browser);
-
-    if ($overrideUA !== '') {
-        $cap->setUserAgent($overrideUA);
-    }
-
-    $driver = RemoteWebDriver::create($host, $cap->get());
-
-    // 画面サイズの指定あり
-    if (isset($size['w']) && isset($size['h'])) {
-        $dimension = new WebDriverDimension($size['w'], $size['h']);
-        $driver->manage()->window()->setSize($dimension);
-    }
-
-    $url = 'https://www.google.com/webhp?gl=us&hl=en&gws_rd=cr';
-
-    // 指定URLへ遷移 (Google)
-    $driver->get($url);
-
-    // 検索Box
-    $findElement = $driver->findElement(WebDriverBy::name('q'));
-    // 検索Boxにキーワードを入力して
-    $findElement->sendKeys('Hello');
-    // 検索実行
-    $findElement->submit();
-
-    // キャプチャ
-    $suffix = $isHeadless ? '_headless' : '_not-headless';
-    $fileName = $overrideUA === '' ? __METHOD__ . "_pc" . $suffix : __METHOD__ . "_sp" . $suffix;
-    $ds = DIRECTORY_SEPARATOR;
-    $captureDirectoryPath = realpath(__DIR__ . $ds . 'capture') . $ds;
-
-    // create Screenshot
-    $screenshot = new Screenshot();
-
-    // 全画面キャプチャ (ファイル名は拡張子あり / png になります)
-    $screenshot->takeFull($driver, $captureDirectoryPath, $fileName . '.png', $browser);
-
-    // ブラウザを閉じる
-    $driver->close();
-}
-
-// iPhone6のサイズ
-$size4iPhone6 = ['w' => 375, 'h' => 667];
-
-// iOS11のUA
-$ua4iOS = 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1';
-
-// only firefox
-if (getenv('ENABLED_FIREFOX_DRIVER') === 'true') {
-
-    // headless
-    putenv('ENABLED_FIREFOX_HEADLESS=true');
-    sampleHeadlessFirefox(WebDriverBrowserType::FIREFOX);
-    sampleHeadlessFirefox(WebDriverBrowserType::FIREFOX, $size4iPhone6, $ua4iOS);
-
-    // not headless
-    putenv('ENABLED_FIREFOX_HEADLESS=');
-    sampleHeadlessFirefox(WebDriverBrowserType::FIREFOX);
-    sampleHeadlessFirefox(WebDriverBrowserType::FIREFOX, $size4iPhone6, $ua4iOS);
-}
-```
-
 ## Example
 
 - ``` $ php example/example_1.php ```
 - ``` $ php example/example_2.php ```
-  - For Headless Chrome.
+  - For headless chrome.
 - ``` $ php example/example_3.php ```
-  - For Headless Firefox.
+  - For headless firefox.
 
 ## Testing
 
