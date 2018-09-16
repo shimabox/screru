@@ -174,10 +174,14 @@ OpenJDK 64-Bit Server VM (build 25.131-b11, mixed mode)
 ```
 $ sudo yum -y install firefox
 ```
-- version 52.3.0
+or
+```
+$ sudo yum -y update firefox
+```
+- version 60.2.0
 ```
 $ firefox -v
-Mozilla Firefox 52.3.0
+Mozilla Firefox 60.2.0
 ```
 
 #### Xvfb
@@ -190,16 +194,16 @@ $ sudo yum -y groupinstall "Japanese Support"
 
 #### selenium-server-standalone
 
-- selenium-server-standalone 3.3.1
-  - http://selenium-release.storage.googleapis.com/3.3/selenium-server-standalone-3.3.1.jar
+- selenium-server-standalone 3.8.1
+  - http://selenium-release.storage.googleapis.com/3.8/selenium-server-standalone-3.8.1.jar
 
 #### geckodriver
 
-- [geckodriver v0.15.0](https://github.com/mozilla/geckodriver/releases/tag/v0.15.0)
-  - https://github.com/mozilla/geckodriver/releases/download/v0.15.0/geckodriver-v0.15.0-linux64.tar.gz
+- [geckodriver v0.21.0](https://github.com/mozilla/geckodriver/releases/tag/v0.21.0)
+  - https://github.com/mozilla/geckodriver/releases/download/v0.21.0/geckodriver-v0.21.0-linux64.tar.gz
 
 ```
-$ tar -zxvf geckodriver-v0.15.0-linux64.tar.gz
+$ tar -zxvf geckodriver-v0.21.0-linux64.tar.gz
 $ sudo mv geckodriver /usr/local/bin/
 $ sudo chmod +x /usr/local/bin/geckodriver
 ```
