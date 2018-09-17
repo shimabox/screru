@@ -186,7 +186,7 @@ class AccessTest extends Base
      */
     public function it_can_access_to_testpage_of_sp_ie()
     {
-        $cap = $this->createCapabilities(WebDriverBrowserType::FIREFOX);
+        $cap = $this->createCapabilities(WebDriverBrowserType::IE);
         $cap->settingDefaultUserAgent();
 
         $driver = $this->createDriver($cap);
