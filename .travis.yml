@@ -110,10 +110,10 @@ script:
   - if [ "$BROWSER_NAME" = "chrome" ]; then sed -e "s/ENABLED_FIREFOX_DRIVER=true/ENABLED_FIREFOX_DRIVER=/" -i -e "s/ENABLED_CHROME_DRIVER=/ENABLED_CHROME_DRIVER=true/" ./.env; fi
   - vendor/bin/phpunit --coverage-clover ./tests/logs/coverage-clover.xml
 
-after_script:
-  - if [ -f ./tests/logs/selenium.log ]; then cat ./tests/logs/selenium.log; fi
-  - if [ -f ./tests/logs/php-server.log ]; then cat ./tests/logs/php-server.log; fi
-
 after_success:
   - vendor/bin/test-reporter --coverage-report ./tests/logs/coverage-clover.xml
   - vendor/bin/coveralls -v
+
+after_failure:
+  - if [ -f ./tests/logs/selenium.log ]; then cat ./tests/logs/selenium.log; fi
+  - if [ -f ./tests/logs/php-server.log ]; then cat ./tests/logs/php-server.log; fi
