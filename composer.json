@@ -13,7 +13,7 @@
     ],
     "require": {
         "php": "^5.6 || ~7.0",
-        "facebook/webdriver": "^1.4",
+        "facebook/webdriver": "^1.6",
         "vlucas/phpdotenv": "^2.4",
         "shimabox/url-status": "^1.0",
         "shimabox/selenium-downloader": "^0.1.0"
