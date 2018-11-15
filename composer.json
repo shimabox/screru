@@ -36,5 +36,14 @@
             "SMB\\Screru\\Tests\\": "tests/unit",
             "SMB\\Screru\\Tests\\Functional\\": "tests/functional"
         }
+    },
+    "scripts": {
+        "init-env": "php -r \"file_exists('.env') || copy('.env.default', '.env');\"",
+        "post-install-cmd": [
+            "@init-env"
+        ],
+        "post-update-cmd": [
+            "@init-env"
+        ]
     }
 }
