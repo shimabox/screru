@@ -247,7 +247,7 @@ trait Testable
     protected function takeScreenshot(RemoteWebDriver $driver, $filename, $sleep=1, $dir='')
     {
         $path = $this->capturePath($dir);
-        return $this->createScreenshot()->take($driver, $path . $filename.'.png', $sleep);
+        return $this->createScreenshot()->take($driver, $path . $filename, $sleep);
     }
 
     /**
@@ -261,7 +261,7 @@ trait Testable
     protected function takeFullScreenshot(RemoteWebDriver $driver, $filename, $sleep=1, $dir='')
     {
         $path = $this->capturePath($dir);
-        return $this->createScreenshot()->takeFull($driver, $path, $filename.'.png', $this->capabilities->getBrowserName(), $sleep);
+        return $this->createScreenshot()->takeFull($driver, $path, $filename, $sleep);
     }
 
     /**
@@ -277,10 +277,26 @@ trait Testable
     {
         $path = $this->capturePath($dir);
         try {
-            return $this->createScreenshot()->takeElement($driver, $path, $filename, $this->capabilities->getBrowserName(), $specPool, $sleep);
+            return $this->createScreenshot()->takeElement($driver, $path, $filename, $specPool, $sleep);
         } catch (TimeOutException $e) {
             $this->fail($e->getMessage());
         }
+    }
+
+    /**
+     * アサーションが失敗したときのキャプチャ撮影を有効にする
+     */
+    protected function enableCaptureWhenAssertionFails()
+    {
+        $this->takeCaptureWhenAssertionFails = true;
+    }
+
+    /**
+     * アサーションが失敗したときのキャプチャ撮影を無効にする
+     */
+    protected function disableCaptureWhenAssertionFails()
+    {
+        $this->takeCaptureWhenAssertionFails = false;
     }
 
     /**
