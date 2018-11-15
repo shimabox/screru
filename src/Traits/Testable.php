@@ -5,7 +5,7 @@ namespace SMB\Screru\Traits;
 use SMB\Screru\Wrapper\RemoteWebDriver;
 use SMB\Screru\Factory\DesiredCapabilities;
 use SMB\Screru\Exception\DisabledWebDriverException;
-use SMB\Screru\Exception\NotExistsWebDriverException;
+use SMB\Screru\Exception\NotSpecifiedWebDriverException;
 use SMB\Screru\Screenshot\Screenshot;
 use SMB\Screru\Elements\SpecPool;
 
@@ -220,7 +220,7 @@ trait Testable
         } catch (DisabledWebDriverException $e) {
             // テスト対象でないWebDriverの場合skipしておく
             $this->markTestSkipped($e->getMessage());
-        } catch (NotExistsWebDriverException $e) {
+        } catch (NotSpecifiedWebDriverException $e) {
             // 対象のWebDriverが設定されていなければskipしておく
             $this->markTestSkipped($e->getMessage());
         }
