@@ -1,9 +1,12 @@
 .DS_Store
 .env
+composer.lock
 vendor/
 example/capture/
 tests/capture/
 tests/logs/
-composer.lock
+tests/report/
 selenium-server-standalone*
 *.exe
+chromedriver
+geckodriver
