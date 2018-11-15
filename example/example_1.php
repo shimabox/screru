@@ -52,10 +52,10 @@ function example_1($browser, array $size=[], $overrideUA = '')
             break;
     }
 
-    // 画面サイズをMAXにする場合
+    // When setting the screen size to MAX.
     // $driver->manage()->window()->maximize();
 
-    // 画面サイズの指定あり
+    // When the screen size is specified.
     if (isset($size['w']) && isset($size['h'])) {
         $dimension = new WebDriverDimension($size['w'], $size['h']);
         $driver->manage()->window()->setSize($dimension);
@@ -63,47 +63,47 @@ function example_1($browser, array $size=[], $overrideUA = '')
 
     $url = 'https://www.google.com/webhp?gl=us&hl=en&gws_rd=cr';
 
-    // 指定URLへ遷移 (Google)
+    // Transit to designated URL (Google).
     $driver->get($url);
 
-    // 検索Box
+    // Search for elements.
     $findElement = $driver->findElement(WebDriverBy::name('q'));
-    // 検索Boxにキーワードを入力して
+    // Enter keywords in search box.
     $findElement->sendKeys('Hello');
-    // 検索実行
+    // Search execution.
     $findElement->submit();
 
-    // コンテンツの中身が可視化されるまで待つ(#botstuffをターゲットに)
+    // Wait until the contents are visualized(Targeting '#botstuff').
     $driver->wait(10, 100)->until(
         WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::id('botstuff'))
     );
 
-    // キャプチャ
+    // Capture settings.
     $fileName = $overrideUA === '' ? __METHOD__ . "_{$browser}" : __METHOD__ . "_sp_{$browser}";
     $ds = DIRECTORY_SEPARATOR;
     $captureDirectoryPath = realpath(__DIR__ . $ds . 'capture') . $ds;
 
-    // create Screenshot
+    // Create a Screenshot.
     $screenshot = new Screenshot();
 
-    // 全画面キャプチャ (ファイル名は拡張子あり / png になります)
-    $screenshot->takeFull($driver, $captureDirectoryPath, $fileName.'_full.png', $browser);
+    // Full screen capture (extension will be .png).
+    $screenshot->takeFull($driver, $captureDirectoryPath, $fileName.'_full.png');
 
-    // pc と sp で指定要素を変える
+    // Change specified element with 'pc' and 'sp'.
     $selector = $overrideUA === '' ? '.RNNXgb' : '#sfcnt';
     $selector2 = $overrideUA === '' ? '.brs_col' : '.uUPGi';
 
-    // 要素のセレクターを定義して
+    // Define element selector.
     $spec = new Spec($selector, Spec::GREATER_THAN_OR_EQUAL, 1);
     $spec2 = new Spec($selector2, Spec::GREATER_THAN, 1);
 
-    // SpecPoolに突っ込む
+    // Push into SpecPool.
     $specPool = (new SpecPool())
                 ->addSpec($spec)
                 ->addSpec($spec2);
 
-    // 要素のキャプチャ (ファイル名は拡張子無し / pngになります)
-    $screenshot->takeElement($driver, $captureDirectoryPath, $fileName, $browser, $specPool);
+    // Element capture (extension is .png).
+    $screenshot->takeElement($driver, $captureDirectoryPath, $fileName, $specPool);
 
     // HttpStatus of url
     $status = UrlStatus::get($driver->getCurrentURL());
@@ -111,19 +111,19 @@ function example_1($browser, array $size=[], $overrideUA = '')
         throw new Exception('fail');
     }
 
-    // ブラウザを閉じる
+    // Close window.
     $driver->close();
 }
 
-// iPhone6のサイズ
+// Size of iPhone 6.
 $size4iPhone6 = ['w' => 375, 'h' => 667];
 
-// iOS10のUA
-$ua4iOS = 'Mozilla/5.0 (iPhone; CPU iPhone OS 10_0_1 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Mobile/14A403 Safari/602.1';
+// UserAgent of iOS12.
+$ua4iOS = 'Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Mobile/15E148 Safari/604.1';
 
 /**
  |------------------------------------------------------------------------------
- | 有効にしたいドライバーの値を true にしてください
+ | Please set the value of the driver you want to enable to true.
  |------------------------------------------------------------------------------
  */
 
