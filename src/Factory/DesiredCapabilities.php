@@ -30,9 +30,9 @@ class DesiredCapabilities
 
     /**
      * Default UserAgent
-     * @var string default iOS 10.3.2
+     * @var string default iOS 12.0
      */
-    private $defaultUserAgent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_2 like Mac OS X) AppleWebKit/603.2.4 (KHTML. like Gecko) Version/10.0 Mobile/14F89 Safari/602.1';
+    private $defaultUserAgent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Mobile/15E148 Safari/604.1';
 
     /**
      * browser name
