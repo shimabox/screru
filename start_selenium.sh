@@ -1,15 +1,16 @@
 #!/bin/bash
 
 ##################################################
-# Xvfb(仮想ディスプレイ), selenium の起動
-# デフォルトのサイズは 1366x768x24 です
+# Start Xvfb (virtual display), selenium.
+# The default size is 1366 x 768 x 24.
 ##################################################
 
-# Xvfb(仮想ディスプレイ)の起動 サイズ(横x高さx深度)は変えたかったら変えてください
+# Start Xvfb (virtual display).
+# Please change size (width x height x depth) if you want to change it.
 sudo Xvfb :1 -screen 0 1366x768x24 &
 
-# :1 のディスプレイ
+# :1 display.
 export DISPLAY=:1
 
-# selenium
-java -Dwebdriver.gecko.driver=/usr/local/bin/geckodriver -jar selenium-server-standalone-3.8.1.jar &
+# Start selenium.
+java -jar selenium-server-standalone-3.8.1.jar -enablePassThrough false &
