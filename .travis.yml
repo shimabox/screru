@@ -104,10 +104,8 @@ before_script:
   - until $(echo | nc localhost 8000); do sleep 1; echo waiting for PHP server on port 8000...; done; echo "PHP server started"
 
 script:
-  - if [ "$BROWSER_NAME" = "firefox" ]; then sed -e "s/ENABLED_CHROME_DRIVER=true/ENABLED_CHROME_DRIVER=/" .env; fi
-  - if [ "$BROWSER_NAME" = "chrome" ]; then sed -e "s/ENABLED_FIREFOX_DRIVER=true/ENABLED_FIREFOX_DRIVER=/" .env; fi
-  - if [ -f .env ]; then cat .env; fi
-  - export ENABLED_FIREFOX_DRIVER=""
+  - if [ "$BROWSER_NAME" = "firefox" ]; then export ENABLED_CHROME_DRIVER=""; fi
+  - if [ "$BROWSER_NAME" = "chrome" ]; then export ENABLED_FIREFOX_DRIVER=""; fi
   - vendor/bin/phpunit --coverage-clover ./tests/logs/coverage-clover.xml
 
 after_success:
