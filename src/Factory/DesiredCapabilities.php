@@ -3,7 +3,7 @@
 namespace SMB\Screru\Factory;
 
 use SMB\Screru\Exception\DisabledWebDriverException;
-use SMB\Screru\Exception\NotExistsWebDriverException;
+use SMB\Screru\Exception\NotSpecifiedWebDriverException;
 
 use Facebook\WebDriver\Chrome;
 use Facebook\WebDriver\Firefox;
@@ -30,9 +30,9 @@ class DesiredCapabilities
 
     /**
      * Default UserAgent
-     * @var string default iOS 10.3.2
+     * @var string default iOS 12.0
      */
-    private $defaultUserAgent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_2 like Mac OS X) AppleWebKit/603.2.4 (KHTML. like Gecko) Version/10.0 Mobile/14F89 Safari/602.1';
+    private $defaultUserAgent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Mobile/15E148 Safari/604.1';
 
     /**
      * browser name
@@ -44,18 +44,54 @@ class DesiredCapabilities
      * コンストラクタ
      * @param string $browser
      * @throws \SMB\Screru\Exception\DisabledWebDriverException
-     * @throws \SMB\Screru\Exception\NotExistsWebDriverException
+     * @throws \SMB\Screru\Exception\NotSpecifiedWebDriverException
      */
     public function __construct($browser)
     {
         switch ($browser) {
+            case WebDriverBrowserType::FIREFOX: // firefox
+                if (getenv('ENABLED_FIREFOX_DRIVER') !== 'true') {
+                    throw new DisabledWebDriverException('geckodriver is disabled.');
+                }
+
+                if (getenv('IS_PLATFORM_WINDOWS') === 'true' && getenv('FIREFOX_DRIVER_PATH') === '') {
+                    throw new NotSpecifiedWebDriverException('geckodriver is not specified.');
+                } elseif (getenv('FIREFOX_DRIVER_PATH') !== '') {
+                    putenv('webdriver.gecko.driver=' . getenv('FIREFOX_DRIVER_PATH'));
+                }
+
+                $this->capabilities = FacebookDesiredCapabilities::firefox();
+
+                if (getenv('ENABLED_FIREFOX_HEADLESS') === 'true') {
+                    $this->capabilities->setCapability('moz:firefoxOptions' , [
+                        'args' => '-headless'
+                    ]);
+                }
+
+                $this->browser = $browser;
+                break;
+            case WebDriverBrowserType::IE: // internet explorer
+                if (getenv('ENABLED_IE_DRIVER') !== 'true') {
+                    throw new DisabledWebDriverException('iedriver is disabled.');
+                }
+
+                if (getenv('IS_PLATFORM_WINDOWS') === 'true' && getenv('IE_DRIVER_PATH') === '') {
+                    throw new NotSpecifiedWebDriverException('iedriver is not specified.');
+                } elseif (getenv('IE_DRIVER_PATH') !== '') {
+                    putenv('webdriver.ie.driver=' . getenv('IE_DRIVER_PATH'));
+                }
+
+                $this->capabilities = FacebookDesiredCapabilities::internetExplorer();
+                $this->browser = $browser;
+                break;
             case WebDriverBrowserType::CHROME: // chrome
+            default:
                 if (getenv('ENABLED_CHROME_DRIVER') !== 'true') {
-                    throw new DisabledWebDriverException('Disabled chrome webdriver');
+                    throw new DisabledWebDriverException('chromedriver is disabled.');
                 }
 
                 if (getenv('IS_PLATFORM_WINDOWS') === 'true' && getenv('CHROME_DRIVER_PATH') === '') {
-                    throw new NotExistsWebDriverException('not exists chrome webdriver');
+                    throw new NotSpecifiedWebDriverException('chromedriver is not specified.');
                 } elseif (getenv('CHROME_DRIVER_PATH') !== '') {
                     putenv('webdriver.chrome.driver=' . getenv('CHROME_DRIVER_PATH'));
                 }
@@ -72,43 +108,7 @@ class DesiredCapabilities
                 }
 
                 $this->capabilities->setCapability(Chrome\ChromeOptions::CAPABILITY, $this->chromeOptions);
-                $this->browser = $browser;
-                break;
-            case WebDriverBrowserType::IE: // internet explorer
-                if (getenv('ENABLED_IE_DRIVER') !== 'true') {
-                    throw new DisabledWebDriverException('Disabled ie webdriver');
-                }
-
-                if (getenv('IS_PLATFORM_WINDOWS') === 'true' && getenv('IE_DRIVER_PATH') === '') {
-                    throw new NotExistsWebDriverException('not exists ie webdriver');
-                } elseif (getenv('IE_DRIVER_PATH') !== '') {
-                    putenv('webdriver.ie.driver=' . getenv('IE_DRIVER_PATH'));
-                }
-
-                $this->capabilities = FacebookDesiredCapabilities::internetExplorer();
-                $this->browser = $browser;
-                break;
-            case WebDriverBrowserType::FIREFOX: // firefox
-            default :
-                if (getenv('ENABLED_FIREFOX_DRIVER') !== 'true') {
-                    throw new DisabledWebDriverException('Disabled firefox webdriver');
-                }
-
-                if (getenv('IS_PLATFORM_WINDOWS') === 'true' && getenv('FIREFOX_DRIVER_PATH') === '') {
-                    throw new NotExistsWebDriverException('not exists firefox webdriver');
-                } elseif (getenv('FIREFOX_DRIVER_PATH') !== '') {
-                    putenv('webdriver.gecko.driver=' . getenv('FIREFOX_DRIVER_PATH'));
-                }
-
-                $this->capabilities = FacebookDesiredCapabilities::firefox();
-
-                if (getenv('ENABLED_FIREFOX_HEADLESS') === 'true') {
-                    $this->capabilities->setCapability('moz:firefoxOptions' , [
-                        'args' => '-headless'
-                    ]);
-                }
-
-                $this->browser = WebDriverBrowserType::FIREFOX;
+                $this->browser = WebDriverBrowserType::CHROME;
                 break;
         }
 

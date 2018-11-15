@@ -13,9 +13,10 @@
     ],
     "require": {
         "php": "^5.6 || ~7.0",
-        "facebook/webdriver": "^1.4",
+        "facebook/webdriver": "^1.6",
         "vlucas/phpdotenv": "^2.4",
-        "shimabox/url-status": "^1.0"
+        "shimabox/url-status": "^1.0",
+        "shimabox/selenium-downloader": "^0.1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^4.8 || ~5.0",
@@ -32,11 +33,17 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "SMB\\Screru\\Tests\\": [
-                "tests/unit",
-                "tests/functional"
-            ],
-            "SMB\\Screru\\Tests\\Sample\\": "tests/sample"
+            "SMB\\Screru\\Tests\\": "tests/unit",
+            "SMB\\Screru\\Tests\\Functional\\": "tests/functional"
         }
+    },
+    "scripts": {
+        "init-env": "php -r \"file_exists('.env') || copy('.env.default', '.env');\"",
+        "post-install-cmd": [
+            "@init-env"
+        ],
+        "post-update-cmd": [
+            "@init-env"
+        ]
     }
 }

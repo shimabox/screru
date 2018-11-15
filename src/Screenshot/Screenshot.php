@@ -7,7 +7,6 @@ use SMB\Screru\Elements\Spec;
 
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriverBy;
-use Facebook\WebDriver\Remote\WebDriverBrowserType;
 
 /**
  * Screenshot
@@ -32,11 +31,13 @@ class Screenshot
         (int)$sleep <= 0 ?: sleep((int)$sleep);
 
         $driver->executeScript(self::$hiddenScrollBarStyle);
-        $driver->takeScreenshot($filename);
 
-        $this->throwExceptionIfNotExistsFile($filename, 'Could not save screenshot');
+        $_filename = $this->remove_extension($filename) . '.png';
+        $driver->takeScreenshot($_filename);
 
-        return $filename;
+        $this->throwExceptionIfNotExistsFile($_filename, 'Could not save screenshot');
+
+        return $_filename;
     }
 
     /**
@@ -44,15 +45,15 @@ class Screenshot
      * @param \Facebook\WebDriver\Remote\RemoteWebDriver $driver
      * @param string $filepath
      * @param string $filename
-     * @param string $browser
      * @param int $sleep Sleep for seconds
      * @return string キャプチャ画像ファイルパス
      */
-    public function takeFull(RemoteWebDriver $driver, $filepath, $filename, $browser, $sleep=1)
+    public function takeFull(RemoteWebDriver $driver, $filepath, $filename, $sleep=1)
     {
         (int)$sleep <= 0 ?: sleep((int)$sleep);
 
-        $captureFile = $this->normalizeFilePath($filepath) . $filename;
+        $_filename = $this->remove_extension($filename);
+        $captureFile = $this->normalizeFilePath($filepath) . $_filename . '.png';
 
         // スクロールバー非表示
         $driver->executeScript(self::$hiddenScrollBarStyle);
@@ -103,7 +104,7 @@ class Screenshot
                 }
 
                 // 現在表示されている範囲のキャプチャをとる
-                $tmpFile = $filepath . sprintf($browser . '_tmp_%d_%d_', $rowCount, $colCount) . microtime(true) . '.png';
+                $tmpFile = $filepath . sprintf('tmp_%d_%d_', $rowCount, $colCount) . microtime(true) . '.png';
                 $driver->takeScreenshot($tmpFile);
 
                 $this->throwExceptionIfNotExistsFile($tmpFile, 'Could not save tmp screenshot');
@@ -184,17 +185,18 @@ class Screenshot
      * @param \Facebook\WebDriver\Remote\RemoteWebDriver $driver
      * @param string $filepath
      * @param string $filename Without extension
-     * @param string $browser
      * @param \SMB\Screru\Screenshot\Elements\SpecPool $specPool 取得したい要素のスペック
      * @param int $sleep Sleep for seconds
      * @return array キャプチャ画像ファイルパス
      * @throws \Facebook\WebDriver\Exception\TimeOutException
      * @link https://github.com/facebook/php-webdriver/wiki/taking-full-screenshot-and-of-an-element
      */
-    public function takeElement(RemoteWebDriver $driver, $filepath, $filename, $browser, SpecPool $specPool, $sleep=1)
+    public function takeElement(RemoteWebDriver $driver, $filepath, $filename, SpecPool $specPool, $sleep=1)
     {
         // 一旦全画面のキャプチャを撮る
-        $tmpFullScreenshot = $this->takeFull($driver, $filepath, $filename . '_tmp_' . microtime(true) . '.png', $browser, $sleep);
+        $_filename = $this->remove_extension($filename);
+        $tmpFullScreenshot = $this->takeFull($driver, $filepath, $_filename . '_tmp_' . microtime(true) . '.png', $sleep);
+
         // create image instances
         $src = imagecreatefrompng($tmpFullScreenshot);
 
@@ -239,7 +241,7 @@ class Screenshot
                 $elementSrcY = $element->getLocation()->getY();
 
                 $dest = imagecreatetruecolor($elementWidth, $elementHeight);
-                $captureFile = $this->normalizeFilePath($filepath) . $filename . '_' . $specIndex . '_' . $index . '.png';
+                $captureFile = $this->normalizeFilePath($filepath) . $_filename . '_' . $specIndex . '_' . $index . '.png';
 
                 $this->toPatchTheImage($captureFile, $dest, $src, 0, 0, $elementSrcX, $elementSrcY, $elementWidth, $elementHeight);
 
@@ -340,5 +342,15 @@ class Screenshot
     private function normalizeFilePath($filepath)
     {
         return rtrim($filepath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+    }
+
+    /**
+     * 拡張子の削除
+     * @param type $filename
+     * @return string
+     */
+    private function remove_extension($filename)
+    {
+        return preg_replace('/\.(png|jpg|jpeg|gif)$/i', '', $filename);
     }
 }

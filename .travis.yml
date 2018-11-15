@@ -10,8 +10,8 @@ cache:
 env:
   global:
     - DISPLAY=:99.0
-    - GECKODRIVER_VERSION="0.21.0"
-    - CHROMEDRIVER_VERSION="2.41"
+    - GECKODRIVER_VERSION="0.23.0"
+    - CHROMEDRIVER_VERSION="2.43"
     - FIREFOX_SELENIUM_SERVER_VERSION="3.8"
     - FIREFOX_JAR_FILE="selenium-server-standalone-3.8.1.jar"
     - CHROME_SELENIUM_SERVER_VERSION="3.8"
@@ -100,14 +100,12 @@ before_script:
 
   - until $(echo | nc localhost 4444); do sleep 1; echo Waiting for Selenium server on port 4444...; done; echo "Selenium server started"
 
-  - php -S 127.0.0.1:8000 -t tests/functional/web/ &>> ./tests/logs/php-server.log &
+  - php -S 127.0.0.1:8000 -t tests/web/ &>> ./tests/logs/php-server.log &
   - until $(echo | nc localhost 8000); do sleep 1; echo waiting for PHP server on port 8000...; done; echo "PHP server started"
 
-  - cp .env.example .env
-
 script:
-  - if [ "$BROWSER_NAME" = "firefox" ]; then sed -e "s/ENABLED_FIREFOX_HEADLESS=/ENABLED_FIREFOX_HEADLESS=true/" ./.env; fi
-  - if [ "$BROWSER_NAME" = "chrome" ]; then sed -e "s/ENABLED_FIREFOX_DRIVER=true/ENABLED_FIREFOX_DRIVER=/" -i -e "s/ENABLED_CHROME_DRIVER=/ENABLED_CHROME_DRIVER=true/" ./.env; fi
+  - if [ "$BROWSER_NAME" = "firefox" ]; then export ENABLED_CHROME_DRIVER=""; fi
+  - if [ "$BROWSER_NAME" = "chrome" ]; then export ENABLED_FIREFOX_DRIVER=""; fi
   - vendor/bin/phpunit --coverage-clover ./tests/logs/coverage-clover.xml
 
 after_success:

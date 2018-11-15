@@ -5,7 +5,7 @@ namespace SMB\Screru\Traits;
 use SMB\Screru\Wrapper\RemoteWebDriver;
 use SMB\Screru\Factory\DesiredCapabilities;
 use SMB\Screru\Exception\DisabledWebDriverException;
-use SMB\Screru\Exception\NotExistsWebDriverException;
+use SMB\Screru\Exception\NotSpecifiedWebDriverException;
 use SMB\Screru\Screenshot\Screenshot;
 use SMB\Screru\Elements\SpecPool;
 
@@ -220,7 +220,7 @@ trait Testable
         } catch (DisabledWebDriverException $e) {
             // テスト対象でないWebDriverの場合skipしておく
             $this->markTestSkipped($e->getMessage());
-        } catch (NotExistsWebDriverException $e) {
+        } catch (NotSpecifiedWebDriverException $e) {
             // 対象のWebDriverが設定されていなければskipしておく
             $this->markTestSkipped($e->getMessage());
         }
@@ -247,7 +247,7 @@ trait Testable
     protected function takeScreenshot(RemoteWebDriver $driver, $filename, $sleep=1, $dir='')
     {
         $path = $this->capturePath($dir);
-        return $this->createScreenshot()->take($driver, $path . $filename.'.png', $sleep);
+        return $this->createScreenshot()->take($driver, $path . $filename, $sleep);
     }
 
     /**
@@ -261,7 +261,7 @@ trait Testable
     protected function takeFullScreenshot(RemoteWebDriver $driver, $filename, $sleep=1, $dir='')
     {
         $path = $this->capturePath($dir);
-        return $this->createScreenshot()->takeFull($driver, $path, $filename.'.png', $this->capabilities->getBrowserName(), $sleep);
+        return $this->createScreenshot()->takeFull($driver, $path, $filename, $sleep);
     }
 
     /**
@@ -277,10 +277,26 @@ trait Testable
     {
         $path = $this->capturePath($dir);
         try {
-            return $this->createScreenshot()->takeElement($driver, $path, $filename, $this->capabilities->getBrowserName(), $specPool, $sleep);
+            return $this->createScreenshot()->takeElement($driver, $path, $filename, $specPool, $sleep);
         } catch (TimeOutException $e) {
             $this->fail($e->getMessage());
         }
+    }
+
+    /**
+     * アサーションが失敗したときのキャプチャ撮影を有効にする
+     */
+    protected function enableCaptureWhenAssertionFails()
+    {
+        $this->takeCaptureWhenAssertionFails = true;
+    }
+
+    /**
+     * アサーションが失敗したときのキャプチャ撮影を無効にする
+     */
+    protected function disableCaptureWhenAssertionFails()
+    {
+        $this->takeCaptureWhenAssertionFails = false;
     }
 
     /**
