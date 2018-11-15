@@ -33,96 +33,129 @@ Supports Firefox (WebDriverBrowserType::FIREFOX), Chrome (WebDriverBrowserType::
 
 ## Installation
 
+### Via composer.
+
 ```
 $ composer require shimabox/screru
-$ cd screru
-$ cp .env.example .env
+$ cd vendor/shimabox/screru
+$ cp .env.default .env
 ```
-or
+
+### Develop.
+
 ```
 $ git clone https://github.com/shimabox/screru.git
 $ cd screru
 $ composer install
-$ cp .env.example .env
 ```
 
-### ### macOS
+- Copy the `.env.default` file and create an `.env` file.
 
-- Operation confirmed in macOS High Sierra 10.13
+## Setting (.env | .env.default)
 
-#### selenium-server-standalone
-
-- selenium-server-standalone 3.8.1
-  - http://selenium-release.storage.googleapis.com/3.8/selenium-server-standalone-3.8.1.jar
-
-#### geckodriver
-
-- [geckodriver v0.21.0](https://github.com/mozilla/geckodriver/releases/tag/v0.21.0)
-  - https://github.com/mozilla/geckodriver/releases/download/v0.21.0/geckodriver-v0.21.0-macos.tar.gz
+If you need to change the default settings, copy the `.env.default` file, create an `.env` file, and modify the `.env` file.  
+The default setting looks at `.env.default` file.
 
 ```
-$ tar -zxvf geckodriver-v0.21.0-macos.tar.gz
-$ mv geckodriver /usr/local/bin/
-$ chmod +x /usr/local/bin/geckodriver
-```
+$ vim .env
 
-#### chromedriver
-
-- [chromedriver 2.41](https://chromedriver.storage.googleapis.com/index.html?path=2.41/ "")
-  - https://chromedriver.storage.googleapis.com/2.41/chromedriver_mac64.zip
-
-```
-$ unzip chromedriver_mac64.zip
-$ mv chromedriver /usr/local/bin/
-$ chmod +x /usr/local/bin/chromedriver
-```
-
-#### .env
-
-- Edit ```.env```
-```
-ENABLED_FIREFOX_DRIVER=true
+// selenium server url
+SELENIUM_SERVER_URL='http://localhost:4444/wd/hub'
+// you can override the default User-agent
+OVERRIDE_DEFAULT_USER_AGENT=''
+// local port
+LOCAL_PORT=8000
+// true to enable
 ENABLED_CHROME_DRIVER=true
+ENABLED_FIREFOX_DRIVER=true
+ENABLED_IE_DRIVER=
+// true to start headless chrome
+ENABLED_CHROME_HEADLESS=true
+// true to start headless firefox
+ENABLED_FIREFOX_HEADLESS=true
+// true to platform is windows
+IS_PLATFORM_WINDOWS=
+// describe the webdriver path if necessary
+CHROME_DRIVER_PATH=''
+FIREFOX_DRIVER_PATH=''
+IE_DRIVER_PATH=''
 ```
 
-#### Run
+|Key|Description|Default|Example|
+|:---|:---|:---|:---|
+|SELENIUM_SERVER_URL|selenium server url.|http://localhost:4444/wd/hub||
+|OVERRIDE_DEFAULT_USER_AGENT|you can override the default User-agent.|Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Mobile/15E148 Safari/604.1||
+|LOCAL_PORT|local port<br>It is for unittest.|8000||
+|ENABLED_CHROME_DRIVER|If true it will enable ChromeDriver.|true||
+|ENABLED_FIREFOX_DRIVER|If true it will enable geckodriver.|true||
+|ENABLED_IE_DRIVER|If true it will enable IEDriverServer.|blank(false)||
+|ENABLED_CHROME_HEADLESS|true to start headless chrome.|true||
+|ENABLED_FIREFOX_HEADLESS|true to start headless firefox.|true||
+|IS_PLATFORM_WINDOWS|true to platform is windows.<br>For windows, be sure to set to true.|blank(false)||
+|CHROME_DRIVER_PATH|Describe the webdriver path if necessary.|blank|/home/user/screru/chromedriver|
+|FIREFOX_DRIVER_PATH|Describe the webdriver path if necessary.|blank|/Applications/MAMP/htdocs/screru/geckodriver|
+|IE_DRIVER_PATH|Describe the webdriver path if necessary.|blank|/c/xampp/htdocs/screru/IEDriverServer.exe|
 
-1. Run selenium-server-standalone
+## Preparation
+
+Download selenium-server-standalone, ChromeDriver, geckodriver, IEDriverServer etc.
+
+|Platform|selenium-server-standalone|ChromeDriver|geckodriver|IEDriverServer|
+|:---|:---|:---|:---|:---|
+|Mac|[3.8.1](https://selenium-release.storage.googleapis.com/3.8/selenium-server-standalone-3.8.1.jar)|[2.43](https://chromedriver.storage.googleapis.com/2.43/chromedriver_mac64.zip)|[0.23.0](https://github.com/mozilla/geckodriver/releases/download/v0.23.0/geckodriver-v0.23.0-macos.tar.gz)|-|
+|Windows(64bit)|[3.8.1](https://selenium-release.storage.googleapis.com/3.8/selenium-server-standalone-3.8.1.jar)|[2.43](https://chromedriver.storage.googleapis.com/2.43/chromedriver_win32.zip)|[0.23.0](https://github.com/mozilla/geckodriver/releases/download/v0.23.0/geckodriver-v0.23.0-win64.zip)|[3.14.0](https://selenium-release.storage.googleapis.com/3.14/IEDriverServer_Win32_3.14.0.zip)|
+|Linux(CentOS 6.9)|[3.8.1](https://selenium-release.storage.googleapis.com/3.8/selenium-server-standalone-3.8.1.jar)|-|[0.23.0](https://github.com/mozilla/geckodriver/releases/download/v0.23.0/geckodriver-v0.23.0-linux64.tar.gz)|-|
+|Linux(Ubuntu trusty)|[3.8.1](https://selenium-release.storage.googleapis.com/3.8/selenium-server-standalone-3.8.1.jar)|[2.43](https://chromedriver.storage.googleapis.com/2.43/chromedriver_linux64.zip)|[0.23.0](https://github.com/mozilla/geckodriver/releases/download/v0.23.0/geckodriver-v0.23.0-linux64.tar.gz)|-|
+
+### Use downloader.
+
+- e.g) For Mac.
+```
+$ php selenium_downloader.php -p m -d . -s 3.8.1 -c 2.43 -g 0.23.0
+```
+- e.g) For Windows.
+```
+$ php selenium_downloader.php -p w -d . -s 3.8.1 -c 2.43 -g 0.23.0 -i 3.14.0
+```
+- e.g) For Linux.
+```
+$ php selenium_downloader.php -p l -d . -s 3.8.1 -g 0.23.0
+```
+
+@see [selenium-downloader/README.md at master · shimabox/selenium-downloader · GitHub](https://github.com/shimabox/selenium-downloader/blob/master/README.md "selenium-downloader/README.md at master · shimabox/selenium-downloader · GitHub")
+
+## ## macOS
+
+- Add the path to ChromeDriver and geckodriver to your Path environment variable.
+  - e.g) ChromeDriver
+  ```
+  $ mv chromedriver /usr/local/bin/
+  $ chmod +x /usr/local/bin/chromedriver
+  ```
+  - e.g) geckodriver
+  ```
+  $ mv geckodriver /usr/local/bin/
+  $ chmod +x /usr/local/bin/geckodriver
+  ```
+- Or, write the driver's path in the `.env` file  
+Please give execute permission (`chmod +x`)
+
+e.g)
+
+```
+CHROME_DRIVER_PATH=/Applications/MAMP/htdocs/screru/chromedriver
+FIREFOX_DRIVER_PATH=/Applications/MAMP/htdocs/screru/geckodriver
+```
+
+### Run selenium-server-standalone.
+
 ```
 $ java -jar selenium-server-standalone-3.8.1.jar -enablePassThrough false
 ```
-2. Run phpunit
-```
-$ vendor/bin/phpunit
-```
 
-### ### windows(64bit)
+## ## windows(64bit)
 
-#### selenium-server-standalone
-
-- selenium-server-standalone 3.8.1
-  - https://selenium-release.storage.googleapis.com/3.8/selenium-server-standalone-3.8.1.jar
-
-#### geckodriver.exe
-
-- [geckodriver v0.21.0](https://github.com/mozilla/geckodriver/releases/tag/v0.21.0)
-  - https://github.com/mozilla/geckodriver/releases/download/v0.21.0/geckodriver-v0.21.0-win64.zip
-    - Unzip the zip file...
-
-#### chromedriver.exe
-
-- [chromedriver 2.41](https://chromedriver.storage.googleapis.com/index.html?path=2.41/ "")
-  - https://chromedriver.storage.googleapis.com/2.41/chromedriver_win32.zip
-    - Unzip the zip file...
-
-#### IEDriverServer.exe
-
-- [IEDriverServer_x64_3.14.0.zip](https://selenium-release.storage.googleapis.com/index.html?path=3.14/)
-  - https://selenium-release.storage.googleapis.com/3.14/IEDriverServer_Win32_3.14.0.zip
-    - Key entry is faster here than 64 bit version(IEDriverServer_x64_3.14.0.zip)
-    - Unzip the zip file...
-
-#### .env
+### .env
 
 - Edit ```.env```
 ```
@@ -131,30 +164,38 @@ ENABLED_CHROME_DRIVER=true
 ENABLED_IE_DRIVER=true
 // true to platform is windows
 IS_PLATFORM_WINDOWS=true
-// webdriver path for IE
+// describe the webdriver path if necessary
 FIREFOX_DRIVER_PATH='your geckodriver.exe path'
 CHROME_DRIVER_PATH='your chromedriver.exe path'
 IE_DRIVER_PATH='your IEDriverServer.exe path'
 ```
 
-#### Run
+The value of `IS_PLATFORM_WINDOWS` must be set to `true`.
 
-1. Open ```cmd``` etc.
-2. Run selenium-server-standalone
-```shell
+### Run selenium-server-standalone.
+
+```
 $ java -jar selenium-server-standalone-3.8.1.jar -enablePassThrough false
 ```
-3. Open a new ```cmd``` etc.
-4. Run phpunit
+
+#### Note.
+
 ```
-$ vendor/bin/phpunit
+Facebook\WebDriver\Exception\SessionNotCreatedException: Unexpected error launching Internet Explorer.
+Protected Mode settings are not the same for all zones.
+Enable Protected Mode must be set to the same value (enabled or disabled) for all zones.
 ```
 
-### ### Linux
+When this error is displayed, please refer to the following link.
 
-- Operation confirmed in CentOS 6.9
+- [Rantings of a Selenium Contributor: You're Doing It Wrong: IE Protected Mode and WebDriver](http://jimevansmusic.blogspot.com/2012/08/youre-doing-it-wrong-protected-mode-and.html "Rantings of a Selenium Contributor: You're Doing It Wrong: IE Protected Mode and WebDriver")
+- [internet settings.png (2718×1068)](https://storage.googleapis.com/google-code-attachments/selenium/issue-1795/comment-66/internet%20settings.png "internet settings.png (2718×1068)")
 
-#### java
+It is solved by setting the security mode of IE Internet option to ON in all zones.
+
+## ## Linux (CentOS 6.9)
+
+### java
 
 - install
 ```
@@ -168,7 +209,7 @@ OpenJDK Runtime Environment (build 1.8.0_131-b11)
 OpenJDK 64-Bit Server VM (build 25.131-b11, mixed mode)
 ```
 
-#### Firefox
+### Firefox
 
 - install
 ```
@@ -178,13 +219,13 @@ or
 ```
 $ sudo yum -y update firefox
 ```
-- version 60.2.0
+- version 60.3.0
 ```
 $ firefox -v
-Mozilla Firefox 60.2.0
+Mozilla Firefox 60.3.0
 ```
 
-#### Xvfb
+### Xvfb
 
 - install
 ```
@@ -192,52 +233,59 @@ $ sudo yum -y install xorg-x11-server-Xvfb
 $ sudo yum -y groupinstall "Japanese Support"
 ```
 
-#### selenium-server-standalone
+### Path
 
-- selenium-server-standalone 3.8.1
-  - http://selenium-release.storage.googleapis.com/3.8/selenium-server-standalone-3.8.1.jar
+- Add the path to geckodriver to your Path environment variable.
+```
+$ mv geckodriver /usr/local/bin/
+$ chmod +x /usr/local/bin/geckodriver
+```
+- Or, write the driver's path in the `.env` file  
+Please give execute permission (`chmod +x`)
 
-#### geckodriver
-
-- [geckodriver v0.21.0](https://github.com/mozilla/geckodriver/releases/tag/v0.21.0)
-  - https://github.com/mozilla/geckodriver/releases/download/v0.21.0/geckodriver-v0.21.0-linux64.tar.gz
+e.g)
 
 ```
-$ tar -zxvf geckodriver-v0.21.0-linux64.tar.gz
-$ sudo mv geckodriver /usr/local/bin/
-$ sudo chmod +x /usr/local/bin/geckodriver
+FIREFOX_DRIVER_PATH=/home/user/screru/geckodriver
 ```
 
-#### .env
+### .env
 
 - Edit ```.env```
 ```
 ENABLED_FIREFOX_DRIVER=true
+ENABLED_CHROME_DRIVER=
+ENABLED_IE_DRIVER=
 ```
 
-#### Run
+### Run selenium-server-standalone.
 
 1. Run Xvfb & selenium-server-standalone
 ```
 $ sudo sh start_selenium.sh
 ```
-2. Run phpunit
-```
-$ vendor/bin/phpunit
-```
-3. Stop Xvfb & selenium-server-standalone & geckodriver
+2. Stop Xvfb & selenium-server-standalone & geckodriver
 ```
 $ sudo sh kill_selenium.sh
 ```
+
+## ## Linux (Ubuntu trusty)
+
+Please refer to this setting.  
+- [shimabox/screru - Travis CI](https://travis-ci.org/shimabox/screru "shimabox/screru - Travis CI")
 
 ## Usage
 
 - Basic Usage
 
 ```php
+<?php
 require_once '/vendor/autoload.php';
 
+use SMB\Screru\Elements\Spec;
+use SMB\Screru\Elements\SpecPool;
 use SMB\Screru\Factory\DesiredCapabilities;
+use SMB\Screru\Screenshot\Screenshot;
 use SMB\UrlStatus;
 
 use Facebook\WebDriver\Remote\RemoteWebDriver;
@@ -245,31 +293,41 @@ use Facebook\WebDriver\Remote\WebDriverBrowserType;
 use Facebook\WebDriver\WebDriverExpectedCondition;
 use Facebook\WebDriver\WebDriverBy;
 
-// Create firefox webdriver
+if (getenv('ENABLED_CHROME_DRIVER') !== 'true') {
+    die('Please enable ChromeDriver.');
+}
+
 $host = getenv('SELENIUM_SERVER_URL');
-$cap = new DesiredCapabilities(WebDriverBrowserType::FIREFOX);
+// Use chromedriver.
+$cap = new DesiredCapabilities(WebDriverBrowserType::CHROME);
 $driver = RemoteWebDriver::create($host, $cap->get());
+
+// Window size.
+$w = 600;
+$h = 800;
+$dimension = new WebDriverDimension($w, $h);
+$driver->manage()->window()->setSize($dimension);
 
 $url = 'https://www.google.com/webhp?gl=us&hl=en&gws_rd=cr';
 
-// 指定URLへ遷移 (Google)
+// Transit to designated URL (Google).
 $driver->get($url);
 
-// 検索Box
+// Search for elements.
 $findElement = $driver->findElement(WebDriverBy::name('q'));
-// 検索Boxにキーワードを入力して
+// Enter keywords in search box.
 $findElement->sendKeys('Hello');
-// 検索実行
+// Search execution.
 $findElement->submit();
 
-// 検索結果画面のタイトルが 'Hello - Google Search' になるまで10秒間待機する
-// 指定したタイトルにならずに10秒以上経ったら
-// 'Facebook\WebDriver\Exception\TimeOutException' がthrowされる
+// Wait 10 seconds for the contents to be visualized(Targeting '#botstuff').
+// If the specified element does not appear and it takes more than 10 seconds,
+// 'Facebook\WebDriver\Exception\TimeOutException' is thrown.
 $driver->wait(10)->until(
-    WebDriverExpectedCondition::titleIs('Hello - Google Search')
+    WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::id('botstuff'))
 );
 
-// Hello - Google Search というタイトルが取得できることを確認する
+// Confirm that the title "Hello - Google search" can be obtained
 if ($driver->getTitle() !== 'Hello - Google Search') {
     throw new Exception('fail $driver->getTitle()');
 }
@@ -280,7 +338,35 @@ if ($status->is200() === false) {
     throw new Exception('fail HttpStatus');
 }
 
-// close window
+/*
+ |------------------------------------------------------------------------------
+ | Capture test.
+ |------------------------------------------------------------------------------
+ */
+
+$fileName = 'capture_demo';
+$ds = DIRECTORY_SEPARATOR;
+$captureDirectoryPath = realpath(__DIR__ . $ds . 'capture') . $ds;
+
+// Create a Screenshot.
+$screenshot = new Screenshot();
+
+// Full screen capture (extension will be .png).
+$screenshot->takeFull($driver, $captureDirectoryPath, $fileName . '_full.png');
+
+// Define element selector.
+$spec = new Spec('.RNNXgb', Spec::GREATER_THAN_OR_EQUAL, 1);
+$spec2 = new Spec('.brs_col', Spec::GREATER_THAN, 1);
+
+// Push into SpecPool.
+$specPool = (new SpecPool())
+            ->addSpec($spec)
+            ->addSpec($spec2);
+
+// Element capture (extension is .png).
+$screenshot->takeElement($driver, $captureDirectoryPath, $fileName, $specPool);
+
+// Close window.
 $driver->close();
 ```
 
@@ -366,6 +452,13 @@ OVERRIDE_DEFAULT_USER_AGENT='Mozilla/5.0 (Linux; Android 7.1.1; Nexus 5X Build/N
         // do someting ...
     }
     ```
+    - or call the function below.
+    ```php
+    $this->enableCaptureWhenAssertionFails();
+
+    // To disable, call the following function
+    $this->disableCaptureWhenAssertionFails();
+    ```
 
 ## Headless Chrome
 
@@ -389,31 +482,29 @@ ENABLED_FIREFOX_HEADLESS=true
 
 ## Example
 
-- ``` $ php example/example_1.php ```
-- ``` $ php example/example_2.php ```
-  - For headless chrome.
-- ``` $ php example/example_3.php ```
-  - For headless firefox.
+- `$ php example/example_1.php`
+  - [example/example_1.php](https://github.com/shimabox/screru/blob/master/example/example_1.php)
+- For headless chrome.
+  - `$ php example/example_2.php`
+  - [example/example_2.php](https://github.com/shimabox/screru/blob/master/example/example_2.php)
+- For headless firefox.
+  - `$ php example/example_3.php`
+  - [example/example_3.php](https://github.com/shimabox/screru/blob/master/example/example_3.php)
 
 ## Testing
 
-### Start PHP's built-in Web Server
-
-- It is necessary for functional test
+### Start PHP's built-in Web Server.
 
 ```
-$ php -S 127.0.0.1:8000 -t tests/functional/web
+$ php -S 127.0.0.1:8000 -t tests/web
 ```
 
-### Run
+Match port with `.env` - `LOCAL_PORT`.
+
+### Run test.
 
 ```
 $ vendor/bin/phpunit
-```
-
-- To exclude functional tests
-```
-$ vendor/bin/phpunit --exclude-group functional
 ```
 
 ## License
