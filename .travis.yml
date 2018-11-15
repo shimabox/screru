@@ -107,6 +107,7 @@ script:
   - if [ "$BROWSER_NAME" = "firefox" ]; then sed -e "s/ENABLED_CHROME_DRIVER=true/ENABLED_CHROME_DRIVER=/" .env; fi
   - if [ "$BROWSER_NAME" = "chrome" ]; then sed -e "s/ENABLED_FIREFOX_DRIVER=true/ENABLED_FIREFOX_DRIVER=/" .env; fi
   - if [ -f .env ]; then cat .env; fi
+  - export ENABLED_FIREFOX_DRIVER=""
   - vendor/bin/phpunit --coverage-clover ./tests/logs/coverage-clover.xml
 
 after_success:
