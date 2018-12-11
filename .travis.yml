@@ -22,7 +22,7 @@ matrix:
     - php: 5.6
       env: BROWSER_NAME="firefox"
       addons:
-        firefox: "62.0"
+        firefox: "63.0.3"
         code_climate:
           repo_token: 3cd418d30ae5fc9443ffd2cb77e19ad9e2ee06eb6fca93363262349d54bbb8d7
     - php: 5.6
@@ -35,7 +35,7 @@ matrix:
     - php: 7.0
       env: BROWSER_NAME="firefox"
       addons:
-        firefox: "62.0"
+        firefox: "63.0.3"
         code_climate:
           repo_token: 3cd418d30ae5fc9443ffd2cb77e19ad9e2ee06eb6fca93363262349d54bbb8d7
     - php: 7.0
@@ -48,7 +48,7 @@ matrix:
     - php: 7.1
       env: BROWSER_NAME="firefox"
       addons:
-        firefox: "62.0"
+        firefox: "63.0.3"
         code_climate:
           repo_token: 3cd418d30ae5fc9443ffd2cb77e19ad9e2ee06eb6fca93363262349d54bbb8d7
     - php: 7.1
@@ -61,7 +61,7 @@ matrix:
     - php: 7.2
       env: BROWSER_NAME="firefox"
       addons:
-        firefox: "62.0"
+        firefox: "63.0.3"
         code_climate:
           repo_token: 3cd418d30ae5fc9443ffd2cb77e19ad9e2ee06eb6fca93363262349d54bbb8d7
     - php: 7.2
@@ -74,7 +74,7 @@ matrix:
     - php: nightly
       env: BROWSER_NAME="firefox"
       addons:
-        firefox: "62.0"
+        firefox: "63.0.3"
         code_climate:
           repo_token: 3cd418d30ae5fc9443ffd2cb77e19ad9e2ee06eb6fca93363262349d54bbb8d7
     - php: nightly
