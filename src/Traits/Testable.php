@@ -12,6 +12,7 @@ use SMB\Screru\Elements\SpecPool;
 use Facebook\WebDriver\WebDriverDimension;
 use Facebook\WebDriver\Exception\TimeOutException;
 use Facebook\WebDriver\Exception\NoSuchWindowException;
+use Facebook\WebDriver\Exception\WebDriverCurlException;
 
 /**
  * Testable
@@ -109,7 +110,10 @@ trait Testable
             $this->driver->quit();
         } catch (NoSuchWindowException $e) {
             // browser may have died
+        } catch (WebDriverCurlException $e) {
+            // Workaround for `Facebook\WebDriver\Exception\WebDriverCurlException: Curl error thrown for http DELETE`
         }
+
         $this->driver = null;
     }
 
@@ -132,7 +136,10 @@ trait Testable
             $this->driver->close();
         } catch (NoSuchWindowException $e) {
             // browser may have died
+        } catch (WebDriverCurlException $e) {
+            // Workaround for `Facebook\WebDriver\Exception\WebDriverCurlException: Curl error thrown for http DELETE`
         }
+
         $this->driver = null;
     }
 
