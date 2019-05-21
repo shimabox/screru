@@ -110,7 +110,10 @@ trait Testable
             $this->driver->quit();
         } catch (NoSuchWindowException $e) {
             // browser may have died
+        } catch (WebDriverCurlException $e) {
+            // Workaround for `Facebook\WebDriver\Exception\WebDriverCurlException: Curl error thrown for http DELETE`
         }
+
         $this->driver = null;
     }
 
