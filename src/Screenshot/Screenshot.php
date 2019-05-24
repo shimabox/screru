@@ -32,7 +32,7 @@ class Screenshot
 
         $driver->executeScript(self::$hiddenScrollBarStyle);
 
-        $_filename = $this->remove_extension($filename) . '.png';
+        $_filename = $this->removeExtension($filename) . '.png';
         $driver->takeScreenshot($_filename);
 
         $this->throwExceptionIfNotExistsFile($_filename, 'Could not save screenshot');
@@ -52,7 +52,7 @@ class Screenshot
     {
         (int)$sleep <= 0 ?: sleep((int)$sleep);
 
-        $_filename = $this->remove_extension($filename);
+        $_filename = $this->removeExtension($filename);
         $captureFile = $this->normalizeFilePath($filepath) . $_filename . '.png';
 
         // スクロールバー非表示
@@ -194,7 +194,7 @@ class Screenshot
     public function takeElement(RemoteWebDriver $driver, $filepath, $filename, SpecPool $specPool, $sleep=1)
     {
         // 一旦全画面のキャプチャを撮る
-        $_filename = $this->remove_extension($filename);
+        $_filename = $this->removeExtension($filename);
         $tmpFullScreenshot = $this->takeFull($driver, $filepath, $_filename . '_tmp_' . microtime(true) . '.png', $sleep);
 
         // create image instances
@@ -349,7 +349,7 @@ class Screenshot
      * @param type $filename
      * @return string
      */
-    private function remove_extension($filename)
+    private function removeExtension($filename)
     {
         return preg_replace('/\.(png|jpg|jpeg|gif)$/i', '', $filename);
     }
