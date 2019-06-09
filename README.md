@@ -482,14 +482,31 @@ ENABLED_FIREFOX_HEADLESS=true
 
 ## Example
 
-- `$ php example/example_1.php`
-  - [example/example_1.php](https://github.com/shimabox/screru/blob/master/example/example_1.php)
-- For headless chrome.
-  - `$ php example/example_2.php`
-  - [example/example_2.php](https://github.com/shimabox/screru/blob/master/example/example_2.php)
-- For headless firefox.
-  - `$ php example/example_3.php`
-  - [example/example_3.php](https://github.com/shimabox/screru/blob/master/example/example_3.php)
+- `$ php example/assertion_of_title.php`
+  - [example/assertion_of_title.php](https://github.com/shimabox/screru/blob/master/example/assertion_of_title.php)
+    - Execute a title assertion.
+- `$ php example/example.php`
+  - [example/example.php](https://github.com/shimabox/screru/blob/master/example/example.php)
+    1. Transit to designated URL (Google).
+    2. Perform fullscreen capture.
+    3. Perform screen element capture.
+- `$ php example/headless_chrome.php`
+  - [example/headless_chrome.php](https://github.com/shimabox/screru/blob/master/example/headless_chrome.php)
+    1. Transit to designated URL (Google).
+    2. Perform fullscreen capture.
+- `$ php example/headless_firefox.php`
+  - [example/headless_firefox.php](https://github.com/shimabox/screru/blob/master/example/headless_firefox.php)
+    1. Transit to designated URL (Google).
+    2. Perform fullscreen capture.
+- `$ php example/screenshot.php`
+  - [example/screenshot.php](https://github.com/shimabox/screru/blob/master/example/screenshot.php)
+    1. Transit to designated URL (Google).
+    2. Perform fullscreen capture.
+    3. Perform screen capture.
+- `$ php example/element_screenshot.php`
+  - [example/element_screenshot.php](https://github.com/shimabox/screru/blob/master/example/element_screenshot.php)
+    1. Transit to designated URL (Google).
+    2. Perform screen element capture.
 
 ## Testing
 
