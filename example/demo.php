@@ -72,10 +72,10 @@ $captureDirectoryPath = realpath(__DIR__ . $ds . 'capture') . $ds;
 $screenshot = new Screenshot();
 
 // Full screen capture (extension will be .png).
-$screenshot->takeFull($driver, $captureDirectoryPath, $fileName . '_full.png');
+$screenshot->takeFull($driver, $captureDirectoryPath, $fileName);
 
 // Define element selector.
-$spec = new Spec('.RNNXgb', Spec::GREATER_THAN_OR_EQUAL, 1);
+$spec = new Spec('.xpdopen', Spec::GREATER_THAN_OR_EQUAL, 1);
 $spec2 = new Spec('.brs_col', Spec::GREATER_THAN, 1);
 
 // Push into SpecPool.

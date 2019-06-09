@@ -12,15 +12,16 @@ use Facebook\WebDriver\WebDriverDimension;
 use Facebook\WebDriver\WebDriverExpectedCondition;
 
 /**
- * example 2
- *
  * Sample Headless Chrome
- *
+ * 
+ * 1. Transit to designated URL (Google).
+ * 2. Perform fullscreen capture.
+ * 
  * @param string $browser 'chrome'
  * @param array $size ['w' => xxx, 'h' => xxx]
  * @param string overrideUA override Useragent
  */
-function example_2($browser, array $size=[], $overrideUA = '')
+function headless_chrome($browser, array $size=[], $overrideUA = '')
 {
     // headless?
     $isHeadless = getenv('ENABLED_CHROME_HEADLESS') === 'true';
@@ -78,16 +79,16 @@ function example_2($browser, array $size=[], $overrideUA = '')
     $screenshot = new Screenshot();
 
     // Full screen capture (extension will be .png).
-    $screenshot->takeFull($driver, $captureDirectoryPath, $fileName . '.png');
+    $screenshot->takeFull($driver, $captureDirectoryPath, $fileName);
 
     // Close window.
     $driver->close();
 }
 
-// Size of iPhone 6.
-$size4iPhone6 = ['w' => 375, 'h' => 667];
+// Size of iPhone 6/7/8.
+$size4iPhone = ['w' => 375, 'h' => 667];
 
-//  UserAgent of iOS12.
+// UserAgent of iOS12.
 $ua4iOS = 'Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Mobile/15E148 Safari/604.1';
 
 // Only chrome.
@@ -95,11 +96,11 @@ if (getenv('ENABLED_CHROME_DRIVER') === 'true') {
 
     // headless
     putenv('ENABLED_CHROME_HEADLESS=true');
-    example_2(WebDriverBrowserType::CHROME);
-    example_2(WebDriverBrowserType::CHROME, $size4iPhone6, $ua4iOS);
+    headless_chrome(WebDriverBrowserType::CHROME);
+    headless_chrome(WebDriverBrowserType::CHROME, $size4iPhone, $ua4iOS);
 
     // not headless
     putenv('ENABLED_CHROME_HEADLESS=');
-    example_2(WebDriverBrowserType::CHROME);
-    example_2(WebDriverBrowserType::CHROME, $size4iPhone6, $ua4iOS);
+    headless_chrome(WebDriverBrowserType::CHROME);
+    headless_chrome(WebDriverBrowserType::CHROME, $size4iPhone, $ua4iOS);
 }

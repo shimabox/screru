@@ -15,13 +15,22 @@ use Facebook\WebDriver\WebDriverDimension;
 use Facebook\WebDriver\WebDriverExpectedCondition;
 
 /**
- * example 1
+ * example
+ * 
+ * 1. Transit to designated URL (Google).
+ * 2. Perform fullscreen capture.
+ * 3. Perform screen element capture.
+ * 
  * @param string $browser 'chrome' or 'firefox' or 'internet explorer'
  * @param array $size ['w' => xxx, 'h' => xxx]
  * @param string overrideUA true : override Useragent
  */
-function example_1($browser, array $size=[], $overrideUA = '')
+function example($browser, array $size=[], $overrideUA = '')
 {
+    // headless?
+    $isHeadless = getenv('ENABLED_CHROME_HEADLESS') === 'true' 
+                  || getenv('ENABLED_FIREFOX_HEADLESS') === 'true';
+
     // selenium
     $host = getenv('SELENIUM_SERVER_URL');
 
@@ -56,9 +65,15 @@ function example_1($browser, array $size=[], $overrideUA = '')
     // $driver->manage()->window()->maximize();
 
     // When the screen size is specified.
+    $dimension = null;
     if (isset($size['w']) && isset($size['h'])) {
         $dimension = new WebDriverDimension($size['w'], $size['h']);
         $driver->manage()->window()->setSize($dimension);
+    }
+
+    // When there is a specified size in headless mode.
+    if ($dimension !== null && $isHeadless) {
+        $cap->setWindowSizeInHeadless($dimension);
     }
 
     $url = 'https://www.google.com/webhp?gl=us&hl=en&gws_rd=cr';
@@ -79,7 +94,9 @@ function example_1($browser, array $size=[], $overrideUA = '')
     );
 
     // Capture settings.
-    $fileName = $overrideUA === '' ? __METHOD__ . "_{$browser}" : __METHOD__ . "_sp_{$browser}";
+    $suffix = $isHeadless ? '_headless' : '_not-headless';
+    $fileName = $overrideUA === '' ? __METHOD__ . "_{$browser}" . $suffix 
+                                   : __METHOD__ . "_sp_{$browser}" . $suffix;
     $ds = DIRECTORY_SEPARATOR;
     $captureDirectoryPath = realpath(__DIR__ . $ds . 'capture') . $ds;
 
@@ -87,10 +104,10 @@ function example_1($browser, array $size=[], $overrideUA = '')
     $screenshot = new Screenshot();
 
     // Full screen capture (extension will be .png).
-    $screenshot->takeFull($driver, $captureDirectoryPath, $fileName.'_full.png');
+    $screenshot->takeFull($driver, $captureDirectoryPath, $fileName.'_full');
 
     // Change specified element with 'pc' and 'sp'.
-    $selector = $overrideUA === '' ? '.RNNXgb' : '#sfcnt';
+    $selector = $overrideUA === '' ? '.xpdopen' : '#sfcnt';
     $selector2 = $overrideUA === '' ? '.brs_col' : '.uUPGi';
 
     // Define element selector.
@@ -102,7 +119,7 @@ function example_1($browser, array $size=[], $overrideUA = '')
                 ->addSpec($spec)
                 ->addSpec($spec2);
 
-    // Element capture (extension is .png).
+    // Element capture (extension will be .png).
     $screenshot->takeElement($driver, $captureDirectoryPath, $fileName, $specPool);
 
     // HttpStatus of url
@@ -115,8 +132,8 @@ function example_1($browser, array $size=[], $overrideUA = '')
     $driver->close();
 }
 
-// Size of iPhone 6.
-$size4iPhone6 = ['w' => 375, 'h' => 667];
+// Size of iPhone 6/7/8.
+$size4iPhone = ['w' => 375, 'h' => 667];
 
 // UserAgent of iOS12.
 $ua4iOS = 'Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Mobile/15E148 Safari/604.1';
@@ -127,19 +144,37 @@ $ua4iOS = 'Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/60
  |------------------------------------------------------------------------------
  */
 
+// initialize
+putenv('ENABLED_CHROME_HEADLESS=');
+putenv('ENABLED_FIREFOX_HEADLESS=');
+
 // chrome
 if (getenv('ENABLED_CHROME_DRIVER') === 'true') {
-    example_1(WebDriverBrowserType::CHROME);
-    example_1(WebDriverBrowserType::CHROME, $size4iPhone6, $ua4iOS);
+    // headless
+    putenv('ENABLED_CHROME_HEADLESS=true');
+    example(WebDriverBrowserType::CHROME);
+    example(WebDriverBrowserType::CHROME, $size4iPhone, $ua4iOS);
+
+    // not headless
+    putenv('ENABLED_CHROME_HEADLESS=');
+    example(WebDriverBrowserType::CHROME);
+    example(WebDriverBrowserType::CHROME, $size4iPhone, $ua4iOS);
 }
 
 // firefox
 if (getenv('ENABLED_FIREFOX_DRIVER') === 'true') {
-    example_1(WebDriverBrowserType::FIREFOX);
-    example_1(WebDriverBrowserType::FIREFOX, $size4iPhone6, $ua4iOS);
+    // headless
+    putenv('ENABLED_FIREFOX_HEADLESS=true');
+    example(WebDriverBrowserType::FIREFOX);
+    example(WebDriverBrowserType::FIREFOX, $size4iPhone, $ua4iOS);
+
+    // not headless
+    putenv('ENABLED_FIREFOX_HEADLESS=');
+    example(WebDriverBrowserType::FIREFOX);
+    example(WebDriverBrowserType::FIREFOX, $size4iPhone, $ua4iOS);
 }
 
 // ie
 if (getenv('ENABLED_IE_DRIVER') === 'true') {
-    example_1(WebDriverBrowserType::IE);
+    example(WebDriverBrowserType::IE);
 }
