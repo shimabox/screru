@@ -58,6 +58,7 @@ class ScreenshotTest extends \PHPUnit_Framework_TestCase
         $driver->get('http://localhost:' . getenv('LOCAL_PORT') . '/for_screenshot.php');
 
         // $driver->takeScreenshot()
+        // WebDriverDimensionに指定したサイズを無視するようになった ※Mac/chrome のみ
         $byTakeScreenshot = $this->target->take($driver, $path . $byTakeScreenshotFileName);
         $this->assertFileExists($byTakeScreenshot);
         $this->assertSame($path . $byTakeScreenshotFileName, $byTakeScreenshot);
@@ -71,7 +72,11 @@ class ScreenshotTest extends \PHPUnit_Framework_TestCase
         list($fullWidth, $fullHeight) = getimagesize($actual);
         list($byTakeScreenshotWidth, $byTakeScreenshotHeight) = getimagesize($byTakeScreenshot);
 
-        $this->assertTrue($fullWidth > $byTakeScreenshotWidth);
+        // Mac/chrome のみ, $driver->takeScreenshot() で撮った場合に
+        // WebDriverDimensionに指定したサイズを無視するようになった.
+        // ($driver->takeScreenshot() では横幅がフルサイズになってしまっている)
+        // そのため、フルサイズキャプチャのほうが$driver->takeScreenshot()で撮ったキャプチャより
+        // 縦幅サイズが大きくなっているかで確認する.
         $this->assertTrue($fullHeight > $byTakeScreenshotHeight);
 
         $this->deleteImageFiles($targetCaptureFiles);
@@ -104,6 +109,7 @@ class ScreenshotTest extends \PHPUnit_Framework_TestCase
         $driver->get('http://localhost:' . getenv('LOCAL_PORT') . '/for_screenshot.php');
 
         // $driver->takeScreenshot()
+        // WebDriverDimensionに指定したサイズを無視するようになった ※Mac/chrome のみ
         $byTakeScreenshot = $this->target->take($driver, $path . $byTakeScreenshotFileName . '.jpg');
         $this->assertFileExists($byTakeScreenshot);
         $this->assertSame($path . $byTakeScreenshotFileName . '.png', $byTakeScreenshot);
@@ -117,7 +123,11 @@ class ScreenshotTest extends \PHPUnit_Framework_TestCase
         list($fullWidth, $fullHeight) = getimagesize($actual);
         list($byTakeScreenshotWidth, $byTakeScreenshotHeight) = getimagesize($byTakeScreenshot);
 
-        $this->assertTrue($fullWidth > $byTakeScreenshotWidth);
+        // Mac/chrome のみ, $driver->takeScreenshot() で撮った場合に
+        // WebDriverDimensionに指定したサイズを無視するようになった.
+        // ($driver->takeScreenshot() では横幅がフルサイズになってしまっている)
+        // そのため、フルサイズキャプチャのほうが$driver->takeScreenshot()で撮ったキャプチャより
+        // 縦幅サイズが大きくなっているかで確認する.
         $this->assertTrue($fullHeight > $byTakeScreenshotHeight);
 
         $this->deleteImageFiles($targetCaptureFiles);
