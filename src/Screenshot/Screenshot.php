@@ -109,6 +109,9 @@ class Screenshot
 
                 $this->throwExceptionIfNotExistsFile($tmpFile, 'Could not save tmp screenshot');
 
+                // $driver->takeScreenshotで撮ったキャプチャのサイズがviewサイズと違っていたらリサイズする
+                $this->resizeCaptureFileToViewSize($tmpFile, $viewWidth, $viewHeight);
+
                 // 貼り付け元画像を作成
                 $src = imagecreatefrompng($tmpFile);
 
@@ -257,6 +260,38 @@ class Screenshot
         $this->deleteImageFile($tmpFullScreenshot);
 
         return $captureFileList;
+    }
+
+    /**
+     * $driver->takeScreenshotで撮ったキャプチャのサイズがviewサイズ(window.innerWidth, window.innerHeight)
+     * と違っていたらviewサイズにリサイズする
+     * 
+     * $driver->takeScreenshotで撮ったキャプチャのサイズがviewサイズと違っていると正しく全画面キャプチャができない
+     * 
+     * @param string $tmpCaptureFile $driver->takeScreenshotで撮ったキャプチャ
+     * @param int $viewWidth  viewの横幅(window.innerWidth)
+     * @param int $viewHeight viewの縦幅(window.innerHeight)
+     */
+    private function resizeCaptureFileToViewSize($tmpCaptureFile, $viewWidth, $viewHeight)
+    {
+        // キャプチャのサイズとviewサイズが一致していたら何もしない
+        list($width, $height) = getimagesize($tmpCaptureFile);
+        if ($width === $viewWidth && $height === $viewHeight) {
+            return;
+        }
+
+        // キャプチャのresource
+        $source = imagecreatefrompng($tmpCaptureFile);
+        // 新しく描画する画像resourceを作成
+        $dest = imagecreatetruecolor($width, $height);
+
+        // viewサイズにリサイズ
+        imagecopyresampled($dest, $source, 0, 0, 0, 0, $viewWidth, $viewHeight, $width, $height);
+        imagepng($dest, $tmpCaptureFile);
+
+        // destroy
+        imagedestroy($source);
+        imagedestroy($dest);
     }
 
     /**
