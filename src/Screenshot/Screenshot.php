@@ -4,6 +4,7 @@ namespace SMB\Screru\Screenshot;
 
 use SMB\Screru\Elements\SpecPool;
 use SMB\Screru\Elements\Spec;
+use SMB\Screru\View\Observable;
 
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriverBy;
@@ -18,6 +19,33 @@ class Screenshot
      * @var string
      */
     private static $hiddenScrollBarStyle = "document.getElementsByTagName('body')[0].style.overflow='hidden'";
+
+    /**
+     * オブザーバー
+     * @var Observable
+     */
+    private $observer;
+
+    /**
+     * オブザーバーのセット
+     * @param Observable $observer
+     * @return \SMB\Screru\Screenshot\Screenshot
+     */
+    public function setObserver(Observable $observer)
+    {
+        $this->observer = $observer;
+        return $this;
+    }
+
+    /**
+     * オブザーバーの削除
+     * @return \SMB\Screru\Screenshot\Screenshot
+     */
+    public function removeObserver()
+    {
+        $this->observer = null;
+        return $this;
+    }
 
     /**
      * 画面キャプチャ
@@ -103,6 +131,20 @@ class Screenshot
                     $driver->executeScript("window.scrollBy(". (string)$viewWidth . ", 0);");
                 }
 
+                // スクロール済の画面幅 + 現在表示中の幅 がコンテンツの右端(幅)に到達したか
+                $reachedContentsWidth = $this->toReachContentsWidth(($scrollWidth + $viewWidth), $contentsWidth);
+                // スクロール済の画面高さ + 現在表示中の高さ がコンテンツの下端(高さ)に到達したか
+                $reachedContentsHeight = $this->toReachContentsHeight(($scrollHeight + $viewHeight), $contentsHeight);
+
+                // 通知
+                $this->notify(
+                    $driver, 
+                    $contentsWidth, $contentsHeight, 
+                    $scrollWidth, $scrollHeight, 
+                    $reachedContentsWidth, $reachedContentsHeight,
+                    $rowCount
+                );
+
                 // 現在表示されている範囲のキャプチャをとる
                 $tmpFile = $filepath . sprintf('tmp_%d_%d_', $rowCount, $colCount) . microtime(true) . '.png';
                 $driver->takeScreenshot($tmpFile);
@@ -114,11 +156,6 @@ class Screenshot
 
                 // 貼り付け元画像を作成
                 $src = imagecreatefrompng($tmpFile);
-
-                // スクロール済の画面幅 + 現在表示中の幅 がコンテンツの右端(幅)に到達したか
-                $reachedContentsWidth = $this->toReachContentsWidth(($scrollWidth + $viewWidth), $contentsWidth);
-                // スクロール済の画面高さ + 現在表示中の高さ がコンテンツの下端(高さ)に到達したか
-                $reachedContentsHeight = $this->toReachContentsHeight(($scrollHeight + $viewHeight), $contentsHeight);
 
                 // スクロール量がコンテンツの右端か下端に到達したら画像を切り取ってimgFrameに貼り付ける
                 if ($reachedContentsWidth || $reachedContentsHeight) {
@@ -179,6 +216,15 @@ class Screenshot
         $this->throwExceptionIfNotExistsFile($captureFile, 'Could not save full screenshot');
 
         $this->destroyImage($imgFrame);
+
+        // キャプチャを撮り終えたらスクロールを戻しておく
+        // takeElementから呼ばれた場合にスティッキー(固定)ヘッダーなどの要素が指定されていると
+        // 一番下までスクロールされた状態で要素の座標が計算されてしまい意図したキャプチャが撮れない
+        $driver->executeScript(sprintf("window.scrollTo(%d, %d);", 0, 0));
+
+        if ($this->observer !== null) {
+            $this->observer->notifyRenderComplete($driver, $contentsWidth, $contentsHeight, $scrollWidth, $scrollHeight);
+        }
 
         return $captureFile;
     }
@@ -292,6 +338,63 @@ class Screenshot
         // destroy
         imagedestroy($source);
         imagedestroy($dest);
+    }
+
+    /**
+     * 通知
+     * @param RemoteWebDriver $driver
+     * @param int $contentsWidth
+     * @param int $contentsHeight
+     * @param int $scrollWidth
+     * @param int $scrollHeight
+     * @param int $reachedContentsWidth
+     * @param int $reachedContentsHeight
+     * @param int $rowCount
+     */
+    private function notify(
+        RemoteWebDriver $driver, 
+        $contentsWidth, 
+        $contentsHeight, 
+        $scrollWidth, 
+        $scrollHeight, 
+        $reachedContentsWidth, 
+        $reachedContentsHeight,
+        $rowCount
+    )
+    {
+        if ($this->observer === null) {
+            return;
+        }
+
+        if ($scrollWidth === 0 && $scrollHeight === 0) {
+            $this->observer->notifyFirstRender($driver, $contentsWidth, $contentsHeight, $scrollWidth, $scrollHeight);
+            return;
+        }
+
+        if ($reachedContentsWidth && $reachedContentsHeight) {
+            $this->observer->notifyLastRender($driver, $contentsWidth, $contentsHeight, $scrollWidth, $scrollHeight);
+            return;
+        }
+
+        if ($scrollHeight === 0 && $reachedContentsWidth) {
+            $this->observer->notifyThatViewWidthHasReachedEndForFirst($driver, $contentsWidth, $contentsHeight, $scrollWidth, $scrollHeight);
+            return;
+        }
+
+        if ($scrollWidth === 0 && $rowCount === 1) {
+            $this->observer->notifyFirstVerticalScroll($driver, $contentsWidth, $contentsHeight, $scrollWidth, $scrollHeight);
+            return;
+        }
+
+        if ($scrollWidth === 0 && $reachedContentsHeight) {
+            $this->observer->notifyThatViewHeightHasReachedEndForFirst($driver, $contentsWidth, $contentsHeight, $scrollWidth, $scrollHeight);
+            return;
+        }
+
+        if ($scrollWidth > 0 || $scrollHeight > 0) {
+            $this->observer->notifyScreenScroll($driver, $contentsWidth, $contentsHeight, $scrollWidth, $scrollHeight);
+            return;
+        }
     }
 
     /**

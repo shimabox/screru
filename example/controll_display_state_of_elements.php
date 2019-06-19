@@ -7,7 +7,6 @@ use SMB\Screru\Screenshot\Screenshot;
 use SMB\Screru\Elements\Spec;
 use SMB\Screru\Elements\SpecPool;
 use SMB\Screru\View\Observer;
-use SMB\UrlStatus;
 
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\Remote\WebDriverBrowserType;
@@ -16,7 +15,7 @@ use Facebook\WebDriver\WebDriverDimension;
 use Facebook\WebDriver\WebDriverExpectedCondition;
 
 /**
- * example
+ * controll display state of elements
  * 
  * 1. Transit to designated URL (Google).
  * 2. Perform fullscreen capture.
@@ -26,7 +25,7 @@ use Facebook\WebDriver\WebDriverExpectedCondition;
  * @param array $size ['w' => xxx, 'h' => xxx]
  * @param string overrideUA true : override Useragent
  */
-function example($browser, array $size=[], $overrideUA = '')
+function controll_display_state_of_elements($browser, array $size=[], $overrideUA = '')
 {
     // headless?
     $isHeadless = getenv('ENABLED_CHROME_HEADLESS') === 'true' 
@@ -119,29 +118,19 @@ function example($browser, array $size=[], $overrideUA = '')
     $screenshot->setObserver($observer);
 
     // Full screen capture (extension will be .png).
-    $screenshot->takeFull($driver, $captureDirectoryPath, $fileName.'_full');
+    $screenshot->takeFull($driver, $captureDirectoryPath, $fileName.'_fullscreen');
 
     // Change specified element with 'pc' and 'sp'.
     $selector = $overrideUA === '' ? '.RNNXgb' : '#sfcnt';
-    $selector2 = $overrideUA === '' ? '.brs_col' : '.uUPGi';
 
     // Define element selector.
     $spec = new Spec($selector, Spec::EQUAL, 1);
-    $spec2 = new Spec($selector2, Spec::GREATER_THAN, 1);
 
     // Push into SpecPool.
-    $specPool = (new SpecPool())
-                ->addSpec($spec)
-                ->addSpec($spec2);
+    $specPool = (new SpecPool())->addSpec($spec);
 
     // Element capture (extension will be .png).
     $screenshot->takeElement($driver, $captureDirectoryPath, $fileName, $specPool);
-
-    // HttpStatus of url
-    $status = UrlStatus::get($driver->getCurrentURL());
-    if ($status->is200() === false) {
-        throw new Exception('fail');
-    }
 
     // Close window.
     $driver->close();
@@ -167,29 +156,29 @@ putenv('ENABLED_FIREFOX_HEADLESS=');
 if (getenv('ENABLED_CHROME_DRIVER') === 'true') {
     // headless
     putenv('ENABLED_CHROME_HEADLESS=true');
-    example(WebDriverBrowserType::CHROME);
-    example(WebDriverBrowserType::CHROME, $size4iPhone, $ua4iOS);
+    controll_display_state_of_elements(WebDriverBrowserType::CHROME);
+    controll_display_state_of_elements(WebDriverBrowserType::CHROME, $size4iPhone, $ua4iOS);
 
     // not headless
     putenv('ENABLED_CHROME_HEADLESS=');
-    example(WebDriverBrowserType::CHROME);
-    example(WebDriverBrowserType::CHROME, $size4iPhone, $ua4iOS);
+    controll_display_state_of_elements(WebDriverBrowserType::CHROME);
+    controll_display_state_of_elements(WebDriverBrowserType::CHROME, $size4iPhone, $ua4iOS);
 }
 
 // firefox
 if (getenv('ENABLED_FIREFOX_DRIVER') === 'true') {
     // headless
     putenv('ENABLED_FIREFOX_HEADLESS=true');
-    example(WebDriverBrowserType::FIREFOX);
-    example(WebDriverBrowserType::FIREFOX, $size4iPhone, $ua4iOS);
+    controll_display_state_of_elements(WebDriverBrowserType::FIREFOX);
+    controll_display_state_of_elements(WebDriverBrowserType::FIREFOX, $size4iPhone, $ua4iOS);
 
     // not headless
     putenv('ENABLED_FIREFOX_HEADLESS=');
-    example(WebDriverBrowserType::FIREFOX);
-    example(WebDriverBrowserType::FIREFOX, $size4iPhone, $ua4iOS);
+    controll_display_state_of_elements(WebDriverBrowserType::FIREFOX);
+    controll_display_state_of_elements(WebDriverBrowserType::FIREFOX, $size4iPhone, $ua4iOS);
 }
 
 // ie
 if (getenv('ENABLED_IE_DRIVER') === 'true') {
-    example(WebDriverBrowserType::IE);
+    controll_display_state_of_elements(WebDriverBrowserType::IE);
 }
