@@ -805,11 +805,20 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $screenshot = new Screenshot();
 
         $observer = new Observer;
+        $observer->processForFirstRender(function($driver) {
+            $elements = $driver->findElements(WebDriverBy::cssSelector('.navbar'));
+            $this->assertCount(1, $elements);
+            $this->assertTrue($elements[0]->isDisplayed());
+        });
         $observer->processForFirstVerticalScroll(function($driver) {
             $driver->executeScript("document.querySelector('.navbar') ? document.querySelector('.navbar').style.display = 'none' : null;");
+            $elem = $driver->findElements(WebDriverBy::cssSelector('.navbar'))[0];
+            $this->assertFalse($elem->isDisplayed());
         });
         $observer->processForRenderComplete(function($driver) {
             $driver->executeScript("document.querySelector('.navbar') ? document.querySelector('.navbar').style.display = 'inherit' : null;");
+            $elem = $driver->findElements(WebDriverBy::cssSelector('.navbar'))[0];
+            $this->assertTrue($elem->isDisplayed());
         });
 
         $screenshot->setObserver($observer);
