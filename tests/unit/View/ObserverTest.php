@@ -26,10 +26,20 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         tearDown as protected traitTearDown;
     }
 
-    /**
-     * @var int
-     */
-    private $count_of_observer_calls = 0;
+    /** @var int */
+    private $count_of_times_processForFirstRender_was_called = 0;
+    /** @var int */
+    private $count_of_times_processForScreenScroll_was_called = 0;
+    /** @var int */
+    private $count_of_times_processForViewWidthHasReachedEndForFirst_was_called = 0;
+    /** @var int */
+    private $count_of_times_processForFirstVerticalScroll_was_called = 0;
+    /** @var int */
+    private $count_of_times_processForViewHeightHasReachedEndForFirst_was_called = 0;
+    /** @var int */
+    private $count_of_times_processForLastRender_was_called = 0;
+    /** @var int */
+    private $count_of_times_processForRenderComplete_was_called = 0;
 
     /**
      * setUp
@@ -38,7 +48,13 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->count_of_observer_calls = 0;
+        $this->count_of_times_processForFirstRender_was_called = 0;
+        $this->count_of_times_processForScreenScroll_was_called = 0;
+        $this->count_of_times_processForViewWidthHasReachedEndForFirst_was_called = 0;
+        $this->count_of_times_processForFirstVerticalScroll_was_called = 0;
+        $this->count_of_times_processForViewHeightHasReachedEndForFirst_was_called = 0;
+        $this->count_of_times_processForLastRender_was_called = 0;
+        $this->count_of_times_processForRenderComplete_was_called = 0;
     }
 
     /**
@@ -76,31 +92,31 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $observer->processForFirstRender(function($driver, $contentsWidth, $contentsHeight, $scrolledWidth, $scrolledHeight){
             $this->parameter_verification($driver, $contentsWidth, $contentsHeight, $scrolledWidth, $scrolledHeight);
-            $this->count_of_observer_calls++;
+            $this->count_of_times_processForFirstRender_was_called++;
         });
         $observer->processForScreenScroll(function($driver, $contentsWidth, $contentsHeight, $scrolledWidth, $scrolledHeight){
             $this->parameter_verification($driver, $contentsWidth, $contentsHeight, $scrolledWidth, $scrolledHeight);
-            $this->count_of_observer_calls++;
+            $this->count_of_times_processForScreenScroll_was_called++;
         });
         $observer->processForViewWidthHasReachedEndForFirst(function($driver, $contentsWidth, $contentsHeight, $scrolledWidth, $scrolledHeight){
             $this->parameter_verification($driver, $contentsWidth, $contentsHeight, $scrolledWidth, $scrolledHeight);
-            $this->count_of_observer_calls++;
+            $this->count_of_times_processForViewWidthHasReachedEndForFirst_was_called++;
         });
         $observer->processForFirstVerticalScroll(function($driver, $contentsWidth, $contentsHeight, $scrolledWidth, $scrolledHeight){
             $this->parameter_verification($driver, $contentsWidth, $contentsHeight, $scrolledWidth, $scrolledHeight);
-            $this->count_of_observer_calls++;
+            $this->count_of_times_processForFirstVerticalScroll_was_called++;
         });
         $observer->processForViewHeightHasReachedEndForFirst(function($driver, $contentsWidth, $contentsHeight, $scrolledWidth, $scrolledHeight){
             $this->parameter_verification($driver, $contentsWidth, $contentsHeight, $scrolledWidth, $scrolledHeight);
-            $this->count_of_observer_calls++;
+            $this->count_of_times_processForViewHeightHasReachedEndForFirst_was_called++;
         });
         $observer->processForLastRender(function($driver, $contentsWidth, $contentsHeight, $scrolledWidth, $scrolledHeight){
             $this->parameter_verification($driver, $contentsWidth, $contentsHeight, $scrolledWidth, $scrolledHeight);
-            $this->count_of_observer_calls++;
+            $this->count_of_times_processForLastRender_was_called++;
         });
         $observer->processForRenderComplete(function($driver, $contentsWidth, $contentsHeight, $scrolledWidth, $scrolledHeight){
             $this->parameter_verification($driver, $contentsWidth, $contentsHeight, $scrolledWidth, $scrolledHeight);
-            $this->count_of_observer_calls++;
+            $this->count_of_times_processForRenderComplete_was_called++;
         });
 
         $path = $this->capturePath();
@@ -116,7 +132,22 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $screenshot->setObserver($observer);
         $screenshot->takeFull($driver, $path, $captureFileName);
 
-        $this->assertEquals($this->count_of_observer_calls, 10);
+        $this->assertTrue($this->count_of_times_processForFirstRender_was_called === 1);
+        $this->assertTrue($this->count_of_times_processForScreenScroll_was_called >= 1);
+        $this->assertTrue($this->count_of_times_processForViewWidthHasReachedEndForFirst_was_called === 1);
+        $this->assertTrue($this->count_of_times_processForFirstVerticalScroll_was_called === 1);
+        $this->assertTrue($this->count_of_times_processForViewHeightHasReachedEndForFirst_was_called === 1);
+        $this->assertTrue($this->count_of_times_processForLastRender_was_called === 1);
+        $this->assertTrue($this->count_of_times_processForRenderComplete_was_called === 1);
+
+        // initialize.
+        $this->count_of_times_processForFirstRender_was_called = 0;
+        $this->count_of_times_processForScreenScroll_was_called = 0;
+        $this->count_of_times_processForViewWidthHasReachedEndForFirst_was_called = 0;
+        $this->count_of_times_processForFirstVerticalScroll_was_called = 0;
+        $this->count_of_times_processForViewHeightHasReachedEndForFirst_was_called = 0;
+        $this->count_of_times_processForLastRender_was_called = 0;
+        $this->count_of_times_processForRenderComplete_was_called = 0;
 
         // clear observer.
         $observer->clearProcessForFirstRender();
@@ -127,13 +158,16 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $observer->clearProcessForLastRender();
         $observer->clearProcessForRenderComplete();
 
-        // initialize.
-        $this->count_of_observer_calls = 0;
-
-        $screenshot->setObserver($observer);
+        // retake.
         $screenshot->takeFull($driver, $path, $captureFileName2);
 
-        $this->assertEquals($this->count_of_observer_calls, 0);
+        $this->assertEquals($this->count_of_times_processForFirstRender_was_called, 0);
+        $this->assertEquals($this->count_of_times_processForScreenScroll_was_called, 0);
+        $this->assertEquals($this->count_of_times_processForViewWidthHasReachedEndForFirst_was_called, 0);
+        $this->assertEquals($this->count_of_times_processForFirstVerticalScroll_was_called, 0);
+        $this->assertEquals($this->count_of_times_processForViewHeightHasReachedEndForFirst_was_called, 0);
+        $this->assertEquals($this->count_of_times_processForLastRender_was_called, 0);
+        $this->assertEquals($this->count_of_times_processForRenderComplete_was_called, 0);
 
         $this->deleteImageFiles($targetCaptureFiles);
     }
