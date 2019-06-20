@@ -67,7 +67,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         }
 
         $cap = $this->createCapabilities(WebDriverBrowserType::CHROME);
-        $dimension = $this->createDimension(['w' => 500, 'h' => 300]);
+        $dimension = $this->createDimension(['w' => 500, 'h' => 250]);
 
         $driver = $this->createDriver($cap, $dimension);
         $driver->get('http://localhost:' . getenv('LOCAL_PORT') . '/for_observer.php');
