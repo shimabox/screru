@@ -110,7 +110,7 @@ function controll_display_state_of_elements($browser, array $size=[], $overrideU
         $driver->executeScript("document.querySelector('#searchform') ? document.querySelector('#searchform').style.display = 'none' : null;");
     });
     // Undo when rendering is complete.
-    $observer->processForRenderComplete(function($driver,$contentsWidth, $contentsHeight, $scrollWidth, $scrollHeight) {
+    $observer->processForRenderComplete(function($driver) {
         $driver->executeScript("document.querySelector('#searchform') ? document.querySelector('#searchform').style.display = 'inherit' : null;");
     });
 
