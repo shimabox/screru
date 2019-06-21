@@ -23,50 +23,66 @@ matrix:
       env: BROWSER_NAME="firefox"
       addons:
         firefox: latest
+        code_climate:
+          repo_token: 3cd418d30ae5fc9443ffd2cb77e19ad9e2ee06eb6fca93363262349d54bbb8d7
     - php: 5.6
       env: BROWSER_NAME="chrome"
       addons:
         chrome: stable
+        code_climate:
+          repo_token: 3cd418d30ae5fc9443ffd2cb77e19ad9e2ee06eb6fca93363262349d54bbb8d7
 
     - php: 7.0
       env: BROWSER_NAME="firefox"
       addons:
         firefox: latest
+        code_climate:
+          repo_token: 3cd418d30ae5fc9443ffd2cb77e19ad9e2ee06eb6fca93363262349d54bbb8d7
     - php: 7.0
       env: BROWSER_NAME="chrome"
       addons:
         chrome: stable
+        code_climate:
+          repo_token: 3cd418d30ae5fc9443ffd2cb77e19ad9e2ee06eb6fca93363262349d54bbb8d7
 
     - php: 7.1
       env: BROWSER_NAME="firefox"
       addons:
         firefox: latest
+        code_climate:
+          repo_token: 3cd418d30ae5fc9443ffd2cb77e19ad9e2ee06eb6fca93363262349d54bbb8d7
     - php: 7.1
       env: BROWSER_NAME="chrome"
       addons:
         chrome: stable
+        code_climate:
+          repo_token: 3cd418d30ae5fc9443ffd2cb77e19ad9e2ee06eb6fca93363262349d54bbb8d7
 
     - php: 7.2
       env: BROWSER_NAME="firefox"
       addons:
         firefox: latest
+        code_climate:
+          repo_token: 3cd418d30ae5fc9443ffd2cb77e19ad9e2ee06eb6fca93363262349d54bbb8d7
     - php: 7.2
       env: BROWSER_NAME="chrome"
       addons:
         chrome: stable
+        code_climate:
+          repo_token: 3cd418d30ae5fc9443ffd2cb77e19ad9e2ee06eb6fca93363262349d54bbb8d7
 
     - php: 7.3
       env: BROWSER_NAME="firefox"
       addons:
         firefox: latest
+        code_climate:
+          repo_token: 3cd418d30ae5fc9443ffd2cb77e19ad9e2ee06eb6fca93363262349d54bbb8d7
     - php: 7.3
       env: BROWSER_NAME="chrome"
       addons:
         chrome: stable
-
-addons:
-  code_climate:
-    repo_token: 3cd418d30ae5fc9443ffd2cb77e19ad9e2ee06eb6fca93363262349d54bbb8d7
+        code_climate:
+          repo_token: 3cd418d30ae5fc9443ffd2cb77e19ad9e2ee06eb6fca93363262349d54bbb8d7
 
 before_script:
   - if [ "$BROWSER_NAME" = "firefox" ]; then sh -e /etc/init.d/xvfb start; fi
