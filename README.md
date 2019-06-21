@@ -17,6 +17,7 @@ It provides the following functions.
 - Full screenshot
   - Capture can be done when the assertion fails
 - Screenshot of element
+- Can control the style of the element when scrolling the screen in screen capture.
 
 Supports Firefox (WebDriverBrowserType::FIREFOX), Chrome (WebDriverBrowserType::CHROME) and IE (WebDriverBrowserType::IE).
 
@@ -103,7 +104,7 @@ Download selenium-server-standalone, ChromeDriver, geckodriver, IEDriverServer e
 |Platform|selenium-server-standalone|ChromeDriver|geckodriver|IEDriverServer|
 |:---|:---|:---|:---|:---|
 |Mac|[3.8.1](https://selenium-release.storage.googleapis.com/3.8/selenium-server-standalone-3.8.1.jar)|[75.0.3770.90](https://chromedriver.storage.googleapis.com/75.0.3770.90/chromedriver_mac64.zip)|[0.24.0](https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-macos.tar.gz)|-|
-|Windows(64bit)|[3.8.1](https://selenium-release.storage.googleapis.com/3.8/selenium-server-standalone-3.8.1.jar)|[75.0.3770.90](https://chromedriver.storage.googleapis.com/75.0.3770.90/chromedriver_win32.zip)|[0.24.0](https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-win64.zip)|[3.14.0](https://selenium-release.storage.googleapis.com/3.14/IEDriverServer_Win32_3.14.0.zip)|
+|Windows(64bit)|[3.8.1](https://selenium-release.storage.googleapis.com/3.8/selenium-server-standalone-3.8.1.jar)|[75.0.3770.90](https://chromedriver.storage.googleapis.com/75.0.3770.90/chromedriver_win32.zip)|[0.24.0](https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-win64.zip)|[3.141.59](https://selenium-release.storage.googleapis.com/3.141/IEDriverServer_Win32_3.141.59.zip)|
 |Linux(CentOS 6.9)|[3.8.1](https://selenium-release.storage.googleapis.com/3.8/selenium-server-standalone-3.8.1.jar)|-|[0.24.0](https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz)|-|
 |Linux(Ubuntu trusty)|[3.8.1](https://selenium-release.storage.googleapis.com/3.8/selenium-server-standalone-3.8.1.jar)|[75.0.3770.90](https://chromedriver.storage.googleapis.com/75.0.3770.90/chromedriver_linux64.zip)|[0.24.0](https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz)|-|
 
@@ -115,7 +116,7 @@ $ php selenium_downloader.php -p m -d . -s 3.8.1 -c 75.0.3770.90 -g 0.24.0
 ```
 - e.g) For Windows.
 ```
-$ php selenium_downloader.php -p w -d . -s 3.8.1 -c 75.0.3770.90 -g 0.24.0 -i 3.14.0
+$ php selenium_downloader.php -p w -d . -s 3.8.1 -c 75.0.3770.90 -g 0.24.0 -i 3.141.59
 ```
 - e.g) For Linux.
 ```
@@ -276,7 +277,7 @@ Please refer to this setting.
 
 ## Usage
 
-- Basic Usage
+- Basic Usage.
 
 ```php
 <?php
@@ -286,12 +287,14 @@ use SMB\Screru\Elements\Spec;
 use SMB\Screru\Elements\SpecPool;
 use SMB\Screru\Factory\DesiredCapabilities;
 use SMB\Screru\Screenshot\Screenshot;
+use SMB\Screru\View\Observer;
 use SMB\UrlStatus;
 
+use Facebook\WebDriver\WebDriverBy;
+use Facebook\WebDriver\WebDriverDimension;
+use Facebook\WebDriver\WebDriverExpectedCondition;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\Remote\WebDriverBrowserType;
-use Facebook\WebDriver\WebDriverExpectedCondition;
-use Facebook\WebDriver\WebDriverBy;
 
 if (getenv('ENABLED_CHROME_DRIVER') !== 'true') {
     die('Please enable ChromeDriver.');
@@ -351,11 +354,31 @@ $captureDirectoryPath = realpath(__DIR__ . $ds . 'capture') . $ds;
 // Create a Screenshot.
 $screenshot = new Screenshot();
 
+/*
+ |------------------------------------------------------------------------------
+ | Create an Observer if you want to control the style of the element when scrolling the screen.
+ |------------------------------------------------------------------------------
+ */
+// Create a Observer.
+$observer = new Observer();
+
+// Erase the following header (sticky header) when vertical scrolling is performed for the first time.
+$observer->processForFirstVerticalScroll(function($driver) {
+    $driver->executeScript("document.querySelector('#searchform') ? document.querySelector('#searchform').style.display = 'none' : null;");
+});
+// Undo when rendering is complete.
+$observer->processForRenderComplete(function($driver) {
+    $driver->executeScript("document.querySelector('#searchform') ? document.querySelector('#searchform').style.display = 'inherit' : null;");
+});
+
+// Set Observer to Screenshot.
+$screenshot->setObserver($observer);
+
 // Full screen capture (extension will be .png).
 $screenshot->takeFull($driver, $captureDirectoryPath, $fileName . '_full.png');
 
 // Define element selector.
-$spec = new Spec('.RNNXgb', Spec::GREATER_THAN_OR_EQUAL, 1);
+$spec = new Spec('.RNNXgb', Spec::EQUAL, 1);
 $spec2 = new Spec('.brs_col', Spec::GREATER_THAN, 1);
 
 // Push into SpecPool.
@@ -370,7 +393,13 @@ $screenshot->takeElement($driver, $captureDirectoryPath, $fileName, $specPool);
 $driver->close();
 ```
 
-- When you want to change the default selenium server url
+- Control the style of the element when scrolling the screen.
+  - @see [screru/Observable.php at master · shimabox/screru](https://github.com/shimabox/screru/blob/master/src/View/Observable.php "screru/Observable.php at master · shimabox/screru")
+  - @see [screru/Observer.php at master · shimabox/screru](https://github.com/shimabox/screru/blob/master/src/View/Observer.php "screru/Observer.php at master · shimabox/screru")
+  - @see [example/controll_display_state_of_elements.php](https://github.com/shimabox/screru/blob/master/example/controll_display_state_of_elements.php)
+
+
+- When you want to change the default selenium server url.
 
 ```
 $ vim .env
@@ -379,7 +408,7 @@ $ vim .env
 SELENIUM_SERVER_URL='your selenium server url'
 ```
 
-- When you want to change the default UserAgent
+- When you want to change the default UserAgent.
 
 ```
 $ vim .env
@@ -388,7 +417,7 @@ $ vim .env
 OVERRIDE_DEFAULT_USER_AGENT='Mozilla/5.0 (Linux; Android 7.1.1; Nexus 5X Build/N4F26I) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.91 Mobile Safari/537.36'
 ```
 
-- When using with PHPUnit
+- When using with PHPUnit.
   - ```use \SMB\Screru\Traits\Testable```
   ```php
   class Sample extends \PHPUnit_Framework_TestCase
@@ -419,7 +448,7 @@ OVERRIDE_DEFAULT_USER_AGENT='Mozilla/5.0 (Linux; Android 7.1.1; Nexus 5X Build/N
   }
   ```
 
-  - If you want to capture when an assertion fails
+  - If you want to capture when an assertion fails.
     - ```takeCaptureWhenAssertionFails = true;```
     ```php
     class Sample extends \PHPUnit_Framework_TestCase
@@ -507,6 +536,12 @@ ENABLED_FIREFOX_HEADLESS=true
   - [example/element_screenshot.php](https://github.com/shimabox/screru/blob/master/example/element_screenshot.php)
     1. Transit to designated URL (Google).
     2. Perform screen element capture.
+- `$ php example/controll_display_state_of_elements.php`
+  - [example/controll_display_state_of_elements.php](https://github.com/shimabox/screru/blob/master/example/controll_display_state_of_elements.php)
+    1. Transit to designated URL (Google).
+    2. Perform fullscreen capture.
+      - Control the style of the element when scrolling the screen.
+    3. Perform screen element capture.
 
 ## Testing
 
