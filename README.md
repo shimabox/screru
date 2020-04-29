@@ -103,7 +103,7 @@ Download selenium-server-standalone, ChromeDriver, geckodriver, IEDriverServer e
 
 |Platform|selenium-server-standalone|ChromeDriver|geckodriver|IEDriverServer|
 |:---|:---|:---|:---|:---|
-|Mac|[3.8.1](https://selenium-release.storage.googleapis.com/3.8/selenium-server-standalone-3.8.1.jar)|[79.0.3945.36](https://chromedriver.storage.googleapis.com/79.0.3945.36/chromedriver_mac64.zip)|[0.26.0](https://github.com/mozilla/geckodriver/releases/download/v0.26.0/geckodriver-v0.26.0-macos.tar.gz)|-|
+|Mac|[3.8.1](https://selenium-release.storage.googleapis.com/3.8/selenium-server-standalone-3.8.1.jar)|[81.0.4044.69](https://chromedriver.storage.googleapis.com/81.0.4044.69/chromedriver_mac64.zip)|[0.26.0](https://github.com/mozilla/geckodriver/releases/download/v0.26.0/geckodriver-v0.26.0-macos.tar.gz)|-|
 |Windows(64bit)|[3.8.1](https://selenium-release.storage.googleapis.com/3.8/selenium-server-standalone-3.8.1.jar)|[75.0.3770.90](https://chromedriver.storage.googleapis.com/75.0.3770.90/chromedriver_win32.zip)|[0.24.0](https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-win64.zip)|[3.141.59](https://selenium-release.storage.googleapis.com/3.141/IEDriverServer_Win32_3.141.59.zip)|
 |Linux(CentOS 6.9)|[3.8.1](https://selenium-release.storage.googleapis.com/3.8/selenium-server-standalone-3.8.1.jar)|-|[0.24.0](https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz)|-|
 |Linux(Ubuntu trusty)|[3.8.1](https://selenium-release.storage.googleapis.com/3.8/selenium-server-standalone-3.8.1.jar)|[75.0.3770.90](https://chromedriver.storage.googleapis.com/75.0.3770.90/chromedriver_linux64.zip)|[0.24.0](https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz)|-|
@@ -112,7 +112,7 @@ Download selenium-server-standalone, ChromeDriver, geckodriver, IEDriverServer e
 
 - e.g) For Mac.
 ```
-$ php selenium_downloader.php -p m -d . -s 3.8.1 -c 79.0.3945.36 -g 0.26.0
+$ php selenium_downloader.php -p m -d . -s 3.8.1 -c 81.0.4044.69 -g 0.26.0
 ```
 - e.g) For Windows.
 ```
