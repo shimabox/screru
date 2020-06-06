@@ -9,7 +9,6 @@ cache:
 env:
   global:
     - GECKODRIVER_VERSION="0.26.0"
-    - CHROMEDRIVER_VERSION="83.0.4103.39"
     - FIREFOX_SELENIUM_SERVER_VERSION="3.8"
     - FIREFOX_JAR_FILE="selenium-server-standalone-3.8.1.jar"
     - CHROME_SELENIUM_SERVER_VERSION="3.141"
@@ -102,7 +101,10 @@ before_script:
       wget -q -t 3 -P jar http://selenium-release.storage.googleapis.com/$CHROME_SELENIUM_SERVER_VERSION/$CHROME_JAR_FILE;
     fi
   - if [ "$BROWSER_NAME" = "chrome" ]; then
-      mkdir chromedriver; wget -q -t 3 https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip;
+      mkdir chromedriver;
+      CHROME_VERSION=$(google-chrome --product-version);
+      echo "Chrome version is ${CHROME_VERSION}";
+      wget -q -t 3 https://chromedriver.storage.googleapis.com/$(curl -L https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION%.*})/chromedriver_linux64.zip;
       unzip chromedriver_linux64 -d chromedriver;
       export CHROMEDRIVER_PATH=./chromedriver/chromedriver;
     fi
