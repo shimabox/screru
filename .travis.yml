@@ -13,8 +13,8 @@ env:
     - CHROMEDRIVER_VERSION="81.0.4044.69"
     - FIREFOX_SELENIUM_SERVER_VERSION="3.8"
     - FIREFOX_JAR_FILE="selenium-server-standalone-3.8.1.jar"
-    - CHROME_SELENIUM_SERVER_VERSION="3.8"
-    - CHROME_JAR_FILE="selenium-server-standalone-3.8.1.jar"
+    - CHROME_SELENIUM_SERVER_VERSION="3.141"
+    - CHROME_JAR_FILE="selenium-server-standalone-3.141.59.jar"
 
 matrix:
   include:
