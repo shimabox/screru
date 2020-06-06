@@ -84,8 +84,6 @@ matrix:
           repo_token: 3cd418d30ae5fc9443ffd2cb77e19ad9e2ee06eb6fca93363262349d54bbb8d7
 
 before_script:
-  - if [ "$BROWSER_NAME" = "firefox" ]; then sh -e /etc/init.d/xvfb start; fi
-
   - travis_retry composer update
 
   - if [ "$BROWSER_NAME" = "firefox" -a ! -f jar/$FIREFOX_JAR_FILE ]; then wget -q -t 3 -P jar http://selenium-release.storage.googleapis.com/$FIREFOX_SELENIUM_SERVER_VERSION/$FIREFOX_JAR_FILE; fi
