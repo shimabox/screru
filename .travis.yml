@@ -1,6 +1,5 @@
 language: php
-sudo: false
-dist: trusty
+dist: xenial
 
 cache:
   directories:
@@ -10,11 +9,10 @@ cache:
 env:
   global:
     - GECKODRIVER_VERSION="0.26.0"
-    - CHROMEDRIVER_VERSION="81.0.4044.69"
     - FIREFOX_SELENIUM_SERVER_VERSION="3.8"
     - FIREFOX_JAR_FILE="selenium-server-standalone-3.8.1.jar"
-    - CHROME_SELENIUM_SERVER_VERSION="3.8"
-    - CHROME_JAR_FILE="selenium-server-standalone-3.8.1.jar"
+    - CHROME_SELENIUM_SERVER_VERSION="3.141"
+    - CHROME_JAR_FILE="selenium-server-standalone-3.141.59.jar"
 
 matrix:
   include:
@@ -84,18 +82,35 @@ matrix:
           repo_token: 3cd418d30ae5fc9443ffd2cb77e19ad9e2ee06eb6fca93363262349d54bbb8d7
 
 before_script:
-  - if [ "$BROWSER_NAME" = "firefox" ]; then sh -e /etc/init.d/xvfb start; fi
-
   - travis_retry composer update
 
-  - if [ "$BROWSER_NAME" = "firefox" -a ! -f jar/$FIREFOX_JAR_FILE ]; then wget -q -t 3 -P jar http://selenium-release.storage.googleapis.com/$FIREFOX_SELENIUM_SERVER_VERSION/$FIREFOX_JAR_FILE; fi
-  - if [ "$BROWSER_NAME" = "firefox" ]; then wget -q -t 3 https://github.com/mozilla/geckodriver/releases/download/v$GECKODRIVER_VERSION/geckodriver-v$GECKODRIVER_VERSION-linux64.tar.gz; mkdir geckodriver; tar -xvf geckodriver-v$GECKODRIVER_VERSION-linux64.tar.gz -C geckodriver; export PATH=$PATH:$PWD/geckodriver; fi
-  - if [ "$BROWSER_NAME" = "firefox" ]; then java -jar jar/$FIREFOX_JAR_FILE -enablePassThrough false &>> ./tests/logs/selenium.log & fi
+  - if [ "$BROWSER_NAME" = "firefox" -a ! -f jar/$FIREFOX_JAR_FILE ]; then
+      wget -q -t 3 -P jar http://selenium-release.storage.googleapis.com/$FIREFOX_SELENIUM_SERVER_VERSION/$FIREFOX_JAR_FILE;
+    fi
+  - if [ "$BROWSER_NAME" = "firefox" ]; then
+      wget -q -t 3 https://github.com/mozilla/geckodriver/releases/download/v$GECKODRIVER_VERSION/geckodriver-v$GECKODRIVER_VERSION-linux64.tar.gz;
+      mkdir geckodriver;
+      tar -xvf geckodriver-v$GECKODRIVER_VERSION-linux64.tar.gz -C geckodriver;
+      export PATH=$PATH:$PWD/geckodriver;
+    fi
+  - if [ "$BROWSER_NAME" = "firefox" ]; then
+      java -jar jar/$FIREFOX_JAR_FILE -enablePassThrough false &>> ./tests/logs/selenium.log &
+    fi
 
-  - if [ "$BROWSER_NAME" = "chrome" -a ! -f jar/$CHROME_JAR_FILE ]; then wget -q -t 3 -P jar http://selenium-release.storage.googleapis.com/$CHROME_SELENIUM_SERVER_VERSION/$CHROME_JAR_FILE; fi
-  - if [ "$BROWSER_NAME" = "chrome" ]; then mkdir chromedriver; wget -q -t 3 https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip; unzip chromedriver_linux64 -d chromedriver; fi
-  - if [ "$BROWSER_NAME" = "chrome" ]; then export CHROMEDRIVER_PATH=./chromedriver/chromedriver; fi
-  - if [ "$BROWSER_NAME" = "chrome" ]; then java -Dwebdriver.chrome.driver="$CHROMEDRIVER_PATH" -jar jar/$CHROME_JAR_FILE &>> ./tests/logs/selenium.log & fi
+  - if [ "$BROWSER_NAME" = "chrome" -a ! -f jar/$CHROME_JAR_FILE ]; then
+      wget -q -t 3 -P jar http://selenium-release.storage.googleapis.com/$CHROME_SELENIUM_SERVER_VERSION/$CHROME_JAR_FILE;
+    fi
+  - if [ "$BROWSER_NAME" = "chrome" ]; then
+      mkdir chromedriver;
+      CHROME_VERSION=$(google-chrome --product-version);
+      echo "Chrome version is ${CHROME_VERSION}";
+      wget -q -t 3 https://chromedriver.storage.googleapis.com/$(curl -L https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION%.*})/chromedriver_linux64.zip;
+      unzip chromedriver_linux64 -d chromedriver;
+      export CHROMEDRIVER_PATH=./chromedriver/chromedriver;
+    fi
+  - if [ "$BROWSER_NAME" = "chrome" ]; then
+      java -Dwebdriver.chrome.driver="$CHROMEDRIVER_PATH" -jar jar/$CHROME_JAR_FILE &>> ./tests/logs/selenium.log &
+    fi
 
   - until $(echo | nc localhost 4444); do sleep 1; echo Waiting for Selenium server on port 4444...; done; echo "Selenium server started"
 
