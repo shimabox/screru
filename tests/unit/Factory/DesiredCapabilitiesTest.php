@@ -11,7 +11,7 @@ use Facebook\WebDriver\Remote\WebDriverBrowserType;
  * 
  * @group Factory
  */
-class DesiredCapabilitiesTest extends \PHPUnit_Framework_TestCase
+class DesiredCapabilitiesTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Chrome用のオブジェクトを作成出来る
@@ -80,11 +80,11 @@ class DesiredCapabilitiesTest extends \PHPUnit_Framework_TestCase
      * ブラウザにchromeを指定したときにchrome無効としていた場合DisabledWebDriverExceptionがthrowされる
      * @test
      * @runInSeparateProcess
-     * @expectedException         SMB\Screru\Exception\DisabledWebDriverException
-     * @expectedExceptionMessage chromedriver is disabled.
      */
     public function it_throws_DisabledWebDriverException_when_disable_chrome_when_specifying_chrome_for_browser()
     {
+        $this->expectException(\SMB\Screru\Exception\DisabledWebDriverException::class);
+        $this->expectExceptionMessage('chromedriver is disabled.');
         putenv('ENABLED_CHROME_DRIVER=');
         new DesiredCapabilities(WebDriverBrowserType::CHROME);
     }
@@ -93,11 +93,11 @@ class DesiredCapabilitiesTest extends \PHPUnit_Framework_TestCase
      * プラットフォームがwindowsのときにchrome driverのパスが指定されていない場合NotSpecifiedWebDriverExceptionがthrowされる
      * @test
      * @runInSeparateProcess
-     * @expectedException         SMB\Screru\Exception\NotSpecifiedWebDriverException
-     * @expectedExceptionMessage chromedriver is not specified.
      */
     public function it_throws_NotSpecifiedWebDriverException_when_the_platform_is_windows_the_chrome_driver_path_is_unspecified()
     {
+        $this->expectException(\SMB\Screru\Exception\NotSpecifiedWebDriverException::class);
+        $this->expectExceptionMessage('chromedriver is not specified.');
         putenv('ENABLED_CHROME_DRIVER=true');
         putenv('IS_PLATFORM_WINDOWS=true');
         putenv('CHROME_DRIVER_PATH=');
@@ -108,11 +108,11 @@ class DesiredCapabilitiesTest extends \PHPUnit_Framework_TestCase
      * ブラウザにfirefoxを指定したときにfirefox無効としていた場合DisabledWebDriverExceptionがthrowされる
      * @test
      * @runInSeparateProcess
-     * @expectedException         SMB\Screru\Exception\DisabledWebDriverException
-     * @expectedExceptionMessage geckodriver is disabled.
      */
     public function it_throws_DisabledWebDriverException_when_disable_firefox_when_specifying_firefox_for_browser()
     {
+        $this->expectException(\SMB\Screru\Exception\DisabledWebDriverException::class);
+        $this->expectExceptionMessage('geckodriver is disabled.');
         putenv('ENABLED_FIREFOX_DRIVER=');
         new DesiredCapabilities(WebDriverBrowserType::FIREFOX);
     }
@@ -121,11 +121,11 @@ class DesiredCapabilitiesTest extends \PHPUnit_Framework_TestCase
      * プラットフォームがwindowsのときにfirefox(gecko) driverのパスが指定されていない場合NotSpecifiedWebDriverExceptionがthrowされる
      * @test
      * @runInSeparateProcess
-     * @expectedException         SMB\Screru\Exception\NotSpecifiedWebDriverException
-     * @expectedExceptionMessage geckodriver is not specified.
      */
     public function it_throws_NotSpecifiedWebDriverException_when_the_platform_is_windows_the_firefox_driver_path_is_unspecified()
     {
+        $this->expectException(\SMB\Screru\Exception\NotSpecifiedWebDriverException::class);
+        $this->expectExceptionMessage('geckodriver is not specified.');
         putenv('ENABLED_FIREFOX_DRIVER=true');
         putenv('IS_PLATFORM_WINDOWS=true');
         putenv('FIREFOX_DRIVER_PATH=');
@@ -136,11 +136,11 @@ class DesiredCapabilitiesTest extends \PHPUnit_Framework_TestCase
      * ブラウザにfirefoxを指定したときにfirefox無効としていた場合DisabledWebDriverExceptionがthrowされる
      * @test
      * @runInSeparateProcess
-     * @expectedException         SMB\Screru\Exception\DisabledWebDriverException
-     * @expectedExceptionMessage iedriver is disabled.
      */
     public function it_throws_DisabledWebDriverException_when_disable_ie_when_specifying_ie_for_browser()
     {
+        $this->expectException(\SMB\Screru\Exception\DisabledWebDriverException::class);
+        $this->expectExceptionMessage('iedriver is disabled.');
         putenv('ENABLED_IE_DRIVER=');
         new DesiredCapabilities(WebDriverBrowserType::IE);
     }
@@ -149,11 +149,11 @@ class DesiredCapabilitiesTest extends \PHPUnit_Framework_TestCase
      * プラットフォームがwindowsのときにie driverのパスが指定されていない場合NotSpecifiedWebDriverExceptionがthrowされる
      * @test
      * @runInSeparateProcess
-     * @expectedException         SMB\Screru\Exception\NotSpecifiedWebDriverException
-     * @expectedExceptionMessage iedriver is not specified.
      */
     public function it_throws_NotSpecifiedWebDriverException_when_the_platform_is_windows_the_ie_driver_path_is_unspecified()
     {
+        $this->expectException(\SMB\Screru\Exception\NotSpecifiedWebDriverException::class);
+        $this->expectExceptionMessage('iedriver is not specified.');
         putenv('ENABLED_IE_DRIVER=true');
         putenv('IS_PLATFORM_WINDOWS=true');
         putenv('IE_DRIVER_PATH=');

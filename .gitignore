@@ -10,3 +10,4 @@ selenium-server-standalone*
 *.exe
 chromedriver
 geckodriver
+.phpunit.result.cache

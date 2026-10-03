@@ -17,10 +17,10 @@ use Facebook\WebDriver\Exception\WebDriverCurlException;
 /**
  * Testable
  * 
- * \PHPUnit_Framework_TestCaseを継承したクラスでuseしてください
+ * \PHPUnit\Framework\TestCaseを継承したクラスでuseしてください
  * 
  * <code>
- *  class Base extends \PHPUnit_Framework_TestCase
+ *  class Base extends \PHPUnit\Framework\TestCase
  *  {
  *      // alias for function...
  *      use \SMB\Screru\Traits\Testable {
@@ -65,8 +65,9 @@ trait Testable
     /**
      * コンストラクタ
      */
-    public function __construct()
+    public function __construct($name = null, array $data = [], $dataName = '')
     {
+        parent::__construct($name, $data, $dataName);
         if ($this->seleniumServerUrl === '') {
             $this->seleniumServerUrl = getenv('SELENIUM_SERVER_URL');
         }
@@ -75,7 +76,7 @@ trait Testable
     /**
      * setUp
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
     }
@@ -83,7 +84,7 @@ trait Testable
     /**
      * tearDown
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
 
@@ -314,7 +315,7 @@ trait Testable
     {
         if (
             $this->takeCaptureWhenAssertionFails === true
-            && $this->getStatus() === \PHPUnit_Runner_BaseTestRunner::STATUS_FAILURE
+            && $this->getStatus() === \PHPUnit\Runner\BaseTestRunner::STATUS_FAILURE
         ) {
             return true;
         }

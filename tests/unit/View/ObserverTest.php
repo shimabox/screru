@@ -19,11 +19,16 @@ use Facebook\WebDriver\Remote\WebDriverBrowserType;
  * 
  * @group Observer
  */
-class ObserverTest extends \PHPUnit_Framework_TestCase
+class ObserverTest extends \PHPUnit\Framework\TestCase
 {
     use \SMB\Screru\Traits\Testable {
         setUp as protected traitSetUp;
         tearDown as protected traitTearDown;
+    }
+
+    protected function tearDown(): void
+    {
+        $this->traitTearDown();
     }
 
     /** @var int */
@@ -44,7 +49,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /**
      * setUp
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -892,7 +897,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      * 
      * @param array $setMethods
      * 
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit\Framework\MockObject\MockObject
      */
     private function getObserverMock(array $setMethods=[
         'notifyFirstRender',

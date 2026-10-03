@@ -5,7 +5,7 @@ namespace SMB\Screru\Tests\Functional;
 /**
  * Base
  */
-abstract class Base extends \PHPUnit_Framework_TestCase
+abstract class Base extends \PHPUnit\Framework\TestCase
 {
     // alias for function...
     use \SMB\Screru\Traits\Testable {
@@ -16,7 +16,7 @@ abstract class Base extends \PHPUnit_Framework_TestCase
     /**
      * setUp
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->traitSetUp();
     }
@@ -24,7 +24,7 @@ abstract class Base extends \PHPUnit_Framework_TestCase
     /**
      * tearDown
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->traitTearDown();
     }

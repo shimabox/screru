@@ -16,70 +16,14 @@ env:
 
 matrix:
   include:
-    - php: 5.6
-      env: BROWSER_NAME="firefox"
-      addons:
-        firefox: latest
-        code_climate:
-          repo_token: 3cd418d30ae5fc9443ffd2cb77e19ad9e2ee06eb6fca93363262349d54bbb8d7
-    - php: 5.6
-      env: BROWSER_NAME="chrome"
-      addons:
-        chrome: stable
-        code_climate:
-          repo_token: 3cd418d30ae5fc9443ffd2cb77e19ad9e2ee06eb6fca93363262349d54bbb8d7
-
-    - php: 7.0
-      env: BROWSER_NAME="firefox"
-      addons:
-        firefox: latest
-        code_climate:
-          repo_token: 3cd418d30ae5fc9443ffd2cb77e19ad9e2ee06eb6fca93363262349d54bbb8d7
-    - php: 7.0
-      env: BROWSER_NAME="chrome"
-      addons:
-        chrome: stable
-        code_climate:
-          repo_token: 3cd418d30ae5fc9443ffd2cb77e19ad9e2ee06eb6fca93363262349d54bbb8d7
-
-    - php: 7.1
-      env: BROWSER_NAME="firefox"
-      addons:
-        firefox: latest
-        code_climate:
-          repo_token: 3cd418d30ae5fc9443ffd2cb77e19ad9e2ee06eb6fca93363262349d54bbb8d7
-    - php: 7.1
-      env: BROWSER_NAME="chrome"
-      addons:
-        chrome: stable
-        code_climate:
-          repo_token: 3cd418d30ae5fc9443ffd2cb77e19ad9e2ee06eb6fca93363262349d54bbb8d7
-
-    - php: 7.2
-      env: BROWSER_NAME="firefox"
-      addons:
-        firefox: latest
-        code_climate:
-          repo_token: 3cd418d30ae5fc9443ffd2cb77e19ad9e2ee06eb6fca93363262349d54bbb8d7
-    - php: 7.2
-      env: BROWSER_NAME="chrome"
-      addons:
-        chrome: stable
-        code_climate:
-          repo_token: 3cd418d30ae5fc9443ffd2cb77e19ad9e2ee06eb6fca93363262349d54bbb8d7
-
     - php: 7.3
       env: BROWSER_NAME="firefox"
       addons:
         firefox: latest
-        code_climate:
-          repo_token: 3cd418d30ae5fc9443ffd2cb77e19ad9e2ee06eb6fca93363262349d54bbb8d7
     - php: 7.3
       env: BROWSER_NAME="chrome"
       addons:
         chrome: stable
-        code_climate:
-          repo_token: 3cd418d30ae5fc9443ffd2cb77e19ad9e2ee06eb6fca93363262349d54bbb8d7
 
 before_script:
   - travis_retry composer update
@@ -122,9 +66,6 @@ script:
   - if [ "$BROWSER_NAME" = "chrome" ]; then export ENABLED_FIREFOX_DRIVER=""; fi
   - vendor/bin/phpunit --coverage-clover ./tests/logs/coverage-clover.xml
 
-after_success:
-  - vendor/bin/test-reporter --coverage-report ./tests/logs/coverage-clover.xml
-  - vendor/bin/coveralls -v
 
 after_failure:
   - if [ -f ./tests/logs/selenium.log ]; then cat ./tests/logs/selenium.log; fi
