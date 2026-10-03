@@ -27,7 +27,7 @@ Supports Firefox (WebDriverBrowserType::FIREFOX), Chrome (WebDriverBrowserType::
 
 ## Requirements
 
-- PHP 5.6+ or newer
+- PHP 7.3 or newer (PHP 8 is not supported by the current dependency constraints)
 - [Composer](https://getcomposer.org)
 - Java(JDK) >=1.8
   - http://www.oracle.com/technetwork/java/javase/downloads/index.html

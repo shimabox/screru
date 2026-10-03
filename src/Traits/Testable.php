@@ -65,8 +65,9 @@ trait Testable
     /**
      * コンストラクタ
      */
-    public function __construct()
+    public function __construct($name = null, array $data = [], $dataName = '')
     {
+        parent::__construct($name, $data, $dataName);
         if ($this->seleniumServerUrl === '') {
             $this->seleniumServerUrl = getenv('SELENIUM_SERVER_URL');
         }
