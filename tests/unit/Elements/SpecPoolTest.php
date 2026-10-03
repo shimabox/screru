@@ -10,7 +10,7 @@ use SMB\Screru\Elements\SpecPool;
  * 
  * @group Elements
  */
-class SpecPoolTest extends \PHPUnit_Framework_TestCase
+class SpecPoolTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * 設定したSpecを取得できる

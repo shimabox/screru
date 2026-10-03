@@ -9,7 +9,7 @@ use SMB\Screru\Elements\Spec;
  * 
  * @group Elements
  */
-class SpecTest extends \PHPUnit_Framework_TestCase
+class SpecTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * デフォルト値を取得できる

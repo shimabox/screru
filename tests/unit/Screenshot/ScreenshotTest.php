@@ -13,11 +13,16 @@ use Facebook\WebDriver\Remote\WebDriverBrowserType;
  *
  * @group Screenshot
  */
-class ScreenshotTest extends \PHPUnit_Framework_TestCase
+class ScreenshotTest extends \PHPUnit\Framework\TestCase
 {
     use \SMB\Screru\Traits\Testable {
         setUp as protected traitSetUp;
         tearDown as protected traitTearDown;
+    }
+
+    protected function tearDown(): void
+    {
+        $this->traitTearDown();
     }
 
     /** @var \SMB\Screru\Screenshot\Screenshot */
@@ -26,7 +31,7 @@ class ScreenshotTest extends \PHPUnit_Framework_TestCase
     /**
      * setUp
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

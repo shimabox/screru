@@ -18,7 +18,7 @@ class AccessTest extends Base
     /**
      * setUp
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
     }
@@ -26,7 +26,7 @@ class AccessTest extends Base
     /**
      * tearDown
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }

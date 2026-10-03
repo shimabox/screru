@@ -9,11 +9,21 @@ use SMB\Screru\Wrapper\RemoteWebDriver;
  * 
  * @group Wrapper
  */
-class RemoteWebDriverTest extends \PHPUnit_Framework_TestCase
+class RemoteWebDriverTest extends \PHPUnit\Framework\TestCase
 {
     use \SMB\Screru\Traits\Testable {
         setUp as protected traitSetUp;
         tearDown as protected traitTearDown;
+    }
+
+    protected function setUp(): void
+    {
+        $this->traitSetUp();
+    }
+
+    protected function tearDown(): void
+    {
+        $this->traitTearDown();
     }
 
     /**
